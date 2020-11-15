@@ -72,7 +72,7 @@ class WUndergroundPWS(BaseStation):
 
         self.logger.debug('updating station weather @ %s', current_wx['obsTimeLocal'])
 
-        self.wxdat.set_pressure(current_wx['humidity'])
+        self.wxdat.set_humidity(current_wx['humidity'])
         self.wxdat.set_wind_direction(current_wx['winddir'])
 
         radiation = current_wx['solarRadiation']
