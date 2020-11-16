@@ -6,6 +6,9 @@ import requests
 
 import wxdat
 
+# TODO support station units
+# TODO implement update_interval
+
 ################################################################################
 def configure(conf):
     import importlib
@@ -75,12 +78,6 @@ class DarkSky(BaseStation):
         self.wxdat.set_wind_speed(current_wx['windSpeed'], units=wxdat.MPH)
         self.wxdat.set_wind_gust(current_wx['windGust'], units=wxdat.MPH)
 
-        # TODO update gauge in wxdat
-        summary = current_wx['summary']
-        precip = current_wx['precipIntensity']
-        uv = current_wx['uvIndex']
-        ozone = current_wx['ozone']
-
 ################################################################################
 class WUndergroundPWS(BaseStation):
 
@@ -130,10 +127,6 @@ class WUndergroundPWS(BaseStation):
         self.wxdat.set_humidity(current_wx['humidity'])
         self.wxdat.set_wind_heading(current_wx['winddir'])
 
-        # TODO update gauge in wxdat
-        uv = current_wx['uv']
-        radiation = current_wx['solarRadiation']
-
         if 'imperial' in current_wx:
             obs = current_wx['imperial']
             self.wxdat.set_temperature(obs['temp'], units=wxdat.FAHRENHEIT)
@@ -141,9 +134,50 @@ class WUndergroundPWS(BaseStation):
             self.wxdat.set_wind_gust(obs['windGust'], units=wxdat.MPH)
             self.wxdat.set_pressure(obs['pressure'], units=wxdat.INCHES_MERCURY)
             self.wxdat.set_dew_point(obs['dewpt'], units=wxdat.FAHRENHEIT)
-
-            # TODO update gauge in wxdat
-            precip = obs['precipTotal']
-
         else:
             self.logger.warning('Could not read current weather details')
+
+################################################################################
+class OpenWeather(BaseStation):
+
+    #---------------------------------------------------------------------------
+    def __init__(self, name, *, api_key, latitude, longitude):
+        BaseStation.__init__(self, name)
+
+        self.logger = logging.getLogger('wxdat.stations.OpenWeather')
+        self.logger.info('Created OpenWeather station: [%s, %s]', latitude, longitude)
+
+        self.api_key = api_key
+        self.latitude = latitude
+        self.longitude = longitude
+
+    #---------------------------------------------------------------------------
+    def _current_wx(self):
+        self.logger.debug('getting current weather')
+
+        data_url = f'https://api.openweathermap.org/data/2.5/weather?lat={self.latitude}&lon={self.latitude}&appid={self.api_key}&mode=json&units=imperial'
+        resp = requests.get(data_url)
+
+        # TODO watch for errors
+
+        return resp.json()
+
+    #---------------------------------------------------------------------------
+    def update(self):
+        current_wx = self._current_wx()
+
+        if current_wx is None:
+            self.logger.warning('Could not read current weather')
+            return
+
+        self.logger.debug('updating station weather @ %s', current_wx['dt'])
+
+        wx_main = current_wx['main']
+        self.wxdat.set_temperature(wx_main['temp'], units=wxdat.FAHRENHEIT)
+        self.wxdat.set_humidity(wx_main['humidity'])
+        self.wxdat.set_pressure(wx_main['pressure'], units=wxdat.INCHES_MERCURY)
+
+        wx_wind = current_wx['wind']
+        self.wxdat.set_wind_heading(wx_wind['deg'])
+        self.wxdat.set_wind_speed(wx_wind['speed'], units=wxdat.MPH)
+
