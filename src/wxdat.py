@@ -1,5 +1,6 @@
 # encapsulate main objects
 
+import re
 import logging
 import time
 
@@ -7,7 +8,7 @@ from prometheus_client import Gauge
 
 import stations
 
-LOOP_INTERVAL = 30
+LOOP_INTERVAL = 60
 
 # temperature units
 CELCIUS = 'C'
@@ -19,8 +20,8 @@ MPH = 'mph'
 KPH = 'km/h'
 
 # pressure units
-HG = 'Hg'
-MB = 'mb'
+INCHES_MERCURY = 'Hg'
+MILLIBARS = 'mb'
 
 # length units
 INCHES = 'in.'
@@ -80,7 +81,8 @@ class WeatherData(object):
 
     #---------------------------------------------------------------------------
     def _update_gauge(self, gauge_name, value, units=None):
-        metric_name = f'wx_{self.name}_{gauge_name}'
+        safe_name = re.sub('[^a-zA-Z0-9]+', '_', self.name)
+        metric_name = f'wx_{safe_name}_{gauge_name}'
         gauge = self.gauges.get(metric_name, None)
 
         labels = {
@@ -152,7 +154,7 @@ class WeatherData(object):
         self._update_gauge('humidity', value)
 
     #---------------------------------------------------------------------------
-    def set_pressure(self, value, units=HG):
+    def set_pressure(self, value, units=INCHES_MERCURY):
         self._update_gauge('pressure', value, units)
 
     #---------------------------------------------------------------------------

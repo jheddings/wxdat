@@ -27,6 +27,61 @@ class BaseStation(object):
         self.wxdat = wxdat.WeatherData(name)
 
 ################################################################################
+class DarkSky(BaseStation):
+
+    #---------------------------------------------------------------------------
+    def __init__(self, name, *, api_key, latitude, longitude):
+        BaseStation.__init__(self, name)
+
+        self.logger = logging.getLogger('wxdat.stations.DarkSky')
+        self.logger.info('Created DarkSky station: [%s, %s]', latitude, longitude)
+
+        self.api_key = api_key
+        self.latitude = latitude
+        self.longitude = longitude
+
+    #---------------------------------------------------------------------------
+    def _current_wx(self):
+        self.logger.debug('getting current weather')
+
+        data_url = f'https://api.darksky.net/forecast/{self.api_key}/{self.latitude},{self.longitude}'
+        resp = requests.get(data_url)
+
+        # TODO watch for errors
+
+        wx = resp.json()
+
+        if 'currently' not in wx:
+            self.logger.warning('Observation error')
+            return None
+
+        return wx['currently']
+
+    #---------------------------------------------------------------------------
+    def update(self):
+        current_wx = self._current_wx()
+
+        if current_wx is None:
+            self.logger.warning('Could not read current weather')
+            return
+
+        self.logger.debug('updating station weather @ %s', current_wx['time'])
+
+        self.wxdat.set_temperature(current_wx['temperature'], units=wxdat.FAHRENHEIT)
+        self.wxdat.set_dew_point(current_wx['dewPoint'], units=wxdat.FAHRENHEIT)
+        self.wxdat.set_humidity(current_wx['humidity'])
+        self.wxdat.set_pressure(current_wx['pressure'], units=wxdat.INCHES_MERCURY)
+        self.wxdat.set_wind_heading(current_wx['windBearing'])
+        self.wxdat.set_wind_speed(current_wx['windSpeed'], units=wxdat.MPH)
+        self.wxdat.set_wind_gust(current_wx['windGust'], units=wxdat.MPH)
+
+        # TODO update gauge in wxdat
+        summary = current_wx['summary']
+        precip = current_wx['precipIntensity']
+        uv = current_wx['uvIndex']
+        ozone = current_wx['ozone']
+
+################################################################################
 class WUndergroundPWS(BaseStation):
 
     #---------------------------------------------------------------------------
@@ -84,7 +139,7 @@ class WUndergroundPWS(BaseStation):
             self.wxdat.set_temperature(obs['temp'], units=wxdat.FAHRENHEIT)
             self.wxdat.set_wind_speed(obs['windSpeed'], units=wxdat.MPH)
             self.wxdat.set_wind_gust(obs['windGust'], units=wxdat.MPH)
-            self.wxdat.set_pressure(obs['pressure'], units=wxdat.HG)
+            self.wxdat.set_pressure(obs['pressure'], units=wxdat.INCHES_MERCURY)
             self.wxdat.set_dew_point(obs['dewpt'], units=wxdat.FAHRENHEIT)
 
             # TODO update gauge in wxdat
