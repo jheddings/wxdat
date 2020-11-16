@@ -134,6 +134,7 @@ class WUndergroundPWS(BaseStation):
             self.wxdat.set_wind_gust(obs['windGust'], units=wxdat.MPH)
             self.wxdat.set_pressure(obs['pressure'], units=wxdat.INCHES_MERCURY)
             self.wxdat.set_dew_point(obs['dewpt'], units=wxdat.FAHRENHEIT)
+            self.wxdat.set_precipitation(obs['precipTotal'], units=wxdat.INCHES)
         else:
             self.logger.warning('Could not read current weather details')
 
