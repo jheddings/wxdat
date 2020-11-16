@@ -1,16 +1,37 @@
-# config file for wxdat app
+## config file for wxdat app
+
+# the port to expose metrics data
 server_port: 9020
+
+# update interval for station data (may be specified per station)
+# durations may be specified in either a short or full form...
+# short form examples: 5m (5 minutes), 90s (90 seconds), 1h (1 hour)
+# full form examples: 00:05:00 (5 minutes), 00:01:30 (90 seconds), 01:00:00 (1 hour)
+update_interval: 5m
+
+# (optional) prefix to all metric names
+metric_prefix: wx
+
+# (optional) labels appended to all metrics (may be specified per station)
+#labels:
+#  - name1: value1
+#  - name2: value2
+
+# units will be represented by the following: imperial (default), metric
+units: imperial
 
 #-------------------------------------------------------------------------------
 stations:
 
   - name: Denver Airport
     type: WUndergroundPWS
+    update_interval: 30m
     api_key: SECRET_API_KEY
     station_id: KDEN
 
   - name: Dark Sky
     type: DarkSky
+    update_interval: 3m
     api_key: SECRET_API_EY
     latitude: 39.8561
     longitude: -104.6737
