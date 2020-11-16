@@ -73,20 +73,21 @@ class WUndergroundPWS(BaseStation):
         self.logger.debug('updating station weather @ %s', current_wx['obsTimeLocal'])
 
         self.wxdat.set_humidity(current_wx['humidity'])
-        self.wxdat.set_wind_direction(current_wx['winddir'])
+        self.wxdat.set_wind_heading(current_wx['winddir'])
 
-        radiation = current_wx['solarRadiation']
+        # TODO update gauge in wxdat
         uv = current_wx['uv']
+        radiation = current_wx['solarRadiation']
 
         if 'imperial' in current_wx:
             obs = current_wx['imperial']
-
             self.wxdat.set_temperature(obs['temp'], units=wxdat.FAHRENHEIT)
             self.wxdat.set_wind_speed(obs['windSpeed'], units=wxdat.MPH)
             self.wxdat.set_wind_gust(obs['windGust'], units=wxdat.MPH)
             self.wxdat.set_pressure(obs['pressure'], units=wxdat.HG)
+            self.wxdat.set_dew_point(obs['dewpt'], units=wxdat.FAHRENHEIT)
 
-            dewpt = obs['dewpt']
+            # TODO update gauge in wxdat
             precip = obs['precipTotal']
 
         else:

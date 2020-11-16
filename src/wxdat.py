@@ -22,6 +22,14 @@ KPH = 'km/h'
 HG = 'Hg'
 MB = 'mb'
 
+# length units
+INCHES = 'in.'
+FEET = 'ft'
+MILES = 'mi.'
+CENTIMETERS = 'cm'
+METERS = 'm'
+KILOMETERS = 'km'
+
 ################################################################################
 class Monitor(object):
 
@@ -76,8 +84,11 @@ class WeatherData(object):
         gauge = self.gauges.get(metric_name, None)
 
         labels = {
-            'units' : units
+            'name' : self.name
         }
+
+        if units is not None:
+            labels['units'] = units
 
         if gauge is None:
             self.logger.debug('building gauge: %s', metric_name)
@@ -108,11 +119,21 @@ class WeatherData(object):
         if metric == 'pressure':
             return 'Atmospheric Pressure'
 
+        if metric == 'dewPoint':
+            return 'Dew Point'
+
+        if metric == 'precipitation':
+            return 'Total Precipitation'
+
         return 'Unknown'
 
     #---------------------------------------------------------------------------
     def set_temperature(self, value, units=FAHRENHEIT):
         self._update_gauge('temperature', value, units)
+
+    #---------------------------------------------------------------------------
+    def set_dew_point(self, value, units=FAHRENHEIT):
+        self._update_gauge('dewPoint', value, units)
 
     #---------------------------------------------------------------------------
     def set_wind_speed(self, value, units=MPH):
@@ -123,7 +144,7 @@ class WeatherData(object):
         self._update_gauge('windGust', value, units)
 
     #---------------------------------------------------------------------------
-    def set_wind_direction(self, value):
+    def set_wind_heading(self, value):
         self._update_gauge('windHeading', value)
 
     #---------------------------------------------------------------------------
@@ -133,3 +154,7 @@ class WeatherData(object):
     #---------------------------------------------------------------------------
     def set_pressure(self, value, units=HG):
         self._update_gauge('pressure', value, units)
+
+    #---------------------------------------------------------------------------
+    def set_precipitation(self, value, units=INCHES):
+        self._update_gauge('precipitation', value, units)
