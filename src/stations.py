@@ -2,6 +2,7 @@
 
 import re
 import logging
+import sys
 import requests
 
 from datetime import datetime
@@ -73,6 +74,27 @@ class BaseStation(object):
 
         return (delta <= self.update_interval)
 
+    #---------------------------------------------------------------------------
+    def safe_get(self, url):
+        # XXX may want to disable this since API keys are often in the URL...
+        self.logger.debug('download %s', url)
+
+        resp = None
+
+        try:
+            resp = requests.get(url)
+            self.logger.debug('=> HTTP %d: %s', resp.status_code, resp.reason)
+
+            # TODO watch for specific exceptions...
+        except:
+            self.logger.error('Error downloading data: %s', sys.exc_info()[0])
+            resp = None
+
+        if resp is None or not resp.ok:
+            self.logger.warning('Could not download data')
+
+        return resp
+
 ################################################################################
 class DarkSky(BaseStation):
 
@@ -90,11 +112,10 @@ class DarkSky(BaseStation):
     #---------------------------------------------------------------------------
     def _current_wx(self):
         self.logger.debug('getting current weather')
-
         data_url = f'https://api.darksky.net/forecast/{self.api_key}/{self.latitude},{self.longitude}'
-        resp = requests.get(data_url)
 
-        # TODO watch for errors
+        resp = self.safe_get(data_url)
+        if resp is None: return None
 
         wx = resp.json()
 
@@ -107,10 +128,7 @@ class DarkSky(BaseStation):
     #---------------------------------------------------------------------------
     def update(self):
         current_wx = self._current_wx()
-
-        if current_wx is None:
-            self.logger.warning('Could not read current weather')
-            return
+        if current_wx is None: return
 
         self.logger.debug('updating station weather @ %s', current_wx['time'])
 
@@ -142,11 +160,10 @@ class WUndergroundPWS(BaseStation):
     #---------------------------------------------------------------------------
     def _current_wx(self):
         self.logger.debug('getting current weather')
-
         data_url = f'https://api.weather.com/v2/pws/observations/current?apiKey={self.api_key}&stationId={self.station_id}&numericPrecision=decimal&format=json&units=e'
-        resp = requests.get(data_url)
 
-        # TODO watch for errors
+        resp = self.safe_get(data_url)
+        if resp is None: return None
 
         wx = resp.json()
 
@@ -165,10 +182,7 @@ class WUndergroundPWS(BaseStation):
     #---------------------------------------------------------------------------
     def update(self):
         current_wx = self._current_wx()
-
-        if current_wx is None:
-            self.logger.warning('Could not read current weather')
-            return
+        if current_wx is None: return
 
         self.logger.debug('updating station weather @ %s', current_wx['obsTimeLocal'])
 
@@ -208,21 +222,17 @@ class OpenWeather(BaseStation):
     #---------------------------------------------------------------------------
     def _current_wx(self):
         self.logger.debug('getting current weather')
-
         data_url = f'https://api.openweathermap.org/data/2.5/weather?lat={self.latitude}&lon={self.latitude}&appid={self.api_key}&mode=json&units=imperial'
-        resp = requests.get(data_url)
 
-        # TODO watch for errors
+        resp = self.safe_get(data_url)
+        if resp is None: return None
 
         return resp.json()
 
     #---------------------------------------------------------------------------
     def update(self):
         current_wx = self._current_wx()
-
-        if current_wx is None:
-            self.logger.warning('Could not read current weather')
-            return
+        if current_wx is None: return
 
         self.logger.debug('updating station weather @ %s', current_wx['dt'])
 
