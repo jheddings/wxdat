@@ -16,7 +16,7 @@ all: build
 ################################################################################
 .PHONY: build
 
-build: test
+build:
 	docker image build --tag "$(APPNAME):dev" "$(BASEDIR)"
 
 ################################################################################
@@ -28,7 +28,7 @@ rebuild:
 ################################################################################
 .PHONY: release
 
-release: build
+release: build test
 	docker image tag "$(APPNAME):dev" "$(APPNAME):latest"
 	docker image tag "$(APPNAME):latest" "$(APPNAME):$(APPVER)"
 
@@ -42,27 +42,25 @@ runpy:
 .PHONY: runc
 
 runc: build
-	docker container run --rm --tty --publish 9020:9020 \
+	docker container run --rm --tty --publish 9022:9022 \
 		--volume "$(PWD):/usr/local/host/pwd" \
 		--volume "$(PWD)/etc:/usr/local/host/etc" \
-		"$(APPNAME):dev" --config /usr/local/host/etc/wxdat.yaml
+		"$(APPNAME):dev" main.py --config /usr/local/host/etc/wxdat.yaml
 
 ################################################################################
 .PHONY: rund
 
 rund: release
-	docker container run --rm --tty --detach --publish 9020:9020 \
+	docker container run --rm --tty --detach --publish 9022:9022 \
 		--volume "$(PWD):/usr/local/host/pwd" \
 		--volume "$(PWD)/etc:/usr/local/host/etc" \
-		"$(APPNAME):latest" --config /usr/local/host/etc/wxdat.yaml
+		"$(APPNAME):latest" main.py --config /usr/local/host/etc/wxdat.yaml
 
 ################################################################################
 .PHONY: test
 
-# TODO use a container for tests...
-
-test:
-	$(PY) -m unittest discover -v -s $(BASEDIR)/test
+test: build
+	docker container run --rm --tty "$(APPNAME):dev" -m unittest discover -v -s test
 
 ################################################################################
 .PHONY: clean

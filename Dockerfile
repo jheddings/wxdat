@@ -14,10 +14,13 @@ RUN python3 -m pip install pyyaml requests prometheus_client
 WORKDIR "/opt/wxdat"
 
 COPY src .
-#COPY etc/wxdat.yaml /etc/wxdat.yaml
+COPY test test
 
-EXPOSE 9020
+# host provides config via mounted volume
+#COPY etc/wxdat_example.yaml /etc/wxdat.yaml
 
-ENTRYPOINT ["/usr/local/bin/python3", "main.py"]
-CMD ["--config", "/etc/wxdat.yaml"]
+EXPOSE 9022
+
+ENTRYPOINT ["/usr/local/bin/python3"]
+CMD ["main.py", "--config", "/etc/wxdat.yaml"]
 

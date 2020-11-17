@@ -47,46 +47,35 @@ def load_config(config_file):
     return conf
 
 ################################################################################
+def start_metrics_server(conf):
+    # start the HTTP server
+    server_port = conf.get('server_port', 9022)
+    logger.debug('starting metrics server: %d', server_port)
+
+    # the metrics server runs as a background thread; this is non-blocking
+    start_http_server(server_port)
+
+################################################################################
 ## MAIN ENTRY
 
 args = parse_args()
-conf = load_config(args.config)
+gconf = load_config(args.config)
 monitor = wxdat.Monitor()
 
-# determine global update interval - we are intentionally conservative on the default
-if 'update_interval' in conf:
-    update_interval = wxdat.parse_duration(conf['update_interval'])
-else:
-    update_interval = timedelta(minutes=30)
-
 # set up stations from config file
-for stat_cfg in conf['stations']:
-    stat_labels = stat_cfg.pop('labels', None)
-    stat_interval = stat_cfg.pop('update_interval', None)
-
-    # look for a local update interval
-    if stat_interval is None:
-        stat_interval = update_interval
-    else:
-        stat_interval = wxdat.parse_duration(stat_interval)
-
-    station = stations.configure(stat_cfg)
+for station_conf in gconf['stations']:
+    station = stations.configure(station_conf, gconf)
 
     if station is None:
-        logger.warning('Could not create monitor for station')
-        continue
+        logger.warning('Unable to create station')
+    else:
+        monitor.add_station(station)
 
-    station.update_interval = stat_interval
-    monitor.add_station(station)
+# start the metrics server after stations are configured
+start_metrics_server(gconf)
 
-# start the HTTP server
-server_port = conf['server_port']
-logger.debug('starting metrics server: %d', server_port)
-start_http_server(server_port)
-
-# run the metrics collector
-logger.info('Server started; starting monitor')
+# run the metrics collector; this method blocks until the application exits
+logger.info('starting monitor')
 monitor.run()
 
 logger.debug('application exiting')
-

@@ -12,14 +12,33 @@ import wxdat
 # TODO support station units
 
 ################################################################################
-def configure(conf):
-    import importlib
+def configure(station_conf, global_conf=None):
+    # TODO add logging support here...
 
-    station_type = conf.pop('type')
-    module = importlib.import_module('stations')
-    cls = getattr(module, station_type)
+    # pop anything that is unknown to the constructor
+    stat_type = station_conf.pop('type')
+    stat_labels = station_conf.pop('labels', None)
+    cfg_interval = station_conf.pop('update_interval', None)
 
-    return cls(**conf)
+    # load the class from the current symbol table...
+    cls = globals().get(stat_type, None)
+    if cls is None: return None
+
+    # instantiate the station using kwargs from the config...
+    station = cls(**station_conf)
+
+    # check for a global value if the local value is empty
+    if cfg_interval is None and global_conf is not None:
+        cfg_interval = global_conf.get('update_interval', None)
+
+    # default to a conservative value if needed
+    if cfg_interval is None:
+        cfg_interval = '30m'
+
+    # here we can directly set the update interval for our station
+    station.update_interval = wxdat.parse_duration(cfg_interval)
+
+    return station
 
 ################################################################################
 class BaseStation(object):
