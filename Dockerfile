@@ -14,7 +14,7 @@ RUN python3 -m pip install pyyaml requests prometheus_client
 WORKDIR "/opt/wxdat"
 
 COPY src .
-COPY etc/wxdat.yaml /etc/wxdat.yaml
+#COPY etc/wxdat.yaml /etc/wxdat.yaml
 
 EXPOSE 9020
 

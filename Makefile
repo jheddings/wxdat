@@ -36,19 +36,25 @@ release: build
 .PHONY: runpy
 
 runpy:
-	$(PY) $(SRCDIR)/main.py --config $(BASEDIR)/etc/wxday.yaml
+	$(PY) $(SRCDIR)/main.py --config $(BASEDIR)/etc/wxdat.yaml
 
 ################################################################################
 .PHONY: runc
 
-runc:
-	docker container run --rm --tty --publish 9020:9020 "$(APPNAME):dev"
+runc: build
+	docker container run --rm --tty --publish 9020:9020 \
+		--volume "$(PWD):/usr/local/host/pwd" \
+		--volume "$(PWD)/etc:/usr/local/host/etc" \
+		"$(APPNAME):dev" --config /usr/local/host/etc/wxdat.yaml
 
 ################################################################################
 .PHONY: rund
 
-rund:
-	docker container run --rm --tty --detach --publish 9020:9020 "$(APPNAME):latest"
+rund: release
+	docker container run --rm --tty --detach --publish 9020:9020 \
+		--volume "$(PWD):/usr/local/host/pwd" \
+		--volume "$(PWD)/etc:/usr/local/host/etc" \
+		"$(APPNAME):latest" --config /usr/local/host/etc/wxdat.yaml
 
 ################################################################################
 .PHONY: test
@@ -65,10 +71,11 @@ clean:
 	rm -f "$(SRCDIR)/*.pyc"
 	rm -Rf "$(SRCDIR)/__pycache__"
 	rm -Rf "$(BASEDIR)/__pycache__"
+	docker image rm "$(APPNAME):dev"
 
 ################################################################################
 .PHONY: clobber
 
 clobber: clean
-	docker image rm --force "$(APPNAME):dev"
-	docker image rm --force "$(APPNAME):latest"
+	docker image rm "$(APPNAME):latest"
+	docker image rm "$(APPNAME):$(APPVER)"
