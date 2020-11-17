@@ -13,6 +13,10 @@ import wxdat
 def configure(conf):
     import importlib
 
+    # XXX these are future config options...  pop them so the constructor works properly
+    labels = conf.pop('labels', None)
+    update_interval = conf.pop('update_interval', None)
+
     station_type = conf.pop('type')
     module = importlib.import_module('stations')
     cls = getattr(module, station_type)
@@ -70,13 +74,15 @@ class DarkSky(BaseStation):
 
         self.logger.debug('updating station weather @ %s', current_wx['time'])
 
-        self.wxdat.set_temperature(current_wx['temperature'], units=wxdat.FAHRENHEIT)
-        self.wxdat.set_dew_point(current_wx['dewPoint'], units=wxdat.FAHRENHEIT)
-        self.wxdat.set_humidity(current_wx['humidity'])
-        self.wxdat.set_pressure(current_wx['pressure'], units=wxdat.INCHES_MERCURY)
-        self.wxdat.set_wind_heading(current_wx['windBearing'])
-        self.wxdat.set_wind_speed(current_wx['windSpeed'], units=wxdat.MPH)
-        self.wxdat.set_wind_gust(current_wx['windGust'], units=wxdat.MPH)
+        self.wxdat.export(current_wx,
+            ('temperature',  'temperature',        wxdat.FAHRENHEIT),
+            ('dewPoint',     'dewPoint',           wxdat.FAHRENHEIT),
+            ('humidity',     'humidity',           None),
+            ('windHeading',  'windBearing',        None),
+            ('windSpeed',    'windSpeed',          wxdat.MPH),
+            ('windGust',     'windGust',           wxdat.MPH),
+            ('preciptation', 'precipAccumulation', wxdat.INCHES)
+        )
 
 ################################################################################
 class WUndergroundPWS(BaseStation):
@@ -124,17 +130,20 @@ class WUndergroundPWS(BaseStation):
 
         self.logger.debug('updating station weather @ %s', current_wx['obsTimeLocal'])
 
-        self.wxdat.set_humidity(current_wx['humidity'])
-        self.wxdat.set_wind_heading(current_wx['winddir'])
+        self.wxdat.export(current_wx,
+            ('humidity',    'humidity', None),
+            ('windHeading', 'winddir',  None),
+        )
 
         if 'imperial' in current_wx:
-            obs = current_wx['imperial']
-            self.wxdat.set_temperature(obs['temp'], units=wxdat.FAHRENHEIT)
-            self.wxdat.set_wind_speed(obs['windSpeed'], units=wxdat.MPH)
-            self.wxdat.set_wind_gust(obs['windGust'], units=wxdat.MPH)
-            self.wxdat.set_pressure(obs['pressure'], units=wxdat.INCHES_MERCURY)
-            self.wxdat.set_dew_point(obs['dewpt'], units=wxdat.FAHRENHEIT)
-            self.wxdat.set_precipitation(obs['precipTotal'], units=wxdat.INCHES)
+            self.wxdat.export(current_wx['imperial'],
+                ('temperature',  'temp',        wxdat.FAHRENHEIT),
+                ('dewPoint',     'dewpt',       wxdat.FAHRENHEIT),
+                ('pressure',     'pressure',    wxdat.INCHES_MERCURY),
+                ('windSpeed',    'windSpeed',   wxdat.MPH),
+                ('windGust',     'windGust',    wxdat.MPH),
+                ('preciptation', 'precipTotal', wxdat.INCHES)
+            )
         else:
             self.logger.warning('Could not read current weather details')
 
@@ -173,12 +182,19 @@ class OpenWeather(BaseStation):
 
         self.logger.debug('updating station weather @ %s', current_wx['dt'])
 
-        wx_main = current_wx['main']
-        self.wxdat.set_temperature(wx_main['temp'], units=wxdat.FAHRENHEIT)
-        self.wxdat.set_humidity(wx_main['humidity'])
-        self.wxdat.set_pressure(wx_main['pressure'], units=wxdat.INCHES_MERCURY)
+        if 'main' in current_wx:
+            self.wxdat.export(current_wx['main'],
+                ('temperature', 'temp',     wxdat.FAHRENHEIT),
+                ('pressure',    'pressure', wxdat.INCHES_MERCURY),
+                ('humidity',    'humidity', None)
+            )
+        else:
+            self.logger.warning('Could not read current weather details')
 
-        wx_wind = current_wx['wind']
-        self.wxdat.set_wind_heading(wx_wind['deg'])
-        self.wxdat.set_wind_speed(wx_wind['speed'], units=wxdat.MPH)
-
+        if 'wind' in current_wx:
+            self.wxdat.export(current_wx['wind'],
+                ('windHeading', 'deg',   None),
+                ('windSpeed',   'speed', wxdat.MPH)
+            )
+        else:
+            self.logger.warning('Could not read current wind details')

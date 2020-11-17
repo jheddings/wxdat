@@ -81,6 +81,7 @@ class WeatherData(object):
 
     #---------------------------------------------------------------------------
     def _update_gauge(self, gauge_name, value, units=None):
+        # TODO support metric_prefix from global config
         safe_name = re.sub('[^a-zA-Z0-9]+', '_', self.name)
         metric_name = f'wx_{safe_name}_{gauge_name}'
         gauge = self.gauges.get(metric_name, None)
@@ -128,6 +129,22 @@ class WeatherData(object):
             return 'Total Precipitation'
 
         return 'Unknown'
+
+    #---------------------------------------------------------------------------
+    def export(self, data, *objects):
+        for obj in objects:
+            # parse the tuple...
+            name = obj[0]
+            src = obj[1]
+            units = obj[2]
+
+            # update gauges accordingly...
+            if src in data and data[src] is not None:
+                value = data[src]
+                self.logger.debug('exporting data: %s :: data[%s] => %s', name, src, value)
+                self._update_gauge(name, value, units)
+            else:
+                self.logger.warning('Empty source data: %s', src)
 
     #---------------------------------------------------------------------------
     def set_temperature(self, value, units=FAHRENHEIT):
