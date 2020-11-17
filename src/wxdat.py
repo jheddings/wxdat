@@ -4,11 +4,15 @@ import re
 import logging
 import time
 
+from datetime import timedelta
 from prometheus_client import Gauge
 
 import stations
 
-LOOP_INTERVAL = 60
+MONITOR_INTERVAL_SEC = 60
+
+# TODO group units by category (e.g. imperial or metric)
+# should there be a separate unit.py file?
 
 # temperature units
 CELCIUS = 'C'
@@ -20,16 +24,37 @@ MPH = 'mph'
 KPH = 'km/h'
 
 # pressure units
-INCHES_MERCURY = 'Hg'
+INCHES_MERCURY = 'inHg'
 MILLIBARS = 'mb'
+KILOPASCAL = 'kPa'
 
 # length units
-INCHES = 'in.'
+INCHES = 'in'
 FEET = 'ft'
-MILES = 'mi.'
+MILES = 'mi'
 CENTIMETERS = 'cm'
 METERS = 'm'
 KILOMETERS = 'km'
+
+################################################################################
+def parse_duration(value):
+    # long form...
+    match = re.match(r'((\d+):)?(\d+):(\d+)', value)
+    if match:
+        hours = match.group(2) or 0
+        minutes = match.group(3) or 0
+        seconds = match.group(4) or 0
+        return timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
+
+    # short form...
+    match = re.match(r'((\d+)h\s*)?((\d+)m\s*)?((\d+)s)?', value)
+    if match:
+        hours = match.group(2) or 0
+        minutes = match.group(4) or 0
+        seconds = match.group(6) or 0
+        return timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
+
+    raise ValueError('Invalid duration: %s' % value)
 
 ################################################################################
 class Monitor(object):
@@ -55,7 +80,7 @@ class Monitor(object):
 
             while True:
                 self._run_loop_step()
-                time.sleep(LOOP_INTERVAL)
+                time.sleep(MONITOR_INTERVAL_SEC)
 
         except KeyboardInterrupt:
             self.logger.debug('canceled by user')
@@ -65,10 +90,13 @@ class Monitor(object):
     #---------------------------------------------------------------------------
     def _run_loop_step(self):
         self.logger.debug('updating all stations')
-        for station in self.stations:
 
-            # TODO check station update interval before calling...
-            station.update()
+        for station in self.stations:
+            if station.is_current:
+                self.logger.debug('station %s is up to date; skipping', station.name)
+            else:
+                self.logger.debug('station %s is out of date; updating', station.name)
+                station.update()
 
 ################################################################################
 class WeatherData(object):

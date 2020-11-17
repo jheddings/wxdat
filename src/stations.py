@@ -4,18 +4,16 @@ import re
 import logging
 import requests
 
+from datetime import datetime
+from datetime import timedelta
+
 import wxdat
 
 # TODO support station units
-# TODO implement update_interval
 
 ################################################################################
 def configure(conf):
     import importlib
-
-    # XXX these are future config options...  pop them so the constructor works properly
-    labels = conf.pop('labels', None)
-    update_interval = conf.pop('update_interval', None)
 
     station_type = conf.pop('type')
     module = importlib.import_module('stations')
@@ -29,9 +27,32 @@ class BaseStation(object):
     #---------------------------------------------------------------------------
     def __init__(self, name):
         self.logger = logging.getLogger('wxdat.stations.BaseStation')
-
         self.logger.debug('new station: %s', name)
+
+        self.name = name
+
+        # subclasses should set this to datetime.now() upon successful update
+        self.last_update = None
+
+        # we are intentionally making the default very conservative here...
+        self.update_interval = timedelta(minutes=30)
+
+        # shared data object which contains the gauges to be exported
         self.wxdat = wxdat.WeatherData(name)
+
+    #---------------------------------------------------------------------------
+    @property
+    def is_current(self):
+        if self.last_update is None:
+            return False
+
+        now = datetime.now()
+        delta = now - self.last_update
+
+        self.logger.debug('station %s last updated at %s (%s ago)',
+                          self.name, self.last_update, delta)
+
+        return (delta <= self.update_interval)
 
 ################################################################################
 class DarkSky(BaseStation):
@@ -83,6 +104,8 @@ class DarkSky(BaseStation):
             ('windGust',     'windGust',           wxdat.MPH),
             ('preciptation', 'precipAccumulation', wxdat.INCHES)
         )
+
+        self.last_update = datetime.now()
 
 ################################################################################
 class WUndergroundPWS(BaseStation):
@@ -147,6 +170,8 @@ class WUndergroundPWS(BaseStation):
         else:
             self.logger.warning('Could not read current weather details')
 
+        self.last_update = datetime.now()
+
 ################################################################################
 class OpenWeather(BaseStation):
 
@@ -198,3 +223,5 @@ class OpenWeather(BaseStation):
             )
         else:
             self.logger.warning('Could not read current wind details')
+
+        self.last_update = datetime.now()

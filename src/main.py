@@ -3,6 +3,7 @@
 import os
 import logging
 
+from datetime import timedelta
 from prometheus_client import start_http_server
 
 import wxdat
@@ -52,13 +53,31 @@ args = parse_args()
 conf = load_config(args.config)
 monitor = wxdat.Monitor()
 
+# determine global update interval - we are intentionally conservative on the default
+if 'update_interval' in conf:
+    update_interval = wxdat.parse_duration(conf['update_interval'])
+else:
+    update_interval = timedelta(minutes=30)
+
 # set up stations from config file
 for stat_cfg in conf['stations']:
+    stat_labels = stat_cfg.pop('labels', None)
+    stat_interval = stat_cfg.pop('update_interval', None)
+
+    # look for a local update interval
+    if stat_interval is None:
+        stat_interval = update_interval
+    else:
+        stat_interval = wxdat.parse_duration(stat_interval)
+
     station = stations.configure(stat_cfg)
+
     if station is None:
         logger.warning('Could not create monitor for station')
-    else:
-        monitor.add_station(station)
+        continue
+
+    station.update_interval = stat_interval
+    monitor.add_station(station)
 
 # start the HTTP server
 server_port = conf['server_port']
