@@ -4,7 +4,7 @@ BASEDIR ?= $(PWD)
 SRCDIR ?= $(BASEDIR)/src
 
 APPNAME ?= wxdat
-APPVER ?= 0.1
+APPVER ?= 0.2
 
 PY := PYTHONPATH="$(SRCDIR)" python3
 
