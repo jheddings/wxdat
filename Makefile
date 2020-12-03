@@ -33,9 +33,9 @@ release: build test
 	docker image tag "$(APPNAME):latest" "$(APPNAME):$(APPVER)"
 
 ################################################################################
-.PHONY: runpy
+.PHONY: run
 
-runpy:
+run:
 	$(PY) $(SRCDIR)/main.py --config $(BASEDIR)/etc/wxdat.yaml
 
 ################################################################################
@@ -51,7 +51,16 @@ runc: build
 .PHONY: rund
 
 rund: release
-	docker container run --rm --tty --detach --publish 9022:9022 \
+	docker container run --rm --detach --publish 9022:9022 \
+		--volume "$(PWD):/usr/local/host/pwd" \
+		--volume "$(PWD)/etc:/usr/local/host/etc" \
+		"$(APPNAME):latest" main.py --config /usr/local/host/etc/wxdat.yaml
+
+################################################################################
+.PHONY: runs
+
+runs: release
+	docker container run --detach --restart always --publish 9022:9022 \
 		--volume "$(PWD):/usr/local/host/pwd" \
 		--volume "$(PWD)/etc:/usr/local/host/etc" \
 		"$(APPNAME):latest" main.py --config /usr/local/host/etc/wxdat.yaml
