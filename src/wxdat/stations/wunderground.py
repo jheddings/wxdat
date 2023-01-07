@@ -98,7 +98,7 @@ class WUndergroundPWS(WeatherStation):
             dew_point=conditions.dewpt,
             abs_pressure=conditions.pressure,
             uv_index=weather.uv,
-            solar_radiation=weather.solarRadation,
+            solar_rad=weather.solarRadation,
             precip_day=conditions.precipTotal,
             precip_hour=conditions.precipRate,
         )
