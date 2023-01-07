@@ -71,7 +71,7 @@ class WeatherDatabase:
         """Starts a new session with the database engine."""
         return MagicSession()
 
-    def save(self, *entry: MagicTable):
+    def save(self, entry: MagicTable):
         with self.session() as session:
-            session.add_all(entry)
+            session.merge(entry)
             session.commit()
