@@ -137,8 +137,6 @@ class Provider(WeatherStation):
             return None
 
         data = resp.json()
-
-        data = resp.json()
         data_list = parse_obj_as(List[API_Observation], data)
 
         return data_list[0]
