@@ -9,7 +9,7 @@ from typing import Dict, List, Optional
 from pydantic import BaseModel, validator
 from ruamel.yaml import YAML
 
-from .stations import ambientwx, darksky, openweather
+from .stations import ambientwx, darksky, openweather, wunderground
 
 
 class Units(str, Enum):
@@ -123,6 +123,12 @@ class WeatherUndergroundConfig(ProviderConfig):
 
     def initialize(self):
         """Initialize a new Weather Underground PWS based on this config."""
+
+        return wunderground.WUndergroundPWS(
+            name=self.name,
+            api_key=self.api_key,
+            station_id=self.station_id,
+        )
 
 
 class AppConfig(BaseModel):

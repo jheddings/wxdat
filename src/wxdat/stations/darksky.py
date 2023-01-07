@@ -148,7 +148,7 @@ class DarkSky(WeatherStation):
         self.station_id = f"{latitude},{longitude}"
 
     @property
-    def current_conditions(self):
+    def current_conditions(self) -> CurrentConditions:
         weather = self.get_current_weather()
 
         if weather is None:
@@ -177,7 +177,7 @@ class DarkSky(WeatherStation):
             remarks=conditions.summary,
         )
 
-    def get_current_weather(self):
+    def get_current_weather(self) -> API_Weather:
         self.logger.debug("getting current weather")
 
         data_url = f"{API_ENDPOINT}/{self.api_key}/{self.latitude},{self.longitude}"

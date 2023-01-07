@@ -76,7 +76,7 @@ class AmbientWeather(WeatherStation):
         self.device_id = device_id
 
     @property
-    def current_conditions(self):
+    def current_conditions(self) -> CurrentConditions:
         conditions = self.get_current_weather()
 
         if conditions is None:
@@ -103,7 +103,7 @@ class AmbientWeather(WeatherStation):
             solar_rad=conditions.solarradiation,
         )
 
-    def get_current_weather(self):
+    def get_current_weather(self) -> API_DeviceData:
         self.logger.debug("getting current weather")
 
         url = f"{API_ENDPOINT}/devices/{self.device_id}"
@@ -121,6 +121,5 @@ class AmbientWeather(WeatherStation):
 
         data = resp.json()
         data_list = parse_obj_as(List[API_DeviceData], data)
-        current_wx = data_list[0]
 
-        return current_wx
+        return data_list[0]
