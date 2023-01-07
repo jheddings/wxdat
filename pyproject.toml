@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "wxdat"
+version = "0.1.0"
+description = "Weather data explorer."
+authors = ["jheddings <jheddings@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "^2.28.1"
+click = "^8.1.3"
+prometheus-client = "^0.15.0"
+pydantic = "^1.10.4"
+ruamel-yaml = "^0.17.21"
+sqlalchemy = "^1.4.46"
+psycopg2-binary = "^2.9.5"
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.12.0"
+isort = "^5.11.4"
+flake8 = "^6.0.0"
+pre-commit = "^2.21.0"
+git-python = "^1.0.3"
+
+[tool.poetry.scripts]
+wxdat = "wxdat.__main__:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
