@@ -83,6 +83,10 @@ class WUndergroundPWS(WeatherStation):
     @property
     def current_conditions(self) -> CurrentConditions:
         weather = self.get_current_weather()
+
+        if weather is None:
+            return None
+
         conditions = weather.imperial
 
         return CurrentConditions(
