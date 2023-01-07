@@ -102,7 +102,7 @@ class OpenWeatherMap(WeatherStation):
 
     @property
     def current_conditions(self):
-        conditions = self.update()
+        conditions = self.get_current_weather()
 
         if conditions is None:
             return None
@@ -125,7 +125,7 @@ class OpenWeatherMap(WeatherStation):
             visibility=conditions.visibility,
         )
 
-    def update(self):
+    def get_current_weather(self):
         self.logger.debug("getting current weather")
 
         params = {

@@ -9,7 +9,7 @@ from typing import Dict, List, Optional
 from pydantic import BaseModel, validator
 from ruamel.yaml import YAML
 
-from .stations import ambientwx, openweather
+from .stations import ambientwx, darksky, openweather
 
 
 class Units(str, Enum):
@@ -18,8 +18,10 @@ class Units(str, Enum):
 
 
 class WeatherProvider(str, Enum):
+    ACCUWEATHER = "AccuWeather"
     AMBIENT = "AmbientWeather"
     DARKSKY = "DarkSky"
+    NOAA = "NOAA"
     OPENWEATHER = "OpenWeatherMap"
     WUNDERGROUND = "WUndergroundPWS"
 
@@ -104,6 +106,13 @@ class DarkSkyConfig(ProviderConfig):
 
     def initialize(self):
         """Initialize a new Dark Sky station based on this config."""
+
+        return darksky.DarkSky(
+            name=self.name,
+            api_key=self.api_key,
+            latitude=self.latitude,
+            longitude=self.longitude,
+        )
 
 
 class WeatherUndergroundConfig(ProviderConfig):

@@ -77,7 +77,7 @@ class AmbientWeather(WeatherStation):
 
     @property
     def current_conditions(self):
-        conditions = self.update()
+        conditions = self.get_current_weather()
 
         if conditions is None:
             return None
@@ -103,7 +103,7 @@ class AmbientWeather(WeatherStation):
             solar_rad=conditions.solarradiation,
         )
 
-    def update(self):
+    def get_current_weather(self):
         self.logger.debug("getting current weather")
 
         url = f"{API_ENDPOINT}/devices/{self.device_id}"

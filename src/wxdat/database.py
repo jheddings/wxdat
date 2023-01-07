@@ -42,6 +42,8 @@ class CurrentConditions(MagicTable):
 
     cloud_cover = sql.Column(sql.Float())
     visibility = sql.Column(sql.Float())
+    uv_index = sql.Column(sql.Float())
+    ozone = sql.Column(sql.Float())
 
     solar_lux = sql.Column(sql.Float())
     solar_rad = sql.Column(sql.Float())
