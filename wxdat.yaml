@@ -1,8 +1,5 @@
 ## config file for wxdat app
 
-# the port to expose metrics data
-server_port: 9020
-
 # update interval for station data (may be specified per station);
 # note that statoins will not be updates more than every minute
 #
@@ -11,16 +8,11 @@ server_port: 9020
 # long form examples: 00:05:00 (5 minutes), 00:01:30 (90 seconds), 01:00:00 (1 hour)
 update_interval: 5m
 
-# (optional) prefix to all metric names
-metric_prefix: wx
-
-# (optional) labels appended to all metrics (may be specified per station)
-#labels:
-#  - name1: value1
-#  - name2: value2
-
 # units will be represented by the following: imperial (default), metric
 units: imperial
+
+# override the database connection string (used by SQLAlcheny)
+# database: sqlite:///wxdat.db
 
 #-------------------------------------------------------------------------------
 stations:
@@ -44,6 +36,10 @@ stations:
     latitude: 39.8561
     longitude: -104.6737
 
+  - name: Denver Airport via NOAA
+    type: NOAA
+    station: KDEN
+
 #-------------------------------------------------------------------------------
 # setup logging system -- or remove this section to disable logging
 # this uses the standard dict config for the Python logging framework
@@ -53,13 +49,15 @@ logging:
   formatters:
     brief:
       format: '%(message)s'
+    short:
+      format: '%(levelname)s:%(name)s:%(message)s'
     precise:
-      format: '%(asctime)s %(levelname)-8s %(name)-15s %(message)s'
+      format: '%(asctime)s %(levelname)-8s %(threadName)s %(name)s %(message)s'
       datefmt: '%Y-%m-%d %H:%M:%S'
 
   root:
     level: INFO
-    handlers: [console, logfile]
+    handlers: [console]
 
   handlers:
     console:
@@ -71,4 +69,3 @@ logging:
       formatter: precise
       filename: wxdat.log
       mode: w
-

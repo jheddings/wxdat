@@ -10,7 +10,7 @@ from typing import List, Optional
 from pydantic import BaseModel, parse_obj_as
 
 from ..database import CurrentConditions
-from . import BaseStation
+from . import BaseStation, WeatherProvider
 
 logger = logging.getLogger(__name__)
 
@@ -76,9 +76,9 @@ class Station(BaseStation):
         self.device_id = device_id
 
     @property
-    def provider_name(self):
-        """Return the provider name for this WeatherStation."""
-        return "AmbientWeather"
+    def provider(self) -> WeatherProvider:
+        """Return the provider for this WeatherStation."""
+        return WeatherProvider.AMBIENT
 
     @property
     def current_conditions(self) -> CurrentConditions:
@@ -89,7 +89,7 @@ class Station(BaseStation):
 
         return CurrentConditions(
             timestamp=conditions.date,
-            provider=self.provider_name,
+            provider=self.provider,
             station_id=self.device_id,
             temperature=conditions.tempf,
             feels_like=conditions.feelsLike,

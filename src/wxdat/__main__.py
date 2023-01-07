@@ -59,11 +59,9 @@ class MainApp:
     "--config", "-f", default="wxdat.yaml", help="app config file (default: wxdat.yaml)"
 )
 def main(config):
-    conf = AppConfig.load(config)
+    cfg = AppConfig.load(config)
 
-    app = MainApp(conf)
-
-    app.run()
+    MainApp(cfg).run()
 
 
 ### MAIN ENTRY

@@ -12,7 +12,7 @@ from pydantic import BaseModel
 
 from .. import units
 from ..database import CurrentConditions
-from . import BaseStation
+from . import BaseStation, WeatherProvider
 
 logger = logging.getLogger(__name__)
 
@@ -149,9 +149,9 @@ class Station(BaseStation):
         self.station_id = f"{latitude},{longitude}"
 
     @property
-    def provider_name(self):
+    def provider(self) -> WeatherProvider:
         """Return the provider name for this WeatherStation."""
-        return "DarkSky"
+        return WeatherProvider.DARKSKY
 
     @property
     def current_conditions(self) -> CurrentConditions:
@@ -166,7 +166,7 @@ class Station(BaseStation):
 
         return CurrentConditions(
             timestamp=conditions.timestamp,
-            provider=self.provider_name,
+            provider=self.provider,
             station_id=self.station_id,
             temperature=conditions.temperature,
             feels_like=conditions.apparentTemperature,

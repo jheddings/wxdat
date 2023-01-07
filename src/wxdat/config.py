@@ -1,5 +1,6 @@
 """Application configuration data."""
 
+import logging
 import os
 import os.path
 from abc import abstractmethod
@@ -19,6 +20,8 @@ from .providers import (
     wunderground,
 )
 
+logger = logging.getLogger(__name__)
+
 
 class Units(str, Enum):
     IMPERIAL = "imperial"
@@ -28,45 +31,68 @@ class Units(str, Enum):
 class StationConfig(BaseModel):
     """Base configuration for weather providers."""
 
+    __providers__ = {}
+
     name: str
     provider: WeatherProvider
     update_interval: Optional[int] = None
 
+    # used techniques from https://github.com/jheddings/notional/
+    def __init_subclass__(cls, provider=None, **kwargs):
+        """Register the subtypes of the StationConfig class."""
+        super().__init_subclass__(**kwargs)
+
+        if provider is None:
+            provider = cls.__name__
+
+        cls._register_provider_type(provider)
+
     @classmethod
     def __get_validators__(cls):
-        yield cls.resolve_provider_type
+        yield cls._resolve_provider_type
 
     @classmethod
-    def resolve_provider_type(cls, data):
-        if "provider" not in data:
-            raise ValueError("missing 'provider' in station config")
+    def _register_provider_type(cls, provider):
+        """Register a specific class for the given 'provider' name."""
 
-        if data["provider"] == WeatherProvider.AMBIENT:
-            return AmbientWeatherConfig(**data)
+        if provider in cls.__providers__:
+            raise ValueError(f"Duplicate subtype for class - {provider} :: {cls}")
 
-        if data["provider"] == WeatherProvider.WUNDERGROUND:
-            return WeatherUndergroundConfig(**data)
+        field = cls.__fields__.get("provider")
+        field.default = provider
 
-        if data["provider"] == WeatherProvider.OPENWEATHER:
-            return OpenWeatherMapConfig(**data)
+        logger.debug("registered new provider: %s => %s", provider, cls)
 
-        if data["provider"] == WeatherProvider.DARKSKY:
-            return DarkSkyConfig(**data)
+        cls.__providers__[provider] = cls
 
-        if data["provider"] == WeatherProvider.ACCUWEATHER:
-            return AccuWeatherConfig(**data)
+    @classmethod
+    def _resolve_provider_type(cls, data):
+        if isinstance(data, cls):
+            return data
 
-        if data["provider"] == WeatherProvider.NOAA:
-            return NOAA_Config(**data)
+        if not isinstance(data, dict):
+            raise ValueError("Invalid 'data' object")
 
-        raise ValueError(f"unsupported provider -- {data['provider']}")
+        name = data.get("provider")
+
+        if name is None:
+            raise ValueError("Missing 'provider' in data")
+
+        sub = cls.__providers__.get(name)
+
+        if sub is None:
+            raise TypeError(f"Unsupported provider: {name}")
+
+        logger.debug("initializing provider %s :: %s => %s -- %s", cls, name, sub, data)
+
+        return sub(**data)
 
     @abstractmethod
     def initialize(self):
         """Initialize a new instance of the station based on this config."""
 
 
-class AmbientWeatherConfig(StationConfig):
+class AmbientWeatherConfig(StationConfig, provider=WeatherProvider.AMBIENT):
     """Station configuration for Ambient Weather Network."""
 
     app_key: str
@@ -84,7 +110,7 @@ class AmbientWeatherConfig(StationConfig):
         )
 
 
-class OpenWeatherMapConfig(StationConfig):
+class OpenWeatherMapConfig(StationConfig, provider=WeatherProvider.OPENWEATHERMAP):
     """Station configuration for OpenWeatherMap."""
 
     api_key: str
@@ -102,7 +128,7 @@ class OpenWeatherMapConfig(StationConfig):
         )
 
 
-class DarkSkyConfig(StationConfig):
+class DarkSkyConfig(StationConfig, provider=WeatherProvider.DARKSKY):
     """Station configuration for Dark Sky."""
 
     api_key: str
@@ -120,7 +146,7 @@ class DarkSkyConfig(StationConfig):
         )
 
 
-class WeatherUndergroundConfig(StationConfig):
+class WeatherUndergroundConfig(StationConfig, provider=WeatherProvider.WUNDERGROUND):
     """Station configuration for Weather Underground."""
 
     api_key: str
@@ -136,7 +162,7 @@ class WeatherUndergroundConfig(StationConfig):
         )
 
 
-class AccuWeatherConfig(StationConfig):
+class AccuWeatherConfig(StationConfig, provider=WeatherProvider.ACCUWEATHER):
     """Station configuration for AccuWeather."""
 
     api_key: str
@@ -152,7 +178,7 @@ class AccuWeatherConfig(StationConfig):
         )
 
 
-class NOAA_Config(StationConfig):
+class NOAA_Config(StationConfig, provider=WeatherProvider.NOAA):
     """Station configuration for NOAA weather."""
 
     station: str

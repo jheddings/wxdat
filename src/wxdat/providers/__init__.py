@@ -19,7 +19,7 @@ class WeatherProvider(str, Enum):
     AMBIENT = "AmbientWeather"
     DARKSKY = "DarkSky"
     NOAA = "NOAA"
-    OPENWEATHER = "OpenWeatherMap"
+    OPENWEATHERMAP = "OpenWeatherMap"
     WUNDERGROUND = "WUndergroundPWS"
 
 
@@ -35,7 +35,7 @@ class BaseStation(ABC):
         """Return the current conditions for this WeatherStation."""
 
     @abstractproperty
-    def provider_name(self) -> WeatherProvider:
+    def provider(self) -> WeatherProvider:
         """Return the provider name for this WeatherStation."""
 
     @property
@@ -91,7 +91,7 @@ class DataRecorder:
 
     @property
     def id(self) -> str:
-        return f"{self.station.provider_name}-{DataRecorder.__thread_count__}"
+        return f"{self.station.provider}-{DataRecorder.__thread_count__}"
 
     def start(self) -> None:
         """Start the main thread loop."""
