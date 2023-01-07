@@ -12,7 +12,7 @@ from pydantic import BaseModel
 
 from .. import units
 from ..database import CurrentConditions
-from . import WeatherStation
+from . import BaseStation
 
 logger = logging.getLogger(__name__)
 
@@ -134,7 +134,7 @@ class API_Weather(BaseModel):
     flags: Optional[API_Flags] = None
 
 
-class Station(WeatherStation):
+class Station(BaseStation):
     def __init__(self, name, *, api_key, latitude, longitude):
         super().__init__(name)
 

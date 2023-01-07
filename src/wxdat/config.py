@@ -9,7 +9,15 @@ from typing import Dict, List, Optional
 from pydantic import BaseModel, validator
 from ruamel.yaml import YAML
 
-from .providers import accuweather, ambientwx, darksky, noaa, openweather, wunderground
+from .providers import (
+    WeatherProvider,
+    accuweather,
+    ambientwx,
+    darksky,
+    noaa,
+    openweather,
+    wunderground,
+)
 
 
 class Units(str, Enum):
@@ -17,22 +25,11 @@ class Units(str, Enum):
     METRIC = "metric"
 
 
-class WeatherProvider(str, Enum):
-    ACCUWEATHER = "AccuWeather"
-    AMBIENT = "AmbientWeather"
-    DARKSKY = "DarkSky"
-    NOAA = "NOAA"
-    OPENWEATHER = "OpenWeatherMap"
-    WUNDERGROUND = "WUndergroundPWS"
-
-
 class StationConfig(BaseModel):
     """Base configuration for weather providers."""
 
     name: str
-    type: WeatherProvider
-
-    # TODO support per-station update intervals
+    provider: WeatherProvider
     update_interval: Optional[int] = None
 
     @classmethod
@@ -41,43 +38,44 @@ class StationConfig(BaseModel):
 
     @classmethod
     def resolve_provider_type(cls, data):
-        if "type" not in data:
-            raise ValueError("missing 'type' in provider config")
+        if "provider" not in data:
+            raise ValueError("missing 'provider' in station config")
 
-        if data["type"] == WeatherProvider.AMBIENT:
+        if data["provider"] == WeatherProvider.AMBIENT:
             return AmbientWeatherConfig(**data)
 
-        if data["type"] == WeatherProvider.WUNDERGROUND:
+        if data["provider"] == WeatherProvider.WUNDERGROUND:
             return WeatherUndergroundConfig(**data)
 
-        if data["type"] == WeatherProvider.OPENWEATHER:
+        if data["provider"] == WeatherProvider.OPENWEATHER:
             return OpenWeatherMapConfig(**data)
 
-        if data["type"] == WeatherProvider.DARKSKY:
+        if data["provider"] == WeatherProvider.DARKSKY:
             return DarkSkyConfig(**data)
 
-        if data["type"] == WeatherProvider.ACCUWEATHER:
+        if data["provider"] == WeatherProvider.ACCUWEATHER:
             return AccuWeatherConfig(**data)
 
-        if data["type"] == WeatherProvider.NOAA:
+        if data["provider"] == WeatherProvider.NOAA:
             return NOAA_Config(**data)
 
-        raise ValueError(f"unsupported provider -- {data['type']}")
+        raise ValueError(f"unsupported provider -- {data['provider']}")
 
     @abstractmethod
     def initialize(self):
-        """Initialize a new instance of the provider based on this config."""
+        """Initialize a new instance of the station based on this config."""
 
 
 class AmbientWeatherConfig(StationConfig):
-    """Provider configuration for Ambient Weather Network."""
+    """Station configuration for Ambient Weather Network."""
 
     app_key: str
     user_key: str
     device_id: str
 
     def initialize(self):
-        """Initialize a new Ambient Weather provider based on this config."""
+        """Initialize a new Ambient Weather station based on this config."""
+
         return ambientwx.Station(
             name=self.name,
             app_key=self.app_key,
@@ -87,14 +85,15 @@ class AmbientWeatherConfig(StationConfig):
 
 
 class OpenWeatherMapConfig(StationConfig):
-    """Provider configuration for OpenWeatherMap."""
+    """Station configuration for OpenWeatherMap."""
 
     api_key: str
     latitude: float
     longitude: float
 
     def initialize(self):
-        """Initialize a new OpenWeatherMap provider based on this config."""
+        """Initialize a new OpenWeatherMap station based on this config."""
+
         return openweather.Station(
             name=self.name,
             api_key=self.api_key,
@@ -104,14 +103,14 @@ class OpenWeatherMapConfig(StationConfig):
 
 
 class DarkSkyConfig(StationConfig):
-    """Provider configuration for Dark Sky."""
+    """Station configuration for Dark Sky."""
 
     api_key: str
     latitude: float
     longitude: float
 
     def initialize(self):
-        """Initialize a new Dark Sky provider based on this config."""
+        """Initialize a new Dark Sky station based on this config."""
 
         return darksky.Station(
             name=self.name,
@@ -122,7 +121,7 @@ class DarkSkyConfig(StationConfig):
 
 
 class WeatherUndergroundConfig(StationConfig):
-    """Provider configuration for Weather Underground."""
+    """Station configuration for Weather Underground."""
 
     api_key: str
     station_id: str
@@ -138,13 +137,13 @@ class WeatherUndergroundConfig(StationConfig):
 
 
 class AccuWeatherConfig(StationConfig):
-    """Provider configuration for AccuWeather."""
+    """Station configuration for AccuWeather."""
 
     api_key: str
     location: str
 
     def initialize(self):
-        """Initialize a new AccuWeather provider based on this config."""
+        """Initialize a new AccuWeather station based on this config."""
 
         return accuweather.Station(
             name=self.name,
@@ -154,12 +153,12 @@ class AccuWeatherConfig(StationConfig):
 
 
 class NOAA_Config(StationConfig):
-    """Provider configuration for NOAA weather."""
+    """Station configuration for NOAA weather."""
 
     station: str
 
     def initialize(self):
-        """Initialize a new NOAA provider based on this config."""
+        """Initialize a new NOAA station based on this config."""
 
         return noaa.Station(
             name=self.name,

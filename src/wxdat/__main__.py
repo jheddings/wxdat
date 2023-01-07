@@ -1,6 +1,5 @@
 """Main entry point for wxdat."""
 
-
 import logging
 import signal
 import threading
@@ -8,6 +7,7 @@ import threading
 import click
 
 from .config import AppConfig
+from .providers import DataRecorder
 
 logger = logging.getLogger(__name__)
 
@@ -22,18 +22,16 @@ class MainApp:
         self.run_lock = threading.Event()
 
         self._initialize_database(config.database)
-        self._initialize_observer(config)
+        self._initialize_observers(config)
 
-    def _initialize_observer(self, config: AppConfig):
-        from . import Observer
-
-        observer = Observer(self.database, config.update_interval)
+    def _initialize_observers(self, config: AppConfig):
+        self.observers = []
 
         for station_cfg in config.stations:
             station = station_cfg.initialize()
-            observer.watch(station)
-
-        self.observer = observer
+            interval = station_cfg.update_interval or config.update_interval
+            recorder = DataRecorder(station, self.database, interval)
+            self.observers.append(recorder)
 
     def _initialize_database(self, dburl):
         from .database import WeatherDatabase
@@ -44,14 +42,16 @@ class MainApp:
 
         self.logger.debug("Starting main app")
 
-        self.observer.start()
+        for obs in self.observers:
+            obs.start()
 
         try:
             signal.pause()
         except KeyboardInterrupt:
             self.logger.debug("canceled by user")
 
-        self.observer.stop()
+        for obs in self.observers:
+            obs.stop()
 
 
 @click.command()

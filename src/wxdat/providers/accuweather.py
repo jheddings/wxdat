@@ -11,7 +11,7 @@ from typing import List, Optional
 from pydantic import BaseModel, parse_obj_as
 
 from ..database import CurrentConditions
-from . import WeatherStation
+from . import BaseStation
 
 logger = logging.getLogger(__name__)
 
@@ -84,7 +84,7 @@ class API_Observation(BaseModel):
     PrecipitationSummary: Optional[API_Precipitation] = None
 
 
-class Station(WeatherStation):
+class Station(BaseStation):
     def __init__(self, name, *, api_key, location):
         super().__init__(name)
 

@@ -10,7 +10,7 @@ from typing import List, Optional
 from pydantic import BaseModel, parse_obj_as
 
 from ..database import CurrentConditions
-from . import WeatherStation
+from . import BaseStation
 
 logger = logging.getLogger(__name__)
 
@@ -64,7 +64,7 @@ class API_DeviceDataList(BaseModel):
     __root__: List[API_DeviceData]
 
 
-class Station(WeatherStation):
+class Station(BaseStation):
     def __init__(self, name, *, app_key, user_key, device_id):
         super().__init__(name)
 
