@@ -17,34 +17,37 @@ logger = logging.getLogger(__name__)
 
 API_BASE = "https://api.weather.gov/stations/"
 
+
 class API_Geometry(BaseModel):
     type: str
     coordinates: List[int]
+
 
 class API_Measurement(BaseModel):
     unitCode: str
     qualityControl: str
     value: Optional[float] = None
 
+
 class API_Properties(BaseModel):
     station: str
     timestamp: datetime
 
-    temperature: Optional[API_Measurement]= None
-    dewpoint: Optional[API_Measurement]= None
+    temperature: Optional[API_Measurement] = None
+    dewpoint: Optional[API_Measurement] = None
 
-    windDirection: Optional[API_Measurement]= None
-    windSpeed: Optional[API_Measurement]= None
-    windGust: Optional[API_Measurement]= None
+    windDirection: Optional[API_Measurement] = None
+    windSpeed: Optional[API_Measurement] = None
+    windGust: Optional[API_Measurement] = None
 
-    barometricPressure: Optional[API_Measurement]= None
-    seaLevelPressure: Optional[API_Measurement]= None
-    visibility: Optional[API_Measurement]= None
+    barometricPressure: Optional[API_Measurement] = None
+    seaLevelPressure: Optional[API_Measurement] = None
+    visibility: Optional[API_Measurement] = None
 
-    precipitationLastHour: Optional[API_Measurement]= None
-    relativeHumidity: Optional[API_Measurement]= None
-    windChill: Optional[API_Measurement]= None
-    heatIndex: Optional[API_Measurement]= None
+    precipitationLastHour: Optional[API_Measurement] = None
+    relativeHumidity: Optional[API_Measurement] = None
+    windChill: Optional[API_Measurement] = None
+    heatIndex: Optional[API_Measurement] = None
 
     cloudLayers: Optional[List[Any]] = None
     presentWeather: Optional[List[Any]] = None
@@ -67,10 +70,12 @@ class API_Properties(BaseModel):
 
         return self.temperature.value
 
+
 class API_Observation(BaseModel):
     id: str
     geometry: API_Geometry
     properties: API_Properties
+
 
 class Station(WeatherStation):
     def __init__(self, name, *, station):
@@ -118,7 +123,7 @@ class Station(WeatherStation):
 
         url = f"{API_BASE}/{self.station}/observations/latest"
 
-        headers = { "Accept": "application/geo+json" }
+        headers = {"Accept": "application/geo+json"}
 
         resp = self.safe_get(url, headers=headers)
 

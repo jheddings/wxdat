@@ -9,7 +9,7 @@ from typing import Dict, List, Optional
 from pydantic import BaseModel, validator
 from ruamel.yaml import YAML
 
-from .providers import accuweather, ambientwx, darksky, openweather, wunderground, noaa
+from .providers import accuweather, ambientwx, darksky, noaa, openweather, wunderground
 
 
 class Units(str, Enum):

@@ -38,7 +38,7 @@ class WeatherStation(ABC):
 
         resp = None
 
-        full_headers = { "User-Agent": self.user_agent }
+        full_headers = {"User-Agent": self.user_agent}
 
         if headers is not None:
             full_headers.update(headers)
@@ -48,16 +48,16 @@ class WeatherStation(ABC):
             self.logger.debug("=> HTTP %d: %s", resp.status_code, resp.reason)
 
         # TODO watch for specific exceptions...
-        except Exception as err:
-            self.logger.error("Error downloading data: %s", exc_info=err)
+        except Exception:
+            self.logger.exception("Unable to download data; unhandled exception")
             return None
 
         if resp is None:
             self.logger.warning("Unable to download data; empty response")
             return None
-            
+
         if not resp.ok:
-            self.logger.warning(f"Unable to download data; {resp.status_code}")
+            self.logger.warning("Unable to download data; %d", resp.status_code)
             return None
 
         return resp

@@ -1,5 +1,6 @@
 """Methods for converting between units."""
 
+
 def degC__degF(val: float) -> float:
     """Convert Celcius to Farenheit."""
 
@@ -7,6 +8,7 @@ def degC__degF(val: float) -> float:
         return None
 
     return val * 1.8 + 32.0
+
 
 def mm__in(val: float) -> float:
     """Convert millimeters to inches."""
@@ -16,6 +18,7 @@ def mm__in(val: float) -> float:
 
     return val / 25.4
 
+
 def meter__mile(val: float) -> float:
     """Convert meters to miles."""
 
@@ -24,6 +27,7 @@ def meter__mile(val: float) -> float:
 
     return val * 1609.344
 
+
 def Pa__inHg(val: float) -> float:
     """Convert Pascal to inches-mercury."""
 
@@ -31,6 +35,7 @@ def Pa__inHg(val: float) -> float:
         return None
 
     return val / 3386.3886666667
+
 
 def hPa__inHg(val: float) -> float:
     """Convert Hectorpascal to inches-mercury."""
