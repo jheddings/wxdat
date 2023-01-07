@@ -9,7 +9,7 @@ from typing import Dict, List, Optional
 from pydantic import BaseModel, validator
 from ruamel.yaml import YAML
 
-from .stations import ambientwx, darksky, openweather, wunderground
+from .providers import accuweather, ambientwx, darksky, openweather, wunderground
 
 
 class Units(str, Enum):
@@ -56,11 +56,14 @@ class ProviderConfig(BaseModel):
         if data["type"] == WeatherProvider.DARKSKY:
             return DarkSkyConfig(**data)
 
+        if data["type"] == WeatherProvider.ACCUWEATHER:
+            return AccuWeatherConfig(**data)
+
         raise ValueError(f"unsupported provider -- {data['type']}")
 
     @abstractmethod
     def initialize(self):
-        """Initialize a new instance of the station based on this config."""
+        """Initialize a new instance of the provider based on this config."""
 
 
 class AmbientWeatherConfig(ProviderConfig):
@@ -71,8 +74,8 @@ class AmbientWeatherConfig(ProviderConfig):
     device_id: str
 
     def initialize(self):
-        """Initialize a new Ambient Weather station based on this config."""
-        return ambientwx.AmbientWeather(
+        """Initialize a new Ambient Weather provider based on this config."""
+        return ambientwx.Provider(
             name=self.name,
             app_key=self.app_key,
             user_key=self.user_key,
@@ -88,8 +91,8 @@ class OpenWeatherMapConfig(ProviderConfig):
     longitude: float
 
     def initialize(self):
-        """Initialize a new OpenWeatherMap station based on this config."""
-        return openweather.OpenWeatherMap(
+        """Initialize a new OpenWeatherMap provider based on this config."""
+        return openweather.Provider(
             name=self.name,
             api_key=self.api_key,
             latitude=self.latitude,
@@ -105,9 +108,9 @@ class DarkSkyConfig(ProviderConfig):
     longitude: float
 
     def initialize(self):
-        """Initialize a new Dark Sky station based on this config."""
+        """Initialize a new Dark Sky provider based on this config."""
 
-        return darksky.DarkSky(
+        return darksky.Provider(
             name=self.name,
             api_key=self.api_key,
             latitude=self.latitude,
@@ -124,10 +127,26 @@ class WeatherUndergroundConfig(ProviderConfig):
     def initialize(self):
         """Initialize a new Weather Underground PWS based on this config."""
 
-        return wunderground.WUndergroundPWS(
+        return wunderground.Provider(
             name=self.name,
             api_key=self.api_key,
             station_id=self.station_id,
+        )
+
+
+class AccuWeatherConfig(ProviderConfig):
+    """Provider configuration for AccuWeather."""
+
+    api_key: str
+    location: str
+
+    def initialize(self):
+        """Initialize a new AccuWeather provider based on this config."""
+
+        return accuweather.Provider(
+            name=self.name,
+            api_key=self.api_key,
+            location=self.location,
         )
 
 

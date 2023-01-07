@@ -133,7 +133,7 @@ class API_Weather(BaseModel):
     flags: Optional[API_Flags] = None
 
 
-class DarkSky(WeatherStation):
+class Provider(WeatherStation):
     def __init__(self, name, *, api_key, latitude, longitude):
         super().__init__(name)
 

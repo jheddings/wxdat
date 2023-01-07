@@ -5,7 +5,7 @@ import threading
 from datetime import datetime, timedelta
 
 from .database import WeatherDatabase
-from .stations import WeatherStation
+from .providers import WeatherStation
 
 logger = logging.getLogger(__name__)
 

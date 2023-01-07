@@ -64,7 +64,7 @@ class API_DeviceDataList(BaseModel):
     __root__: List[API_DeviceData]
 
 
-class AmbientWeather(WeatherStation):
+class Provider(WeatherStation):
     def __init__(self, name, *, app_key, user_key, device_id):
         super().__init__(name)
 

@@ -70,7 +70,7 @@ class API_Current(BaseModel):
     observations: List[API_Observation] = []
 
 
-class WUndergroundPWS(WeatherStation):
+class Provider(WeatherStation):
     def __init__(self, name, *, station_id, api_key):
         super().__init__(name)
 

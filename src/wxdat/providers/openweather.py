@@ -86,7 +86,7 @@ class API_HourlyForecast(BaseModel):
     city: API_City
 
 
-class OpenWeatherMap(WeatherStation):
+class Provider(WeatherStation):
     def __init__(self, name, *, api_key, latitude, longitude):
         super().__init__(name)
 
