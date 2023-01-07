@@ -28,6 +28,15 @@ def meter__mile(val: float) -> float:
     return val * 1609.344
 
 
+def mps__mph(val: float) -> float:
+    """Convert meters/sec to miles/hour."""
+
+    if val is None:
+        return None
+
+    return val * 2.2369362921
+
+
 def Pa__inHg(val: float) -> float:
     """Convert Pascal to inches-mercury."""
 
