@@ -2,6 +2,7 @@
 import logging
 
 import sqlalchemy as sql
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -73,5 +74,14 @@ class WeatherDatabase:
 
     def save(self, entry: MagicTable):
         with self.session() as session:
-            session.merge(entry)
-            session.commit()
+
+            try:
+                session.merge(entry)
+                session.commit()
+
+            except SQLAlchemyError:
+                logger.exception("Error saving entry; rolling back")
+                session.rollback()
+                return False
+
+        return True
