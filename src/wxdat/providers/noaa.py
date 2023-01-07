@@ -62,11 +62,11 @@ class API_Properties(BaseModel):
 
         # use heat index if temp is over 70 F
         if self.temperature.value >= 21:
-            return self.heatIndex
+            return self.heatIndex.value
 
         # use wind chill if temp is below 61 F
         if self.temperature.value <= 16:
-            return self.windChill
+            return self.windChill.value
 
         return self.temperature.value
 
@@ -105,7 +105,7 @@ class Station(WeatherStation):
             provider=self.provider_name,
             station_id=self.station,
             temperature=units.degC__degF(props.temperature.value),
-            feels_like=units.degC_degF(props.feels_like),
+            feels_like=units.degC__degF(props.feels_like),
             dew_point=units.degC__degF(props.dewpoint.value),
             wind_speed=units.meter__mile(props.windSpeed.value),
             wind_gusts=units.meter__mile(props.windGust.value),
