@@ -33,6 +33,16 @@ class API_ImperialObs(BaseModel):
 
     elev: Optional[float] = None
 
+    @property
+    def feels_like(self):
+        if self.temp >= 70:
+            return self.heatIndex
+
+        if self.temp <= 61:
+            return self.windChill
+
+        return self.temp
+
 
 class API_Observation(BaseModel):
     stationID: str
@@ -75,16 +85,12 @@ class WUndergroundPWS(WeatherStation):
         weather = self.get_current_weather()
         conditions = weather.imperial
 
-        feels_like = (
-            conditions.heatIndex if conditions.temp >= 70 else conditions.windChill
-        )
-
         return CurrentConditions(
             timestamp=weather.obsTimeUtc,
             provider="WUnderground",
             station_id=self.station_id,
             temperature=conditions.temp,
-            feels_like=feels_like,
+            feels_like=conditions.feels_like,
             wind_speed=conditions.windSpeed,
             wind_gusts=conditions.windGust,
             wind_bearing=weather.winddir,
