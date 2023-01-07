@@ -11,7 +11,7 @@ from pydantic import BaseModel
 
 from .. import units
 from ..database import CurrentConditions
-from . import WeatherStation
+from . import BaseStation
 
 logger = logging.getLogger(__name__)
 
@@ -77,7 +77,7 @@ class API_Observation(BaseModel):
     properties: API_Properties
 
 
-class Station(WeatherStation):
+class Station(BaseStation):
     def __init__(self, name, *, station):
         super().__init__(name)
 
@@ -107,8 +107,8 @@ class Station(WeatherStation):
             temperature=units.degC__degF(props.temperature.value),
             feels_like=units.degC__degF(props.feels_like),
             dew_point=units.degC__degF(props.dewpoint.value),
-            wind_speed=units.meter__mile(props.windSpeed.value),
-            wind_gusts=units.meter__mile(props.windGust.value),
+            wind_speed=units.mps__mph(props.windSpeed.value),
+            wind_gusts=units.mps__mph(props.windGust.value),
             wind_bearing=props.windDirection.value,
             humidity=props.relativeHumidity.value,
             precip_hour=units.mm__in(props.precipitationLastHour.value),

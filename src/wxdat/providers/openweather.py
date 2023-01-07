@@ -10,7 +10,7 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 from ..database import CurrentConditions
-from . import WeatherStation
+from . import BaseStation
 
 logger = logging.getLogger(__name__)
 
@@ -86,7 +86,7 @@ class API_HourlyForecast(BaseModel):
     city: API_City
 
 
-class Station(WeatherStation):
+class Station(BaseStation):
     def __init__(self, name, *, api_key, latitude, longitude):
         super().__init__(name)
 
