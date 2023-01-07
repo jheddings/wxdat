@@ -95,8 +95,8 @@ class Observer:
                 self.update_station_data(station)
 
     def update_station_data(self, station: WeatherStation):
-        self.logger.info("Updating station data -- %s", station.Name)
-        wx_data = station.CurrentConditions
+        self.logger.info("Updating station data -- %s", station.name)
+        wx_data = station.current_conditions
 
         self.logger.debug("-- saving current data @ %s", wx_data.timestamp)
         self.database.save(wx_data)

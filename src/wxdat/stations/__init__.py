@@ -1,7 +1,7 @@
 import logging
 import sys
 from abc import ABC, abstractproperty
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 import requests
 
@@ -15,30 +15,12 @@ class WeatherStation(ABC):
 
         self.name = name
 
-        self.last_update = None
+        # TODO add support for station-specific update intervals
         self.update_interval = timedelta(minutes=30)
 
-    @property
-    def Name(self) -> str:
-        return self.name
-
     @abstractproperty
-    def CurrentConditions(self):
+    def current_conditions(self):
         """Return the current conditions for this WeatherStation."""
-
-    @property
-    def is_current(self):
-        if self.last_update is None:
-            return False
-
-        now = datetime.now()
-        delta = now - self.last_update
-
-        self.logger.debug(
-            "station %s last updated at %s (%s ago)", self.name, self.last_update, delta
-        )
-
-        return delta <= self.update_interval
 
     def safe_get(self, url, params=None):
         # XXX may want to disable this since API keys are often in the URL...

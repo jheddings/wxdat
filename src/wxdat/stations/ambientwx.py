@@ -76,7 +76,7 @@ class AmbientWeather(WeatherStation):
         self.device_id = device_id
 
     @property
-    def CurrentConditions(self):
+    def current_conditions(self):
         conditions = self.update()
 
         if conditions is None:

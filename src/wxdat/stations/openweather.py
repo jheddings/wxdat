@@ -97,8 +97,11 @@ class OpenWeatherMap(WeatherStation):
         self.latitude = latitude
         self.longitude = longitude
 
+        # generate a station ID for database entries
+        self.station_id = f"{latitude},{longitude}"
+
     @property
-    def CurrentConditions(self):
+    def current_conditions(self):
         conditions = self.update()
 
         if conditions is None:
@@ -110,7 +113,7 @@ class OpenWeatherMap(WeatherStation):
         return CurrentConditions(
             timestamp=conditions.dt,
             provider="OpenWeatherMap",
-            station_id=conditions.id,
+            station_id=self.station_id,
             temperature=conditions.main.temp,
             feels_like=conditions.main.feels_like,
             wind_speed=conditions.wind.speed,
