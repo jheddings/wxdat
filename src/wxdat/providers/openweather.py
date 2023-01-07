@@ -86,7 +86,7 @@ class API_HourlyForecast(BaseModel):
     city: API_City
 
 
-class Provider(WeatherStation):
+class Station(WeatherStation):
     def __init__(self, name, *, api_key, latitude, longitude):
         super().__init__(name)
 
@@ -101,6 +101,11 @@ class Provider(WeatherStation):
         self.station_id = f"{latitude},{longitude}"
 
     @property
+    def provider_name(self):
+        """Return the provider name for this WeatherStation."""
+        return "OpenWeatherMap"
+
+    @property
     def current_conditions(self) -> CurrentConditions:
         conditions = self.get_current_weather()
 
@@ -112,7 +117,7 @@ class Provider(WeatherStation):
 
         return CurrentConditions(
             timestamp=conditions.dt,
-            provider="OpenWeatherMap",
+            provider=self.provider_name,
             station_id=self.station_id,
             temperature=conditions.main.temp,
             feels_like=conditions.main.feels_like,

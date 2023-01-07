@@ -70,7 +70,7 @@ class API_Current(BaseModel):
     observations: List[API_Observation] = []
 
 
-class Provider(WeatherStation):
+class Station(WeatherStation):
     def __init__(self, name, *, station_id, api_key):
         super().__init__(name)
 
@@ -79,6 +79,11 @@ class Provider(WeatherStation):
 
         self.api_key = api_key
         self.station_id = station_id
+
+    @property
+    def provider_name(self):
+        """Return the provider name for this WeatherStation."""
+        return "WUnderground"
 
     @property
     def current_conditions(self) -> CurrentConditions:
@@ -91,7 +96,7 @@ class Provider(WeatherStation):
 
         return CurrentConditions(
             timestamp=weather.obsTimeUtc,
-            provider="WUnderground",
+            provider=self.provider_name,
             station_id=self.station_id,
             temperature=conditions.temp,
             feels_like=conditions.feels_like,

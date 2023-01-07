@@ -9,7 +9,7 @@ from typing import Dict, List, Optional
 from pydantic import BaseModel, validator
 from ruamel.yaml import YAML
 
-from .providers import accuweather, ambientwx, darksky, openweather, wunderground
+from .providers import accuweather, ambientwx, darksky, openweather, wunderground, noaa
 
 
 class Units(str, Enum):
@@ -26,7 +26,7 @@ class WeatherProvider(str, Enum):
     WUNDERGROUND = "WUndergroundPWS"
 
 
-class ProviderConfig(BaseModel):
+class StationConfig(BaseModel):
     """Base configuration for weather providers."""
 
     name: str
@@ -59,6 +59,9 @@ class ProviderConfig(BaseModel):
         if data["type"] == WeatherProvider.ACCUWEATHER:
             return AccuWeatherConfig(**data)
 
+        if data["type"] == WeatherProvider.NOAA:
+            return NOAA_Config(**data)
+
         raise ValueError(f"unsupported provider -- {data['type']}")
 
     @abstractmethod
@@ -66,7 +69,7 @@ class ProviderConfig(BaseModel):
         """Initialize a new instance of the provider based on this config."""
 
 
-class AmbientWeatherConfig(ProviderConfig):
+class AmbientWeatherConfig(StationConfig):
     """Provider configuration for Ambient Weather Network."""
 
     app_key: str
@@ -75,7 +78,7 @@ class AmbientWeatherConfig(ProviderConfig):
 
     def initialize(self):
         """Initialize a new Ambient Weather provider based on this config."""
-        return ambientwx.Provider(
+        return ambientwx.Station(
             name=self.name,
             app_key=self.app_key,
             user_key=self.user_key,
@@ -83,7 +86,7 @@ class AmbientWeatherConfig(ProviderConfig):
         )
 
 
-class OpenWeatherMapConfig(ProviderConfig):
+class OpenWeatherMapConfig(StationConfig):
     """Provider configuration for OpenWeatherMap."""
 
     api_key: str
@@ -92,7 +95,7 @@ class OpenWeatherMapConfig(ProviderConfig):
 
     def initialize(self):
         """Initialize a new OpenWeatherMap provider based on this config."""
-        return openweather.Provider(
+        return openweather.Station(
             name=self.name,
             api_key=self.api_key,
             latitude=self.latitude,
@@ -100,7 +103,7 @@ class OpenWeatherMapConfig(ProviderConfig):
         )
 
 
-class DarkSkyConfig(ProviderConfig):
+class DarkSkyConfig(StationConfig):
     """Provider configuration for Dark Sky."""
 
     api_key: str
@@ -110,7 +113,7 @@ class DarkSkyConfig(ProviderConfig):
     def initialize(self):
         """Initialize a new Dark Sky provider based on this config."""
 
-        return darksky.Provider(
+        return darksky.Station(
             name=self.name,
             api_key=self.api_key,
             latitude=self.latitude,
@@ -118,7 +121,7 @@ class DarkSkyConfig(ProviderConfig):
         )
 
 
-class WeatherUndergroundConfig(ProviderConfig):
+class WeatherUndergroundConfig(StationConfig):
     """Provider configuration for Weather Underground."""
 
     api_key: str
@@ -127,14 +130,14 @@ class WeatherUndergroundConfig(ProviderConfig):
     def initialize(self):
         """Initialize a new Weather Underground PWS based on this config."""
 
-        return wunderground.Provider(
+        return wunderground.Station(
             name=self.name,
             api_key=self.api_key,
             station_id=self.station_id,
         )
 
 
-class AccuWeatherConfig(ProviderConfig):
+class AccuWeatherConfig(StationConfig):
     """Provider configuration for AccuWeather."""
 
     api_key: str
@@ -143,10 +146,24 @@ class AccuWeatherConfig(ProviderConfig):
     def initialize(self):
         """Initialize a new AccuWeather provider based on this config."""
 
-        return accuweather.Provider(
+        return accuweather.Station(
             name=self.name,
             api_key=self.api_key,
             location=self.location,
+        )
+
+
+class NOAA_Config(StationConfig):
+    """Provider configuration for NOAA weather."""
+
+    station: str
+
+    def initialize(self):
+        """Initialize a new NOAA provider based on this config."""
+
+        return noaa.Station(
+            name=self.name,
+            station=self.station,
         )
 
 
@@ -155,7 +172,7 @@ class AppConfig(BaseModel):
 
     database: str = "sqlite:///wxdat.db"
     update_interval: int = 300
-    stations: List[ProviderConfig] = []
+    stations: List[StationConfig] = []
     units: Units = Units.METRIC
     logging: Optional[Dict] = None
 

@@ -84,7 +84,7 @@ class API_Observation(BaseModel):
     PrecipitationSummary: Optional[API_Precipitation] = None
 
 
-class Provider(WeatherStation):
+class Station(WeatherStation):
     def __init__(self, name, *, api_key, location):
         super().__init__(name)
 
@@ -95,6 +95,11 @@ class Provider(WeatherStation):
         self.location = location
 
     @property
+    def provider_name(self):
+        """Return the provider name for this WeatherStation."""
+        return "AccuWeather"
+
+    @property
     def current_conditions(self) -> CurrentConditions:
         weather = self.get_current_weather()
 
@@ -103,7 +108,7 @@ class Provider(WeatherStation):
 
         return CurrentConditions(
             timestamp=weather.LocalObservationDateTime,
-            provider="AccuWeather",
+            provider=self.provider_name,
             station_id=self.location,
             temperature=weather.Temperature.Imperial.Value,
             feels_like=weather.RealFeelTemperature.Imperial.Value,

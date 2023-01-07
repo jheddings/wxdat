@@ -10,6 +10,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
+from .. import units
 from ..database import CurrentConditions
 from . import WeatherStation
 
@@ -133,7 +134,7 @@ class API_Weather(BaseModel):
     flags: Optional[API_Flags] = None
 
 
-class Provider(WeatherStation):
+class Station(WeatherStation):
     def __init__(self, name, *, api_key, latitude, longitude):
         super().__init__(name)
 
@@ -148,6 +149,11 @@ class Provider(WeatherStation):
         self.station_id = f"{latitude},{longitude}"
 
     @property
+    def provider_name(self):
+        """Return the provider name for this WeatherStation."""
+        return "DarkSky"
+
+    @property
     def current_conditions(self) -> CurrentConditions:
         weather = self.get_current_weather()
 
@@ -157,11 +163,10 @@ class Provider(WeatherStation):
         conditions = weather.currently
 
         # convert pressure from hPa to inHg
-        pressure = conditions.pressure / 33.863886666667
 
         return CurrentConditions(
             timestamp=conditions.timestamp,
-            provider="DarkSky",
+            provider=self.provider_name,
             station_id=self.station_id,
             temperature=conditions.temperature,
             feels_like=conditions.apparentTemperature,
@@ -170,7 +175,7 @@ class Provider(WeatherStation):
             wind_bearing=conditions.windBearing,
             humidity=conditions.humidity,
             dew_point=conditions.dewPoint,
-            abs_pressure=pressure,
+            abs_pressure=units.hPa__inHg(conditions.pressure),
             cloud_cover=conditions.cloudCover * 100.0,
             visibility=conditions.visibility,
             uv_index=conditions.uvIndex,

@@ -64,7 +64,7 @@ class API_DeviceDataList(BaseModel):
     __root__: List[API_DeviceData]
 
 
-class Provider(WeatherStation):
+class Station(WeatherStation):
     def __init__(self, name, *, app_key, user_key, device_id):
         super().__init__(name)
 
@@ -76,6 +76,11 @@ class Provider(WeatherStation):
         self.device_id = device_id
 
     @property
+    def provider_name(self):
+        """Return the provider name for this WeatherStation."""
+        return "AmbientWeather"
+
+    @property
     def current_conditions(self) -> CurrentConditions:
         conditions = self.get_current_weather()
 
@@ -84,7 +89,7 @@ class Provider(WeatherStation):
 
         return CurrentConditions(
             timestamp=conditions.date,
-            provider="AmbientWeather",
+            provider=self.provider_name,
             station_id=self.device_id,
             temperature=conditions.tempf,
             feels_like=conditions.feelsLike,
