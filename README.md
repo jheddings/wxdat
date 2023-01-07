@@ -1,20 +1,25 @@
 # wxdat
 
-A general purpose weather exporter for Prometheus.
+A general purpose weather data explorer.
 
 ## Usage
 
 Simply run the script and tell it which config file to use.
 
-    python3 wxdat.py --config my_wxdat.yaml
+    python3 -m wxdat --config my_wxdat.yaml
 
 ## Configuration
 
-The configuration file is a YAML document with a list of stations to export.  See the sample in `etc` for more details.
+The configuration file is a YAML document with a list of stations to export.  See the
+sample in `etc` for more details.
 
 All stations have the following configuration values:
 * name - must be unique
 * type - the support station type
+
+## Prometheus
+
+The application will (optionall) export metrics for Promethues if configured.
 
 ## Supported Stations
 
