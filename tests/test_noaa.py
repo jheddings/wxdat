@@ -9,6 +9,4 @@ from wxdat.providers import noaa
 def test_bad_station():
     station = noaa.Station("Bad Station", station="XXXX")
 
-    wx = station.get_current_weather()
-
-    assert wx is None
+    assert station.current_conditions is None
