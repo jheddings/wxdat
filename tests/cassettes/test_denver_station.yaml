@@ -1,0 +1,76 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/geo+json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - wxdat/0.1.0-1f17c8b-unit_tests+ (+https://github.com/jheddings/wxdat)
+    method: GET
+    uri: https://api.weather.gov/stations//KDEN/observations/latest
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA8VX72/iNhj+3r8iyn3ZtBGcUBJAmtYT3XpTYe3a7iZ1qk4meRu8OnbOdki7U//3
+        s5NCEyCUQnfLBxTi933e5/1p+8uBpR/7KORMwb2yB9bfxZfi61SpVA7a7Rj4P5Izh4t4/t6i0eL1
+        Sdcxf2hk/7gA+LJ4K43MQEjCmTZiu45bESyW83uzMLeJU+LkgNUUhBPzWVvb4JTHD++W1WRVS4ZT
+        SHBBdFlOs51LasE8zx2eAouJdBgoA2/8kSkWn+mKjYwRVVEOeQTSyRPuEK0W8iThrG1kVowezXiI
+        Jzv5pdkkoMSDVq7HsQQmkUGVgxPgQ85FRBhWIJdASlH1kIIR1oiD/E6NiAKBqV2TfFyyHhL1UBrA
+        USRAypF2hJqPy+FX2m5N8gJik+QluYhoSRbCC+4cz8U2OSIHf2SYKaJNkxl8xDSDzd5MAAvC4gbb
+        O8POCpHNDs1ehjGVM9Ql9QLSQmxTaIz0RmO3XECIpTq7vSWN2Xg12okg0TFWeF+8NJtQEl5ztjez
+        kGdMNTVPM8pB/e2mRLXLHDT1sOkBXfKyfXr8y+9tPpEgZk9fPOR1Wshtod4VcgfdzgChHxDSv09Z
+        tOdUftV4mZgnd333L4TPuR48lTrQ3j6PgOoIN0/LRYeOH9Tj0+k7vW6/+iyWbw4q8bRTocekUKQA
+        rlA5+s9CUk9Rfj84e9a+LGGrkkChXFvJdbWxbD2t/9R/B8nyYJo3set3/efsVww8ubK1t1VyiiSg
+        F5PUaG/luMD5WA9RHBesDZ6Fesjtdq4tz0MoOL2yXHQ5toajC2uMvPYYBdb7jka2Lsan1vszz7oc
+        nXt+YF25yA1c5Ac1PnqfPgYZCpLOfRpSPRyrMiTc7KxZl22KWdRmJJ6qtrwLf5bkX/gpgYhk1QDr
+        6gEJTP1VqpvSvKmxSXRtlXW/VfIiiIdN+Wu5zlKN25+zYssa6j1WcGqAPtprUxxBnhYttT8L3wlQ
+        7fF2JZUTFh0TPV+3L27NTAB8+g6zmML3TRx1He3D6TIFiLbjc5d8mrZWDnqLjvOcvl8NlbsPrZNM
+        bpm/zaxYRumLPK7X85hgUYxtEp6bk9DWdX2OG2OkOzvYOV0S8AhmQN+Qjb87mxmRZEIoWbMtv3ZU
+        o/7LLIbrWST4/up57oz04cU7/MAzIfdvflM6620S9s1t6tEbkpSUO5MxaQxuGfjGyO/THCuEOq8I
+        wTei5P/vlATQ4vrxIUtItHWr6NIKoXYkrBHye47fP+weBn23izwXoe4+k3Y4JZS+yVaJ/E7Q7bl9
+        z/O9IOjtPP+n+nzxG4vg/m36aVcaIeVZNMIPIFZP4WuuIRMs119zGokvV9xa9isSj6tKNk7M/agY
+        k6OLpjvQ003g4PEr+NbjCCYSAAA=
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - X-Correlation-Id, X-Request-Id, X-Server-Id
+      Cache-Control:
+      - public, max-age=223, s-maxage=300
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '1046'
+      Content-Type:
+      - application/geo+json
+      Date:
+      - Sun, 08 Jan 2023 02:48:23 GMT
+      Expires:
+      - Sun, 08 Jan 2023 02:52:06 GMT
+      Last-Modified:
+      - Sun, 08 Jan 2023 01:53:00 GMT
+      Server:
+      - nginx/1.20.1
+      Strict-Transport-Security:
+      - max-age=31536000 ; includeSubDomains ; preload
+      Vary:
+      - Accept-Encoding
+      - Accept,Feature-Flags,Accept-Language
+      X-Correlation-ID:
+      - 182065ce
+      X-Edge-Request-ID:
+      - 2e1cd163
+      X-Request-ID:
+      - c850e2f1-d09a-433d-b21b-f47c5ce90d41
+      X-Server-ID:
+      - vm-lnx-nids-apiapp3.ncep.noaa.gov
+    status:
+      code: 200
+      message: OK
+version: 1
