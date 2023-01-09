@@ -106,6 +106,7 @@ class Station(BaseStation):
             rel_pressure=conditions.baromrelin,
             abs_pressure=conditions.baromabsin,
             solar_rad=conditions.solarradiation,
+            uv_index=conditions.uv,
         )
 
     def get_current_weather(self) -> API_DeviceData:
