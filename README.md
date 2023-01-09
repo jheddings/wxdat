@@ -1,42 +1,51 @@
-# wxdat
+# wxdat #
 
-A general purpose weather data explorer.
+[![PyPI](https://img.shields.io/pypi/v/wxdat.svg)](https://pypi.org/project/wxdat)
+[![LICENSE](https://img.shields.io/github/license/jheddings/wxdat)](LICENSE)
+[![Style](https://img.shields.io/badge/style-black-black)](https://github.com/ambv/black)
 
-## Usage
+A general purpose weather data recorder & explorer.
 
-Simply run the script and tell it which config file to use.
+While the primary purpose of this library is to record weather data, it can also be
+used as a framework for collecting weather information in other apps.
 
-    python3 -m wxdat --config my_wxdat.yaml
+## Installation ##
 
-## Configuration
+Install the published package using pip:
+
+    pip3 install wxdat
+
+This project uses `poetry` to manage dependencies and a local virtual environment.  To
+get started, clone the repository and install the dependencies with the following:
+
+    poetry install
+
+## Usage ##
+
+Run the module and tell it which config file to use.
+
+    python3 -m wxdat --config wxdat.yaml
+
+If you are using `poetry` to manage the virtual environment, use the following:
+
+    poetry run python -m wxdat --config wxdat.yaml
+
+## Configuration ##
 
 The configuration file is a YAML document with a list of stations to export.  See the
-sample in `etc` for more details.
+included default file for more details.
 
 All stations have the following configuration values:
 * name - must be unique
 * type - the support station type
 
-## Prometheus
+## Supported Stations ##
 
-The application will (optionall) export metrics for Promethues if configured.
+Eventually, I'd like to add local stations, not just online sources.  Please see
+the example configuration file for details on each provider.
 
-## Supported Stations
-
-Eventually, I'd like to add more local stations, not just online sources.
-
-### Dark Sky
-
-Configuration values:
-* api_key
-* latitude
-* longitude
-
-### OpenWeather
-* api_key
-* latitude
-* longitude
-
-### Weather Underground
-* api_key
-* station_id
+* AccuWeather
+* Ambient Weather Network
+* OpenWeatherMap
+* National Weather Service (NOAA)
+* Weather Underground
