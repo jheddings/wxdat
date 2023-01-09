@@ -19,3 +19,8 @@ def test_denver_station():
 
     assert cond is not None
     assert cond.station_id == "KDEN"
+
+    # some basic checks on the contents
+    assert type(cond.temperature) in [int, float]
+    assert type(cond.humidity) in [int, float]
+    assert type(cond.wind_speed) in [int, float]
