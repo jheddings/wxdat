@@ -1,0 +1,233 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - wxdat/0.1.0-e6def09-unit_tests+ (+https://github.com/jheddings/wxdat)
+    method: GET
+    uri: https://api.weather.com/v2/pws/observations/current?apiKey=bvcxz&stationId=KCODENVE549&format=json&numericPrecision=decimal&units=e
+  response:
+    body:
+      string: '{"metadata":{"transaction_id":"##############"},"success":false,"errors":[{"error":{"code":"CDN-0001","message":"Invalid
+        apiKey."}}]}'
+    headers:
+      Cache-Control:
+      - max-age=0, no-cache, no-store
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '133'
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - text/html
+      Date:
+      - Mon, 09 Jan 2023 04:11:56 GMT
+      Expires:
+      - Mon, 09 Jan 2023 04:11:56 GMT
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=86400
+      X-Content-Type-Options:
+      - nosniff
+    status:
+      code: 401
+      message: Unauthorized
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - wxdat/0.1.0-e6def09-unit_tests+ (+https://github.com/jheddings/wxdat)
+    method: GET
+    uri: http://dataservice.accuweather.com/currentconditions/v1/2626674?apikey=12345&details=True&language=en-US
+  response:
+    body:
+      string: '{"Code":"Unauthorized","Message":"Api Authorization failed","Reference":"/currentconditions/v1/2626674?apikey=12345&details=True&language=en-US"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '145'
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 09 Jan 2023 04:12:15 GMT
+    status:
+      code: 401
+      message: Unauthorized
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - wxdat/0.1.0-e6def09-unit_tests+ (+https://github.com/jheddings/wxdat)
+    method: GET
+    uri: https://rt.ambientweather.net/v1/devices/eb:8d:60:8a:33:e7?apiKey=456pqd&applicationKey=xyz123&limit=1
+  response:
+    body:
+      string: '{"error":"applicationKey-invalid"}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 786a5564ec1e2912-DEN
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '34'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 09 Jan 2023 04:12:15 GMT
+      ETag:
+      - W/"22-vHMvCrpjdAeQKnCuNYODXQ"
+      NEL:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=o%2BxCv0S0sMuznpACx5PRubfvddhVBm4bI36VwjOJNz7V3kq7%2BK%2Fa6jMWQLF6ElOqJDSo7ylI%2BuotWhasS5FKjk3RT653cjDbbgvAMoOfX1FX8QK8wtDfOEneOuh8D4xA9GZKZ5h4MA%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Vary:
+      - Accept-Encoding
+      X-Powered-By:
+      - Express
+    status:
+      code: 401
+      message: Unauthorized
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - wxdat/0.1.0-e6def09-unit_tests+ (+https://github.com/jheddings/wxdat)
+    method: GET
+    uri: https://api.darksky.net/forecast/xyz123/39.73465,-104.98672
+  response:
+    body:
+      string: '{"code":403,"error":"permission denied"}'
+    headers:
+      Cache-Control:
+      - no-store
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '40'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 09 Jan 2023 04:12:15 GMT
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Accept-Encoding
+      X-Response-Time:
+      - 0.364ms
+    status:
+      code: 403
+      message: Forbidden
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - wxdat/0.1.0-e6def09-unit_tests+ (+https://github.com/jheddings/wxdat)
+    method: GET
+    uri: https://api.openweathermap.org/data/2.5/weather?lat=39.73465&lon=-104.98672&appid=qwerty&units=imperial
+  response:
+    body:
+      string: '{"cod":401, "message": "Invalid API key. Please see https://openweathermap.org/faq#error401
+        for more info."}'
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '108'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 09 Jan 2023 04:12:16 GMT
+      Server:
+      - openresty
+      X-Cache-Key:
+      - /data/2.5/weather?lat=39.73&lon=-104.99&units=imperial
+    status:
+      code: 401
+      message: Unauthorized
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - wxdat/0.1.0-e6def09-unit_tests+ (+https://github.com/jheddings/wxdat)
+    method: GET
+    uri: https://api.weather.com/v2/pws/observations/current?apiKey=bvcxz&stationId=KCODENVE549&format=json&numericPrecision=decimal&units=e
+  response:
+    body:
+      string: '{"metadata":{"transaction_id":"##############"},"success":false,"errors":[{"error":{"code":"CDN-0001","message":"Invalid
+        apiKey."}}]}'
+    headers:
+      Cache-Control:
+      - max-age=0, no-cache, no-store
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '133'
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - text/html
+      Date:
+      - Mon, 09 Jan 2023 04:12:16 GMT
+      Expires:
+      - Mon, 09 Jan 2023 04:12:16 GMT
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=86400
+      X-Content-Type-Options:
+      - nosniff
+    status:
+      code: 401
+      message: Unauthorized
+version: 1
