@@ -8,18 +8,18 @@ A general purpose weather data recorder & explorer.
 
 ## Installation ##
 
-This project uses `poetry` to manage dependencies and a local virtual environment.  To
-get started, simply install the dependencies and project with the following:
-
-    poetry install
-
-Alternatively, install the published package using pip:
+Install the published package using pip:
 
     pip3 install wxdat
 
+This project uses `poetry` to manage dependencies and a local virtual environment.  To
+get started, clone the repository and install the dependencies with the following:
+
+    poetry install
+
 ## Usage ##
 
-Simply run the script and tell it which config file to use.
+Run the module and tell it which config file to use.
 
     python3 -m wxdat --config wxdat.yaml
 
