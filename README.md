@@ -6,6 +6,9 @@
 
 A general purpose weather data recorder & explorer.
 
+While the primary purpose of this library is to record weather data, it can also be
+used as a framework for collecting weather information in other apps.
+
 ## Installation ##
 
 Install the published package using pip:
