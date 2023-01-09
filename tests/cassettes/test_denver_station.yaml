@@ -73,4 +73,78 @@ interactions:
     status:
       code: 200
       message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/geo+json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - wxdat/0.1.0-e6def09-unit_tests+ (+https://github.com/jheddings/wxdat)
+    method: GET
+    uri: https://api.weather.gov/stations//KDEN/observations/latest
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA8VXW2/bNhR+z68QtJcNm2VKsmXHwLAUTpoWsZesyRogQ1DQ0onMlSJVkrLiFfnv
+        I6XYkXyLY2eZHmyJ/HjOd64kvx9Y+rGPQs4U3Cu7Z/1VjBSjY6VS2Ws2Y+B/S84cLuLZe4NG89fH
+        tY75oJH9y1zA9/lbqWQCQhLOtBLbddwKsJjO783ETCdOiZMDVmMQTswnTa2DUx5Pf1hcJqurZDiG
+        BBdEF3Ga7QypgXmeOzwFFhPpMFBGvLFHplh8o0s6MkZUZXHII5BOnnCH6GUhTxLOmgazpPRowkM8
+        2skuzSYBJaZ6cd2PpWASGamydwq8z7mICMMK5IKQEqqmKRiwltjLv6oBUSAwtWvIhwXtIVHTUgGO
+        IgFSDrQh1Awuul9pvTXkJ4hNkBdwEdFIFsIz5hzPYJsMkb0/MswU0arJBD5jmsFma0aABWHxGt07
+        i50UkM0GTZ4XYzKnr1PqGUlz2CbXGPRGZXdcQIilOr+7I2uj8WJpp4JEx1jhfeWl2YiS8IazvZmF
+        PGNqXfGsl3JQf7stpdplDNbVsKkBnfKyeXZ88nuTjySIyeOIhzy/gdwGOrxCfq/t9xD6GSH9+xhF
+        e0blvZaXiVlwV1f/HHzBdeOp5IG29qkFVFu4eRouajlBp+4f/9Dptg+rz3z69qDiTzsVuk0KRQrB
+        FSpH/5lL6iHK73vnT6svS7FVJFAo55ZiXS0sW3frP/VnL1lsTLMidoN28BT9ioJHU7a2tkpOkQT0
+        ZJKa1VsZLnA+1E0UxwVrI89Ch8hv+zeW5yEXnV1ZLrocWu9Prt0WMn962EJ+c4i61jsfIc/6NDyz
+        3p171uXgwu10rSs91nVRp1sjpjfsY5ChIOnMuCGXik6tPtXNsgol4WbjzbxsUsyiJiPxWDXvIP9N
+        kn/g1wQiklUdrrMJJDB1XS43qXpbI5XoXCvrYKtgRhD318XTczq1/D7sLgC/ZcWG1tc7sODUiP1s
+        r0yACPK0KLi9OTU6r0YqJyw6Jrr7bp/6mpkA+PIjZjGFn9b6zUP7cLpMAaLt+HxNvowbS8fAeT12
+        Hb/eofahdZrJLeO3mRXLKH2Wx81qHiMsiqZOwgtzTto6yy/wWh8hNwh2DpcEPIAJ0Fdk0+nuzGZC
+        JBkRSlZs2i9t5LphPsuiv5pFgu+vnrrQQB9tvNYHngm5f/Gb1Fmtk7A316kbcUhSUu5bRqVRuKXj
+        13p+n+JYIuS/wAVvRCn43ykJoMXl5EOWkGjrUtGpFULtwFgj1Go7AWq3vMANuvqkoY8L+3Ta/phQ
+        +gpbpeu0gsDv+LrFIc1MP7uyGuvTxkcWwf3r1NOuNELKs2iApyCWz+grLikjLFdfgtYSX8y4JfYt
+        r4OWEA/Li2ycmNtTcS05ud54z3ob4kHH3Z/44gXn4OFfG8l/+P0SAAA=
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - X-Correlation-Id, X-Request-Id, X-Server-Id
+      Cache-Control:
+      - public, max-age=269, s-maxage=300
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '1067'
+      Content-Type:
+      - application/geo+json
+      Date:
+      - Mon, 09 Jan 2023 04:12:16 GMT
+      Expires:
+      - Mon, 09 Jan 2023 04:16:45 GMT
+      Last-Modified:
+      - Mon, 09 Jan 2023 03:53:00 GMT
+      Server:
+      - nginx/1.20.1
+      Strict-Transport-Security:
+      - max-age=31536000 ; includeSubDomains ; preload
+      Vary:
+      - Accept-Encoding
+      - Accept,Feature-Flags,Accept-Language
+      X-Correlation-ID:
+      - 1e0b8678
+      X-Edge-Request-ID:
+      - '58106227'
+      X-Request-ID:
+      - 9b14dbff-da0b-4e1d-893e-8fc95b76e7d7
+      X-Server-ID:
+      - vm-lnx-nids-apiapp1.ncep.noaa.gov
+    status:
+      code: 200
+      message: OK
 version: 1

@@ -53,4 +53,58 @@ interactions:
     status:
       code: 404
       message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/geo+json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - wxdat/0.1.0-e6def09-unit_tests+ (+https://github.com/jheddings/wxdat)
+    method: GET
+    uri: https://api.weather.gov/stations//XXXX/observations/latest
+  response:
+    body:
+      string: "{\n    \"correlationId\": \"19869adb\",\n    \"title\": \"Not Found\",\n
+        \   \"type\": \"https://api.weather.gov/problems/NotFound\",\n    \"status\":
+        404,\n    \"detail\": \"Not Found\",\n    \"instance\": \"https://api.weather.gov/requests/19869adb\"\n}"
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - X-Correlation-Id, X-Request-Id, X-Server-Id
+      Cache-Control:
+      - private, must-revalidate, max-age=287
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '225'
+      Content-Type:
+      - application/problem+json
+      Date:
+      - Mon, 09 Jan 2023 04:12:16 GMT
+      Expires:
+      - Mon, 09 Jan 2023 04:17:03 GMT
+      Pragma:
+      - no-cache
+      Server:
+      - nginx/1.20.1
+      Strict-Transport-Security:
+      - max-age=31536000 ; includeSubDomains ; preload
+      Vary:
+      - Accept,Feature-Flags,Accept-Language
+      X-Correlation-ID:
+      - 19869adb
+      X-Edge-Request-ID:
+      - '58106176'
+      X-Request-ID:
+      - b6640c3b-2f30-4c0b-b13b-75f988988d2d
+      X-Server-ID:
+      - vm-lnx-nids-apiapp2.ncep.noaa.gov
+    status:
+      code: 404
+      message: Not Found
 version: 1
