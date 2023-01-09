@@ -9,6 +9,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
+from .. import units
 from ..database import CurrentConditions
 from . import BaseStation, WeatherProvider
 
@@ -127,7 +128,7 @@ class Station(BaseStation):
             humidity=conditions.main.humidity,
             abs_pressure=pressure,
             cloud_cover=conditions.clouds.all,
-            visibility=conditions.visibility,
+            visibility=units.meter__mile(conditions.visibility),
         )
 
     def get_current_weather(self) -> API_Weather:

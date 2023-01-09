@@ -25,7 +25,7 @@ def meter__mile(val: float) -> float:
     if val is None:
         return None
 
-    return val * 1609.344
+    return val / 1609.344
 
 
 def mps__mph(val: float) -> float:

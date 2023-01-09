@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 
 import requests
+from requests.exceptions import ConnectionError
 
 from ..database import CurrentConditions, WeatherDatabase
 from ..version import __pkgname__, __version__
@@ -59,7 +60,10 @@ class BaseStation(ABC):
             resp = requests.get(url, params=params, headers=full_headers)
             self.logger.debug("=> HTTP %d: %s", resp.status_code, resp.reason)
 
-        # TODO watch for specific exceptions...
+        except ConnectionError:
+            self.logger.warning("Unable to download data; connection error")
+            return None
+
         except Exception:
             self.logger.exception("Unable to download data; unhandled exception")
             return None
