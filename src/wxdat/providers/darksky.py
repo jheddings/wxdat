@@ -175,7 +175,7 @@ class Station(BaseStation):
             wind_bearing=conditions.windBearing,
             humidity=conditions.humidity,
             dew_point=conditions.dewPoint,
-            abs_pressure=units.hPa__inHg(conditions.pressure),
+            abs_pressure=units.hPa(conditions.pressure).inHg,
             cloud_cover=conditions.cloudCover * 100.0,
             visibility=conditions.visibility,
             uv_index=conditions.uvIndex,

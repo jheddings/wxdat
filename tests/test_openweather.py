@@ -1,4 +1,4 @@
-"""Unit tests for the Dark Sky provider."""
+"""Unit tests for the OpenWeatherMap provider."""
 
 import pytest
 
