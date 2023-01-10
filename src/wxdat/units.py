@@ -20,7 +20,10 @@ class Quantity:
         return int(self.value)
 
     def __iadd__(self, other):
-        """Add the given value to this BaseUnit."""
+        """Add the given value to this BaseUnit.
+
+        The value may be either a native number type or another `Quantity` object.
+        """
 
         if isinstance(other, Quantity):
             self.value += other.value
@@ -30,7 +33,10 @@ class Quantity:
         return self
 
     def __isub__(self, other):
-        """Subtract the given value from this Number."""
+        """Subtract the given value from this Number.
+
+        The value may be either a native number type or another `Quantity` object.
+        """
 
         if isinstance(other, Quantity):
             self.value -= other.value
