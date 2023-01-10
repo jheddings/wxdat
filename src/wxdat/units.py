@@ -67,6 +67,10 @@ class Quantity:
         """Return a string representation of this quantity."""
         return f"{self.value}"
 
+    def __repr__(self):
+        """Return a string representation of this quantity."""
+        return f"{self.value}"
+
 
 class Distance(Quantity, ABC):
     """Base for all distance unit types."""
