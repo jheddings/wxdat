@@ -141,6 +141,10 @@ class Volume(Quantity, ABC):
     def us_oz(self):
         """Return the value of this quantity in US fluid ounces."""
 
+    @abstractproperty
+    def uk_oz(self):
+        """Return the value of this quantity in UK fluid ounces."""
+
 
 class Velocity(Quantity, ABC):
     """Base for all velocity unit types."""
