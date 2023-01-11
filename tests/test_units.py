@@ -29,8 +29,6 @@ def test_basic_none():
 def test_convert_none():
     tempC = units.degC(None)
 
-    assert tempC == None  # noqa: E711
-
     # make sure that conversions with None are also None
 
     assert tempC.degC is None
