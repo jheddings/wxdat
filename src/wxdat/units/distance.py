@@ -76,7 +76,7 @@ class Meter(Distance):
     @property
     def inches(self):
         """Return the value of this quantity in inches."""
-        return self.meters * 39.37
+        return self.meters * 39.37007874
 
     @property
     def yards(self):
@@ -113,7 +113,7 @@ class Feet(Distance):
 
     @property
     def meters(self):
-        return self.feet * 1609.344
+        return self.feet * 0.3048
 
     @property
     def kilometers(self):
