@@ -18,7 +18,7 @@ def assert_is_freezing(temp: units.temperature.Temperature):
     assert temp.degK == 273.15
 
 
-def test_degC():
+def test_degC_freezing():
     tempC = units.degC(0)
 
     assert tempC == 0.0
@@ -29,7 +29,7 @@ def test_degC():
     assert_is_freezing(tempC)
 
 
-def test_degF():
+def test_degF_freezing():
     tempF = units.degF(32)
 
     assert tempF == 32.0
@@ -40,7 +40,7 @@ def test_degF():
     assert_is_freezing(tempF)
 
 
-def test_degK():
+def test_degK_freezing():
     tempK = units.degK(273.15)
 
     assert tempK == 273.15
@@ -51,7 +51,7 @@ def test_degK():
     assert_is_freezing(tempK)
 
 
-def test_meters():
+def test_one_meter():
     meter = units.meter(1)
 
     assert meter == 1.0
@@ -67,11 +67,13 @@ def test_meters():
     assert isclose(meter.yards, 1.09361)
     assert isclose(meter.inches, 39.3701)
 
+
+def test_more_meters():
     meter = units.meter(math.pi)
     assert isclose(meter.feet, 10.3070628)
 
 
-def test_miles():
+def test_one_mile():
     mile = units.mile(1)
 
     assert mile == 1.0
@@ -86,11 +88,13 @@ def test_miles():
     assert mile.meters == 1609.344
     assert mile.kilometers == 1.609344
 
+
+def test_more_miles():
     mile = units.mile(math.e)
     assert isclose(mile.kilometers, 4.37465055)
 
 
-def test_pascal():
+def test_one_pascal():
     pa = units.Pa(1)
 
     assert pa == 1.0
@@ -102,7 +106,7 @@ def test_pascal():
     assert isclose(pa.psi, 0.0001450377)
 
 
-def test_hectopascal():
+def test_one_hPa():
     hPa = units.hPa(1)
 
     assert hPa == 1.0
@@ -115,7 +119,7 @@ def test_hectopascal():
     assert isclose(hPa.inHg, 0.02953)
 
 
-def test_inch_mercury():
+def test_one_inHg():
     inHg = units.inHg(1)
 
     assert inHg == 1.0

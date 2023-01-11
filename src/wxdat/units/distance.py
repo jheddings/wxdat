@@ -12,46 +12,10 @@ class Distance(Quantity, ABC):
     def meters(self):
         """Return the value of this quantity in meters."""
 
-    @abstractproperty
-    def kilometers(self):
-        """Return the value of this quantity in kilometers."""
-
-    @abstractproperty
-    def centimeters(self):
-        """Return the value of this quantity in centimeters."""
-
-    @abstractproperty
-    def millimeters(self):
-        """Return the value of this quantity in millimeters."""
-
-    @abstractproperty
-    def miles(self):
-        """Return the value of this quantity in miles."""
-
-    @abstractproperty
-    def feet(self):
-        """Return the value of this quantity in feet."""
-
-    @abstractproperty
-    def inches(self):
-        """Return the value of this quantity in inches."""
-
-    @abstractproperty
-    def yards(self):
-        """Return the value of this quantity in yards."""
-
-
-class Meter(Distance):
-    """A representation of a meter."""
-
-    @property
-    def meters(self):
-        return self.value
-
     @property
     def kilometers(self):
         """Return the value of this quantity in kilometers."""
-        return self.meters / 1000.0
+        return self.meters * 0.001
 
     @property
     def centimeters(self):
@@ -62,6 +26,33 @@ class Meter(Distance):
     def millimeters(self):
         """Return the value of this quantity in millimeters."""
         return self.meters * 1000.0
+
+    @property
+    def miles(self):
+        """Return the value of this quantity in miles."""
+        return self.feet / 5280.0
+
+    @abstractproperty
+    def feet(self):
+        """Return the value of this quantity in feet."""
+
+    @property
+    def inches(self):
+        """Return the value of this quantity in inches."""
+        return self.feet * 12.0
+
+    @property
+    def yards(self):
+        """Return the value of this quantity in yards."""
+        return self.feet / 3.0
+
+
+class Meter(Distance):
+    """A representation of a meter."""
+
+    @property
+    def meters(self):
+        return self.value
 
     @property
     def miles(self):
@@ -89,7 +80,7 @@ class Millimeter(Meter):
 
     @property
     def meters(self):
-        return self.value / 1000.0
+        return self.value * 0.001
 
 
 class Centimeter(Meter):
@@ -97,7 +88,7 @@ class Centimeter(Meter):
 
     @property
     def meters(self):
-        return self.value / 100.0
+        return self.value * 0.01
 
 
 class Kilometer(Meter):
@@ -116,39 +107,9 @@ class Feet(Distance):
         return self.feet * 0.3048
 
     @property
-    def kilometers(self):
-        """Return the value of this quantity in kilometers."""
-        return self.meters / 1000.0
-
-    @property
-    def centimeters(self):
-        """Return the value of this quantity in centimeters."""
-        return self.meters * 100.0
-
-    @property
-    def millimeters(self):
-        """Return the value of this quantity in millimeters."""
-        return self.meters * 1000.0
-
-    @property
-    def miles(self):
-        """Return the value of this quantity in miles."""
-        return self.feet / 5280.0
-
-    @property
     def feet(self):
         """Return the value of this quantity in feet."""
         return self.value
-
-    @property
-    def inches(self):
-        """Return the value of this quantity in inches."""
-        return self.feet * 12.0
-
-    @property
-    def yards(self):
-        """Return the value of this quantity in yards."""
-        return self.feet / 3.0
 
 
 class Mile(Feet):
