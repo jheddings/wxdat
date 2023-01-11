@@ -67,6 +67,9 @@ def test_meters():
     assert isclose(meter.yards, 1.09361)
     assert isclose(meter.inches, 39.3701)
 
+    meter = units.meter(math.pi)
+    assert isclose(meter.feet, 10.3070628)
+
 
 def test_miles():
     mile = units.mile(1)
@@ -82,3 +85,43 @@ def test_miles():
 
     assert mile.meters == 1609.344
     assert mile.kilometers == 1.609344
+
+    mile = units.mile(math.e)
+    assert isclose(mile.kilometers, 4.37465055)
+
+
+def test_pascal():
+    pa = units.Pa(1)
+
+    assert pa == 1.0
+
+    assert float(pa) == 1.0
+    assert int(pa) == 1
+
+    assert pa.bar == 1e-5
+    assert isclose(pa.psi, 0.0001450377)
+
+
+def test_hectopascal():
+    hPa = units.hPa(1)
+
+    assert hPa == 1.0
+
+    assert float(hPa) == 1.0
+    assert int(hPa) == 1
+
+    assert hPa.bar == 1e-3
+
+    assert isclose(hPa.inHg, 0.02953)
+
+
+def test_inch_mercury():
+    inHg = units.inHg(1)
+
+    assert inHg == 1.0
+
+    assert float(inHg) == 1.0
+    assert int(inHg) == 1
+
+    assert isclose(inHg.bar, 0.033864)
+    assert isclose(inHg.psi, 0.4911542)

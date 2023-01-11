@@ -8,9 +8,15 @@ from .quantity import Quantity
 class Pressure(Quantity, ABC):
     """Base for all pressure unit types."""
 
-    @abstractproperty
+    @property
+    def bar(self):
+        """Return the value of this quantity as bar."""
+        return self.hPa * 0.001
+
+    @property
     def hPa(self):
-        """Return the value of this quantity as Hectorpascals."""
+        """Return the value of this quantity as Hectopascals."""
+        return self.Pa * 0.01
 
     @abstractproperty
     def Pa(self):
@@ -19,17 +25,16 @@ class Pressure(Quantity, ABC):
     @abstractproperty
     def inHg(self):
         """Return the value of this quantity as inches-mercury."""
+
+    @abstractproperty
+    def psi(self):
+        """Return the value of this quantity as pounds-per-square-inch."""
 
 
 class Pascal(Pressure):
     """A representation of Pascals."""
 
     @property
-    def hPa(self):
-        """Return the value of this quantity as Hectorpascals."""
-        return self.value / 1000.0
-
-    @property
     def Pa(self):
         """Return the value of this quantity as Pascals."""
         return self.value
@@ -37,30 +42,37 @@ class Pascal(Pressure):
     @property
     def inHg(self):
         """Return the value of this quantity as inches-mercury."""
-        return self.value / 3386.3886666667
+        return self.Pa / 3386.3886666667
+
+    @property
+    def psi(self):
+        """Return the value of this quantity as pounds-per-square-inch."""
+        return self.Pa / 6894.75729
 
 
-class Hectorpascal(Pascal):
-    """A representation of Hectorpascals."""
+class Hectopascal(Pascal):
+    """A representation of Hectopascals."""
 
-    def __init__(self, value):
-        super().__init__(value * 1000.0)
+    @property
+    def Pa(self):
+        """Return the value of this quantity as Pascals."""
+        return self.value * 100
 
 
 class InchesMercury(Pressure):
     """A representation of InchesMercury."""
 
     @property
-    def hPa(self):
-        """Return the value of this quantity as Hectorpascals."""
-        return self.Pa / 1000.0
-
-    @property
     def Pa(self):
         """Return the value of this quantity as Pascals."""
-        return self.value / 3386.3886666667
+        return self.inHg * 3386.3886666667
 
     @property
     def inHg(self):
         """Return the value of this quantity as inches-mercury."""
         return self.value
+
+    @property
+    def psi(self):
+        """Return the value of this quantity as pounds-per-square-inch."""
+        return self.inHg * 0.4911541996322

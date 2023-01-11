@@ -2,7 +2,7 @@
 
 
 from .distance import Centimeter, Feet, Inch, Kilometer, Meter, Mile, Millimeter
-from .pressure import Hectorpascal, InchesMercury, Pascal
+from .pressure import Hectopascal, InchesMercury, Pascal
 from .temperature import Celsius, Fahrenheit, Kelvin
 from .velocity import KilometersPerHour, MetersPerSecond, MilesPerHour
 
@@ -67,9 +67,9 @@ def degK(value: float) -> Kelvin:
     return Kelvin(value)
 
 
-def hPa(value: float) -> Hectorpascal:
-    """Return the given value as Hectorpascal quantity."""
-    return Hectorpascal(value)
+def hPa(value: float) -> Hectopascal:
+    """Return the given value as Hectopascal quantity."""
+    return Hectopascal(value)
 
 
 def Pa(value: float) -> Pascal:
