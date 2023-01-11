@@ -20,6 +20,14 @@ class Velocity(Quantity, ABC):
     def mph(self):
         """Return the value of this quantity as miles per hour"""
 
+    @abstractproperty
+    def fps(self):
+        """Return the value of this quantity as feet per second"""
+
+    @abstractproperty
+    def knot(self):
+        """Return the value of this quantity as knots"""
+
 
 class MetersPerSecond(Velocity):
     """A representation of m/s."""
@@ -32,21 +40,31 @@ class MetersPerSecond(Velocity):
     @property
     def kph(self):
         """Return the value of this quantity as kilometers per hour"""
-        return self.mps / 3.6
+        return self.mps * 3.6
 
     @property
     def mph(self):
         """Return the value of this quantity as miles per hour"""
-        return self.mps * 2.237
+        return self.mps * 2.2369363
+
+    @property
+    def fps(self):
+        """Return the value of this quantity as feet per second"""
+        return self.mps * 3.28084
+
+    @property
+    def knot(self):
+        """Return the value of this quantity as knots"""
+        return self.mps * 1.943844
 
 
-class KilometersPerHour(Velocity):
+class KilometersPerHour(MetersPerSecond):
     """A representation of km/h."""
 
     @property
     def mps(self):
         """Return the value of this quantity as meters per second"""
-        return self.value * 3.6
+        return self.value / 3.6
 
 
 class MilesPerHour(Velocity):
@@ -55,7 +73,7 @@ class MilesPerHour(Velocity):
     @property
     def mps(self):
         """Return the value of this quantity as meters per second"""
-        return self.mph / 2.237
+        return self.mph * 0.44704
 
     @property
     def kph(self):
@@ -66,3 +84,13 @@ class MilesPerHour(Velocity):
     def mph(self):
         """Return the value of this quantity as miles per hour"""
         return self.value
+
+    @property
+    def fps(self):
+        """Return the value of this quantity as feet per second"""
+        return (self.mph * 5280.0) / 3600.0
+
+    @property
+    def knot(self):
+        """Return the value of this quantity as knots"""
+        return self.mph * 0.86897624

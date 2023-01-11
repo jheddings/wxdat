@@ -9,6 +9,23 @@ class Quantity:
     def __init__(self, value: Union[int, float]):
         self.value = value
 
+    def __getattribute__(self, attr):
+        """Return the requested attribute, or None.
+
+        This method examines the value in this Quantity before computing the requested
+        value.  If the internal value is None, this method always returns None.
+        """
+
+        # avoid recursion if `value` is requested ...
+        if attr == "value":
+            return super(Quantity, self).__getattribute__("value")
+
+        # ... now we can access self.value for our check
+        if self.value is None:
+            return None
+
+        return object.__getattribute__(self, attr)
+
     def __float__(self):
         """Return the BaseUnit value as a `float`."""
         return float(self.value)
