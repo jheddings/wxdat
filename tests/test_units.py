@@ -14,12 +14,14 @@ def isclose(a, b):
 
 
 def assert_is_freezing(temp: units.temperature.Temperature):
+    """Assert all values match expected levels for freezing."""
     assert temp.degC == 0.0
     assert temp.degF == 32.0
     assert temp.degK == 273.15
 
 
 def test_basic_none():
+    """Check that quantities of None behave as expected."""
     qty = Quantity(None)
 
     assert qty.value is None
@@ -27,9 +29,8 @@ def test_basic_none():
 
 
 def test_convert_none():
+    """Make sure that conversions with None are also None."""
     tempC = units.degC(None)
-
-    # make sure that conversions with None are also None
 
     assert tempC.degC is None
     assert tempC.degF is None
@@ -37,6 +38,7 @@ def test_convert_none():
 
 
 def test_degC_freezing():
+    """Confirm Celsius conversions for freezing."""
     tempC = units.degC(0)
 
     assert tempC == 0.0
@@ -48,6 +50,7 @@ def test_degC_freezing():
 
 
 def test_degF_freezing():
+    """Confirm Fahrenheit conversions for freezing."""
     tempF = units.degF(32)
 
     assert tempF == 32.0
@@ -58,7 +61,20 @@ def test_degF_freezing():
     assert_is_freezing(tempF)
 
 
+def test_degK_freezing():
+    """Confirm Kelvin conversions for freezing."""
+    tempK = units.degK(273.15)
+
+    assert tempK == 273.15
+
+    assert int(tempK) == 273
+    assert float(tempK) == 273.15
+
+    assert_is_freezing(tempK)
+
+
 def test_boiling_temps():
+    """Confirm conversions for boiling temperatures."""
     tempF = units.degF(212.0)
     assert tempF.degC == 100.0
     assert tempF.degK == 373.15
@@ -72,18 +88,8 @@ def test_boiling_temps():
     assert tempK.degF == 212.0
 
 
-def test_degK_freezing():
-    tempK = units.degK(273.15)
-
-    assert tempK == 273.15
-
-    assert int(tempK) == 273
-    assert float(tempK) == 273.15
-
-    assert_is_freezing(tempK)
-
-
 def test_one_meter():
+    """Confirm simple Meter conversions."""
     meter = units.meter(1)
 
     assert meter == 1.0
@@ -101,11 +107,12 @@ def test_one_meter():
 
 
 def test_more_meters():
-    meter = units.meter(math.pi)
-    assert isclose(meter.feet, 10.3070628)
+    """Confirm additional Meter conversions."""
+    assert isclose(units.meter(math.pi).feet, 10.3070628)
 
 
 def test_one_mile():
+    """Confirm simple Mile conversions."""
     mile = units.mile(1)
 
     assert mile == 1.0
@@ -122,11 +129,12 @@ def test_one_mile():
 
 
 def test_more_miles():
-    mile = units.mile(math.e)
-    assert isclose(mile.kilometers, 4.37465055)
+    """Confirm additional Mile conversions."""
+    assert isclose(units.mile(math.e).kilometers, 4.37465055)
 
 
 def test_one_pascal():
+    """Confirm simple Pascal conversions."""
     pa = units.Pa(1)
 
     assert pa == 1.0
@@ -139,6 +147,7 @@ def test_one_pascal():
 
 
 def test_one_hPa():
+    """Confirm simple Hectopascal conversions."""
     hPa = units.hPa(1)
 
     assert hPa == 1.0
@@ -152,6 +161,7 @@ def test_one_hPa():
 
 
 def test_one_inHg():
+    """Confirm simple InchesMercury conversions."""
     inHg = units.inHg(1)
 
     assert inHg == 1.0
@@ -164,6 +174,7 @@ def test_one_inHg():
 
 
 def test_one_mps():
+    """Confirm simple MetersPerSecond conversions."""
     mps = units.mps(1)
 
     assert mps == 1.0
@@ -179,6 +190,7 @@ def test_one_mps():
 
 
 def test_one_kph():
+    """Confirm simple KilometersPerHour conversions."""
     kph = units.kph(1)
 
     assert kph == 1.0
@@ -193,6 +205,7 @@ def test_one_kph():
 
 
 def test_one_mph():
+    """Confirm simple MilesPerHour conversions."""
     mph = units.mph(1)
 
     assert mph == 1.0
