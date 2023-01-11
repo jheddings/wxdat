@@ -1,4 +1,5 @@
-"""Working with distance quantities."""
+"""Working with volume quantities."""
+
 from abc import ABC, abstractproperty
 
 from .quantity import Quantity
