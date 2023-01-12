@@ -1,0 +1,50 @@
+## config file for Kyle's weather data
+---
+
+units: imperial
+update_interval: 300
+database: sqlite:///kyle.db
+
+#-------------------------------------------------------------------------------
+stations:
+
+  - name: Ambient Weather @ Kyle's
+    provider: AmbientWeather
+    update_interval: 60
+    app_key: 8a7748df41d14ae8a2fd7db6f69d376313d562da43e84fe38d83a236d6301b7c
+    user_key: 041ba894000145609205b888e2d5da8160242a7764864f4ca136d2d034ca1471
+    device_id: E8:DB:84:E6:42:2C
+
+  - name: OpenWeather @ Kyle's
+    provider: OpenWeatherMap
+    api_key: a8038b8b31f4fd6908333ae442310388
+    latitude: 40.098221
+    longitude: -105.327472
+
+#-------------------------------------------------------------------------------
+# setup logging system -- or remove this section to disable logging
+# this uses the standard dict config for the Python logging framework
+logging:
+  version: 1
+
+  formatters:
+    brief:
+      format: '%(message)s'
+    precise:
+      format: '%(asctime)s %(levelname)-8s %(name)-15s %(message)s'
+      datefmt: '%Y-%m-%d %H:%M:%S'
+
+  root:
+    level: INFO
+    handlers: [console, logfile]
+
+  handlers:
+    console:
+      class: logging.StreamHandler
+      formatter: brief
+      stream: ext://sys.stdout
+    logfile:
+      class : logging.FileHandler
+      formatter: precise
+      filename: wxdat.log
+      mode: w

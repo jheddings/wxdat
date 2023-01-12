@@ -2,7 +2,7 @@
 
 import logging
 import threading
-from abc import ABC, abstractproperty
+from abc import ABC, abstractmethod, abstractproperty
 from datetime import datetime, timedelta
 from enum import Enum
 from typing import Generator
@@ -49,6 +49,13 @@ class BaseStation(ABC):
     def user_agent(self):
         """Return the User-Agent string for this WeatherStation."""
         return f"{__pkgname__}/{__version__} (+https://github.com/jheddings/wxdat)"
+
+    @abstractmethod
+    def refresh(self) -> bool:
+        """Refresh the data for thei WeatherStation.
+
+        Returns True if the data was refreshed, False otherwise.
+        """
 
     @sleep_and_retry
     @limits(calls=1, period=1)
@@ -133,6 +140,8 @@ class DataRecorder:
 
         while not self.thread_ctl.is_set():
             self.loop_last_exec = datetime.now()
+
+            self.station.refresh()
 
             self.record_current_conditions()
             self.record_hourly_forecast()
