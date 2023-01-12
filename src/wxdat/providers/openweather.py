@@ -4,18 +4,19 @@ https://openweathermap.org/api
 """
 
 import logging
-from datetime import datetime
-from typing import List, Optional
+from datetime import datetime, timezone
+from typing import Generator, List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from .. import units
-from ..database import CurrentConditions
+from ..database import CurrentConditions, HourlyForecast
 from . import BaseStation, WeatherProvider
 
 logger = logging.getLogger(__name__)
 
 API_CURRENT_WX = "https://api.openweathermap.org/data/2.5/weather"
+API_3HOUR_FORECAST = "https://api.openweathermap.org/data/2.5/forecast"
 
 
 class API_Main(BaseModel):
@@ -50,24 +51,52 @@ class API_Wind(BaseModel):
     gust: Optional[float] = None
 
 
+class API_Rain(BaseModel):
+    three_hour: float = Field(alias="3h")
+
+
+class API_Snow(BaseModel):
+    three_hour: float = Field(alias="3h")
+
+
 class API_Clouds(BaseModel):
     all: int
 
 
 class API_Conditions(BaseModel):
     dt: datetime
-    clouds: API_Clouds
     main: API_Main
+
     wind: API_Wind
+    clouds: API_Clouds
     visibility: int
+
+    rain: Optional[API_Rain] = None
+    snow: Optional[API_Snow] = None
+
+    weather: Optional[List[API_Notes]] = None
+
+    dt_txt: Optional[datetime] = None
+
+    @property
+    def description(self):
+        if self.weather is None or len(self.weather) < 1:
+            return None
+
+        wx = self.weather[0]
+
+        return f"{wx.main}: {wx.description} [{wx.id}]"
 
 
 class API_City(BaseModel):
     id: int
+
     name: str
     country: str
+
     sunrise: int
     sunset: int
+
     coord: API_Coordinates
 
 
@@ -76,7 +105,6 @@ class API_Weather(API_Conditions):
     id: int
     name: str
     coord: API_Coordinates
-    weather: List[API_Notes]
 
 
 # https://openweathermap.org/api/hourly-forecast
@@ -112,9 +140,6 @@ class Station(BaseStation):
         if conditions is None:
             return None
 
-        # convert pressure from hPa to inHg
-        pressure = conditions.main.pressure / 33.863886666667
-
         return CurrentConditions(
             timestamp=conditions.dt,
             provider=self.provider,
@@ -125,13 +150,49 @@ class Station(BaseStation):
             wind_gusts=conditions.wind.gust,
             wind_bearing=conditions.wind.deg,
             humidity=conditions.main.humidity,
-            abs_pressure=pressure,
+            abs_pressure=units.hPa(conditions.main.grnd_level).inHg,
+            rel_pressure=units.hPa(conditions.main.sea_level).inHg,
             cloud_cover=conditions.clouds.all,
             visibility=units.meter(conditions.visibility).miles,
+            remarks=conditions.description,
         )
 
+    @property
+    def hourly_forecast(self) -> Generator[HourlyForecast, None, None]:
+        forecast = self.get_hourly_forecast()
+
+        if forecast is None:
+            return
+
+        now = datetime.now(timezone.utc)
+
+        for hour in forecast.list:
+            yield HourlyForecast(
+                timestamp=now,
+                for_time=hour.dt,
+                provider=self.provider,
+                station_id=self.station_id,
+                temperature=hour.main.temp,
+                feels_like=hour.main.feels_like,
+                wind_speed=hour.wind.speed,
+                wind_gusts=hour.wind.gust,
+                wind_bearing=hour.wind.deg,
+                humidity=hour.main.humidity,
+                abs_pressure=units.hPa(hour.main.grnd_level).inHg,
+                rel_pressure=units.hPa(hour.main.sea_level).inHg,
+                cloud_cover=hour.clouds.all,
+                visibility=units.meter(hour.visibility).miles,
+                remarks=hour.description,
+            )
+
     def get_current_weather(self) -> API_Weather:
-        self.logger.debug("getting current weather")
+        return self.get_wx_data(API_Weather, API_CURRENT_WX)
+
+    def get_hourly_forecast(self) -> API_HourlyForecast:
+        return self.get_wx_data(API_HourlyForecast, API_3HOUR_FORECAST)
+
+    def get_wx_data(self, model: BaseModel, url) -> API_HourlyForecast:
+        self.logger.debug("getting weather data :: %s", model)
 
         params = {
             "lat": self.latitude,
@@ -140,10 +201,10 @@ class Station(BaseStation):
             "units": "imperial",
         }
 
-        resp = self.safe_get(API_CURRENT_WX, params)
+        resp = self.safer_get(url, params)
 
         if resp is None:
             return None
 
         data = resp.json()
-        return API_Weather.parse_obj(data)
+        return model.parse_obj(data)

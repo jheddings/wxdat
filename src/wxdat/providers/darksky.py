@@ -6,12 +6,12 @@ TODO - URL
 import logging
 from datetime import datetime
 from enum import Enum
-from typing import List, Optional
+from typing import Generator, List, Optional
 
 from pydantic import BaseModel
 
 from .. import units
-from ..database import CurrentConditions
+from ..database import CurrentConditions, HourlyForecast
 from . import BaseStation, WeatherProvider
 
 logger = logging.getLogger(__name__)
@@ -182,12 +182,17 @@ class Station(BaseStation):
             remarks=conditions.summary,
         )
 
+    @property
+    def hourly_forecast(self) -> Generator[HourlyForecast, None, None]:
+        """Return the hourly forecast for this WeatherStation."""
+        return None
+
     def get_current_weather(self) -> API_Weather:
         self.logger.debug("getting current weather")
 
         data_url = f"{API_ENDPOINT}/{self.api_key}/{self.latitude},{self.longitude}"
 
-        resp = self.safe_get(data_url)
+        resp = self.safer_get(data_url)
 
         if resp is None:
             return None

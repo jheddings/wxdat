@@ -5,12 +5,12 @@ https://www.weather.gov/documentation/services-web-api
 
 import logging
 from datetime import datetime
-from typing import Any, List, Optional
+from typing import Any, Generator, List, Optional
 
 from pydantic import BaseModel
 
 from .. import units
-from ..database import CurrentConditions
+from ..database import CurrentConditions, HourlyForecast
 from . import BaseStation, WeatherProvider
 
 logger = logging.getLogger(__name__)
@@ -118,6 +118,11 @@ class Station(BaseStation):
             remarks=props.rawMessage,
         )
 
+    @property
+    def hourly_forecast(self) -> Generator[HourlyForecast, None, None]:
+        """Return the hourly forecast for this WeatherStation."""
+        return None
+
     def get_current_weather(self) -> API_Observation:
         self.logger.debug("getting current weather")
 
@@ -125,7 +130,7 @@ class Station(BaseStation):
 
         headers = {"Accept": "application/geo+json"}
 
-        resp = self.safe_get(url, headers=headers)
+        resp = self.safer_get(url, headers=headers)
 
         if resp is None:
             return None

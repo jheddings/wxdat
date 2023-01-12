@@ -6,11 +6,11 @@ https://developer.accuweather.com/apis
 import logging
 from datetime import datetime
 from enum import Enum
-from typing import List, Optional
+from typing import Generator, List, Optional
 
 from pydantic import BaseModel, parse_obj_as
 
-from ..database import CurrentConditions
+from ..database import CurrentConditions, HourlyForecast
 from . import BaseStation, WeatherProvider
 
 logger = logging.getLogger(__name__)
@@ -125,6 +125,11 @@ class Station(BaseStation):
             remarks=weather.WeatherText,
         )
 
+    @property
+    def hourly_forecast(self) -> Generator[HourlyForecast, None, None]:
+        """Return the hourly forecast for this WeatherStation."""
+        return None
+
     def get_current_weather(self) -> API_Observation:
         self.logger.debug("getting current weather")
 
@@ -136,7 +141,7 @@ class Station(BaseStation):
             "language": "en-US",
         }
 
-        resp = self.safe_get(url, params)
+        resp = self.safer_get(url, params)
 
         if resp is None:
             return None

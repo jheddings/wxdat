@@ -5,11 +5,11 @@ https://ambientweather.docs.apiary.io/
 
 import logging
 from datetime import datetime
-from typing import List, Optional
+from typing import Generator, List, Optional
 
 from pydantic import BaseModel, parse_obj_as
 
-from ..database import CurrentConditions
+from ..database import CurrentConditions, HourlyForecast
 from . import BaseStation, WeatherProvider
 
 logger = logging.getLogger(__name__)
@@ -109,6 +109,11 @@ class Station(BaseStation):
             uv_index=conditions.uv,
         )
 
+    @property
+    def hourly_forecast(self) -> Generator[HourlyForecast, None, None]:
+        """Return the hourly forecast for this WeatherStation."""
+        return None
+
     def get_current_weather(self) -> API_DeviceData:
         self.logger.debug("getting current weather")
 
@@ -120,7 +125,7 @@ class Station(BaseStation):
             "limit": 1,
         }
 
-        resp = self.safe_get(url, params)
+        resp = self.safer_get(url, params)
 
         if resp is None:
             return None

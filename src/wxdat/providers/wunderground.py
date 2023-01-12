@@ -5,11 +5,11 @@ https://www.wunderground.com/weather/api
 
 import logging
 from datetime import datetime
-from typing import List, Optional
+from typing import Generator, List, Optional
 
 from pydantic import BaseModel
 
-from ..database import CurrentConditions
+from ..database import CurrentConditions, HourlyForecast
 from . import BaseStation, WeatherProvider
 
 logger = logging.getLogger(__name__)
@@ -112,6 +112,11 @@ class Station(BaseStation):
             precip_hour=conditions.precipRate,
         )
 
+    @property
+    def hourly_forecast(self) -> Generator[HourlyForecast, None, None]:
+        """Return the hourly forecast for this WeatherStation."""
+        return None
+
     def get_current_weather(self) -> API_Observation:
         self.logger.debug("getting current weather")
 
@@ -123,7 +128,7 @@ class Station(BaseStation):
             "units": "e",
         }
 
-        resp = self.safe_get(API_ENDPOINT, params)
+        resp = self.safer_get(API_ENDPOINT, params)
 
         if resp is None:
             return None

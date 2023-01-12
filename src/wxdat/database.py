@@ -12,8 +12,43 @@ MagicTable = declarative_base()
 MagicSession = sessionmaker()
 
 
+class HourlyForecast(MagicTable):
+    """Define fields for hourly forecast data."""
+
+    __tablename__ = "hourly_forecast"
+
+    # time the forecast was made
+    timestamp = sql.Column(sql.DateTime(True), primary_key=True)
+
+    # forecasted time for the conditions
+    for_time = sql.Column(sql.DateTime(True), primary_key=True)
+
+    provider = sql.Column(sql.String(256), primary_key=True)
+    station_id = sql.Column(sql.String(256), primary_key=True)
+
+    temperature = sql.Column(sql.Float())
+    feels_like = sql.Column(sql.Float())
+
+    wind_speed = sql.Column(sql.Float())
+    wind_gusts = sql.Column(sql.Float())
+    wind_bearing = sql.Column(sql.Float())
+
+    humidity = sql.Column(sql.Float())
+    precip = sql.Column(sql.Float())
+
+    rel_pressure = sql.Column(sql.Float())
+    abs_pressure = sql.Column(sql.Float())
+
+    cloud_cover = sql.Column(sql.Float())
+    visibility = sql.Column(sql.Float())
+    uv_index = sql.Column(sql.Float())
+    ozone = sql.Column(sql.Float())
+
+    remarks = sql.Column(sql.Text())
+
+
 class CurrentConditions(MagicTable):
-    """Define weather fields for current conditions."""
+    """Define fields for current conditions."""
 
     __tablename__ = "current_conditions"
 
