@@ -1,6 +1,6 @@
 """Weather station and data models for OpenWeatherMap.
 
-TODO - URL
+https://openweathermap.org/api
 """
 
 import logging
@@ -47,7 +47,6 @@ class API_Coordinates(BaseModel):
 class API_Wind(BaseModel):
     deg: int
     speed: int
-
     gust: Optional[float] = None
 
 
@@ -66,10 +65,10 @@ class API_Conditions(BaseModel):
 class API_City(BaseModel):
     id: int
     name: str
-    coord: API_Coordinates
     country: str
     sunrise: int
     sunset: int
+    coord: API_Coordinates
 
 
 # https://openweathermap.org/current
@@ -83,8 +82,8 @@ class API_Weather(API_Conditions):
 # https://openweathermap.org/api/hourly-forecast
 class API_HourlyForecast(BaseModel):
     cnt: int
-    list: List[API_Conditions]
     city: API_City
+    list: List[API_Conditions]
 
 
 class Station(BaseStation):
@@ -128,7 +127,7 @@ class Station(BaseStation):
             humidity=conditions.main.humidity,
             abs_pressure=pressure,
             cloud_cover=conditions.clouds.all,
-            visibility=units.meter__mile(conditions.visibility),
+            visibility=units.meter(conditions.visibility).miles,
         )
 
     def get_current_weather(self) -> API_Weather:
@@ -138,7 +137,6 @@ class Station(BaseStation):
             "lat": self.latitude,
             "lon": self.longitude,
             "appid": self.api_key,
-            # TODO support configured units
             "units": "imperial",
         }
 

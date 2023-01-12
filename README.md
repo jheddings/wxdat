@@ -49,3 +49,13 @@ the example configuration file for details on each provider.
 * OpenWeatherMap
 * National Weather Service (NOAA)
 * Weather Underground
+
+## Unit Conversion ##
+
+`wxdat` also includes a limited set of conversion helpers for working with units.  In
+general, the pattern for using them is:
+
+   from wxdat import units
+
+   # convert 100.0 from celsius to fahrenheit
+   temp = units.degC(100).degf
