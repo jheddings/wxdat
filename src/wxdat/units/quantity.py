@@ -27,15 +27,15 @@ class Quantity:
         return object.__getattribute__(self, attr)
 
     def __float__(self):
-        """Return the BaseUnit value as a `float`."""
+        """Return the Quantity value as a `float`."""
         return float(self.value)
 
     def __int__(self):
-        """Return the BaseUnit value as an `int`."""
+        """Return the Quantity value as an `int`."""
         return int(self.value)
 
     def __iadd__(self, other):
-        """Add the given value to this BaseUnit.
+        """Add the given value to this Quantity.
 
         The value may be either a native number type or another `Quantity` object.
         """
@@ -61,7 +61,7 @@ class Quantity:
         return self
 
     def __eq__(self, other):
-        """Determine if this `BaseUnit` value is equal to `other`."""
+        """Determine if this `Quantity` value is equal to `other`."""
         return other == self.value
 
     def __ne__(self, other):
@@ -69,19 +69,19 @@ class Quantity:
         return not self.__eq__(other)
 
     def __le__(self, other):
-        """Return `True` if this `BaseUnit` value is less-than-or-equal-to `other`."""
+        """Return `True` if this `Quantity` value is less-than-or-equal-to `other`."""
         return self < other or self == other
 
     def __lt__(self, other):
-        """Return `True` if this `BaseUnit` value is less-than `other`."""
+        """Return `True` if this `Quantity` value is less-than `other`."""
         return other > self.value
 
     def __ge__(self, other):
-        """Return `True` if this `BaseUnit` value is greater-than-or-equal-to `other`."""
+        """Return `True` if this `Quantity` value is greater-than-or-equal-to `other`."""
         return self > other or self == other
 
     def __gt__(self, other):
-        """Return `True` if this `BaseUnit` value is greater-than `other`."""
+        """Return `True` if this `Quantity` value is greater-than `other`."""
         return other < self.value
 
     def __str__(self):

@@ -64,7 +64,7 @@ class KilometersPerHour(MetersPerSecond):
     @property
     def mps(self):
         """Return the value of this quantity as meters per second"""
-        return self.value / 3.6
+        return (self.value * 1000.0) / 3600.0
 
 
 class MilesPerHour(Velocity):
@@ -94,3 +94,12 @@ class MilesPerHour(Velocity):
     def knot(self):
         """Return the value of this quantity as knots"""
         return self.mph * 0.86897624
+
+
+class FeetPerSecond(MilesPerHour):
+    """A representation of fps."""
+
+    @property
+    def mph(self):
+        """Return the value of this quantity as miles per hour"""
+        return (self.value * 3600.0) / 5280.0

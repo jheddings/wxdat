@@ -30,3 +30,8 @@ class Weight(Quantity, ABC):
     def oz(self):
         """Return the value of this quantity in ounces."""
         return self.lbs * 16.0
+
+    @property
+    def ton(self):
+        """Return the value of this quantity in tons."""
+        return self.lbs * 2000.0

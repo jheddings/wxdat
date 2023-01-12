@@ -46,6 +46,16 @@ class Distance(Quantity, ABC):
         """Return the value of this quantity in yards."""
         return self.feet / 3.0
 
+    @property
+    def knots(self):
+        """Return the value of this quantity in nautical miles."""
+        return self.feet * 0.00016458
+
+    @property
+    def parsecs(self):
+        """Return the value of this quantity in parsecs (because we can)."""
+        return self.miles * 5.2155286735076e-14
+
 
 class Meter(Distance):
     """A representation of a meter."""

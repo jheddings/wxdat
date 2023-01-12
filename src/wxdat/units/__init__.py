@@ -1,20 +1,20 @@
 """Methods and classes for converting between units."""
 
 
-from .distance import Centimeter, Feet, Inch, Kilometer, Meter, Mile, Millimeter
+from .distance import Centimeter, Feet, Inch, Kilometer, Meter, Mile, Millimeter, Yard
 from .pressure import Hectopascal, InchesMercury, Pascal
 from .temperature import Celsius, Fahrenheit, Kelvin
-from .velocity import KilometersPerHour, MetersPerSecond, MilesPerHour
-
-
-def m(value: float) -> Meter:
-    """Return the given value as a Meter quantity."""
-    return Meter(value)
+from .velocity import FeetPerSecond, KilometersPerHour, MetersPerSecond, MilesPerHour
 
 
 def meter(value: float) -> Meter:
     """Return the given value as a Meter quantity."""
     return Meter(value)
+
+
+def m(value: float) -> Meter:
+    """Return the given value as a Meter quantity."""
+    return meter(value)
 
 
 def km(value: float) -> Kilometer:
@@ -32,14 +32,14 @@ def mm(value: float) -> Millimeter:
     return Millimeter(value)
 
 
-def mi(value: float) -> Mile:
-    """Return the given value as a Mile quantity."""
-    return Mile(value)
-
-
 def mile(value: float) -> Mile:
     """Return the given value as a Mile quantity."""
     return Mile(value)
+
+
+def mi(value: float) -> Mile:
+    """Return the given value as a Mile quantity."""
+    return mile(value)
 
 
 def inch(value: float) -> Inch:
@@ -50,6 +50,11 @@ def inch(value: float) -> Inch:
 def ft(value: float) -> Feet:
     """Return the given value as Feet quantity."""
     return Feet(value)
+
+
+def yd(value: float) -> Yard:
+    """Return the given value as Feet Yard."""
+    return Yard(value)
 
 
 def degC(value: float) -> Celsius:
@@ -95,3 +100,8 @@ def kph(value: float) -> KilometersPerHour:
 def mph(value: float) -> MilesPerHour:
     """Return the given value as MilesPerHour quantity."""
     return MilesPerHour(value)
+
+
+def fps(value: float) -> FeetPerSecond:
+    """Return the given value as FeetPerSecond quantity."""
+    return FeetPerSecond(value)
