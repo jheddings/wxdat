@@ -170,7 +170,7 @@ class Station(BaseStation):
             "units": "imperial",
         }
 
-        resp = self.safe_get(API_CURRENT_WX, params)
+        resp = self.safer_get(API_CURRENT_WX, params)
 
         if resp is None:
             return None

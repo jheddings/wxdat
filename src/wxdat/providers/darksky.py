@@ -187,7 +187,7 @@ class Station(BaseStation):
 
         data_url = f"{API_ENDPOINT}/{self.api_key}/{self.latitude},{self.longitude}"
 
-        resp = self.safe_get(data_url)
+        resp = self.safer_get(data_url)
 
         if resp is None:
             return None

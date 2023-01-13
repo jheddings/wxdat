@@ -120,7 +120,7 @@ class Station(BaseStation):
             "limit": 1,
         }
 
-        resp = self.safe_get(url, params)
+        resp = self.safer_get(url, params)
 
         if resp is None:
             return None

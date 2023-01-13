@@ -136,7 +136,7 @@ class Station(BaseStation):
             "language": "en-US",
         }
 
-        resp = self.safe_get(url, params)
+        resp = self.safer_get(url, params)
 
         if resp is None:
             return None

@@ -125,7 +125,7 @@ class Station(BaseStation):
 
         headers = {"Accept": "application/geo+json"}
 
-        resp = self.safe_get(url, headers=headers)
+        resp = self.safer_get(url, headers=headers)
 
         if resp is None:
             return None

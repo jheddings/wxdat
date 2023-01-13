@@ -123,7 +123,7 @@ class Station(BaseStation):
             "units": "e",
         }
 
-        resp = self.safe_get(API_ENDPOINT, params)
+        resp = self.safer_get(API_ENDPOINT, params)
 
         if resp is None:
             return None
