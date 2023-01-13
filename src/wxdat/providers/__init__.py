@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 
 import requests
+from ratelimit import limits, sleep_and_retry
 from requests.exceptions import ConnectionError
 
 from ..database import CurrentConditions, WeatherDatabase
@@ -44,8 +45,10 @@ class BaseStation(ABC):
         """Return the User-Agent string for this WeatherStation."""
         return f"{__pkgname__}/{__version__} (+https://github.com/jheddings/wxdat)"
 
-    def safe_get(self, url, params=None, headers=None):
-        """Convenience method to retrive a URL safely."""
+    @sleep_and_retry
+    @limits(calls=1, period=1)
+    def safer_get(self, url, params=None, headers=None):
+        """Convenience method to retrive a URL safely with a one second rate limit."""
 
         self.logger.debug("GET => %s", url)
 

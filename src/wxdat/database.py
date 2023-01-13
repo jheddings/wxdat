@@ -13,7 +13,7 @@ MagicSession = sessionmaker()
 
 
 class CurrentConditions(MagicTable):
-    """Define weather fields for current conditions."""
+    """Define data fields for current conditions."""
 
     __tablename__ = "current_conditions"
 
