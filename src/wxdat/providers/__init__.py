@@ -2,10 +2,10 @@
 
 import logging
 import threading
-from abc import ABC, abstractmethod, abstractproperty
+from abc import ABC, abstractproperty
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Generator
+from typing import List
 
 import requests
 from ratelimit import limits, sleep_and_retry
@@ -38,7 +38,7 @@ class BaseStation(ABC):
         """Return the current conditions for this WeatherStation."""
 
     @abstractproperty
-    def hourly_forecast(self) -> Generator[HourlyForecast, None, None]:
+    def hourly_forecast(self) -> List[HourlyForecast]:
         """Return the hourly forecast for this WeatherStation."""
 
     @abstractproperty
@@ -49,13 +49,6 @@ class BaseStation(ABC):
     def user_agent(self):
         """Return the User-Agent string for this WeatherStation."""
         return f"{__pkgname__}/{__version__} (+https://github.com/jheddings/wxdat)"
-
-    @abstractmethod
-    def refresh(self) -> bool:
-        """Refresh the data for thei WeatherStation.
-
-        Returns True if the data was refreshed, False otherwise.
-        """
 
     @sleep_and_retry
     @limits(calls=1, period=1)
@@ -141,8 +134,6 @@ class DataRecorder:
         while not self.thread_ctl.is_set():
             self.loop_last_exec = datetime.now()
 
-            self.station.refresh()
-
             self.record_current_conditions()
             self.record_hourly_forecast()
 
@@ -175,7 +166,9 @@ class DataRecorder:
         wx_data = self.station.current_conditions
 
         if wx_data is None:
-            self.logger.warning("Unable to get current conditions")
+            self.logger.warning(
+                "Station '%s' did not provide current weather.", self.station.name
+            )
             return False
 
         self.logger.debug("-- saving current data @ %s", wx_data.timestamp)
@@ -185,11 +178,12 @@ class DataRecorder:
         """Record the hourly forecast from the internal station."""
 
         self.logger.info("Reading hourly forecast -- %s", self.station.name)
-
         forecast = self.station.hourly_forecast
 
         if forecast is None:
-            self.logger.warning("Unable to get hourly forecast")
+            self.logger.warning(
+                "Station '%s' did not provide an hourly forecast.", self.station.name
+            )
             return False
 
         for hour in forecast:

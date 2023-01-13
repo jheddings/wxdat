@@ -17,14 +17,12 @@ class HourlyForecast(MagicTable):
 
     __tablename__ = "hourly_forecast"
 
-    # time the forecast was made
     timestamp = sql.Column(sql.DateTime(True), primary_key=True)
-
-    # forecasted time for the conditions
-    for_time = sql.Column(sql.DateTime(True), primary_key=True)
-
     provider = sql.Column(sql.String(256), primary_key=True)
     station_id = sql.Column(sql.String(256), primary_key=True)
+
+    # the time this forecast originated
+    origin_time = sql.Column(sql.DateTime(True), primary_key=True)
 
     temperature = sql.Column(sql.Float())
     feels_like = sql.Column(sql.Float())

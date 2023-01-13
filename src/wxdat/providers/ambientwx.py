@@ -5,7 +5,7 @@ https://ambientweather.docs.apiary.io/
 
 import logging
 from datetime import datetime
-from typing import Generator, List, Optional
+from typing import List, Optional
 
 from pydantic import BaseModel, parse_obj_as
 
@@ -110,7 +110,7 @@ class Station(BaseStation):
         )
 
     @property
-    def hourly_forecast(self) -> Generator[HourlyForecast, None, None]:
+    def hourly_forecast(self) -> List[HourlyForecast]:
         """Return the hourly forecast for this WeatherStation."""
         return None
 
