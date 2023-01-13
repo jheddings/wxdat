@@ -47,7 +47,7 @@ class API_ImperialObs(BaseModel):
 class API_Observation(BaseModel):
     stationID: str
 
-    epoch: Optional[int] = None
+    epoch: Optional[datetime] = None
     obsTimeUtc: Optional[datetime] = None
     obsTimeLocal: Optional[datetime] = None
 
