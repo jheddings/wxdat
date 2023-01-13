@@ -125,8 +125,8 @@ class API_DailyWeather(BaseModel, WeatherNotesMixin):
 
 class API_HourlyWeather(BaseModel, WeatherNotesMixin):
     dt: datetime
-    main: API_Main
 
+    main: API_Main
     wind: API_Wind
     clouds: API_Clouds
     visibility: int
