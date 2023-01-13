@@ -141,10 +141,9 @@ class DataRecorder:
         while not self.thread_ctl.is_set():
             self.loop_last_exec = datetime.now()
 
-            self.station.refresh()
-
-            self.record_current_conditions()
-            self.record_hourly_forecast()
+            if self.station.refresh():
+                self.record_current_conditions()
+                self.record_hourly_forecast()
 
             # figure out when to run the next step
             elapsed = (datetime.now() - self.loop_last_exec).total_seconds()
@@ -171,7 +170,7 @@ class DataRecorder:
     def record_current_conditions(self):
         """Record the current conditions from the internal station."""
 
-        self.logger.info("Reading current condition -- %s", self.station.name)
+        self.logger.info("Saving current condition -- %s", self.station.name)
         wx_data = self.station.current_conditions
 
         if wx_data is None:
@@ -184,7 +183,7 @@ class DataRecorder:
     def record_hourly_forecast(self):
         """Record the hourly forecast from the internal station."""
 
-        self.logger.info("Reading hourly forecast -- %s", self.station.name)
+        self.logger.info("Saving hourly forecast -- %s", self.station.name)
 
         forecast = self.station.hourly_forecast
 

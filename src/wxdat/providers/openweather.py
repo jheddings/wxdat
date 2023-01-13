@@ -128,6 +128,9 @@ class Station(BaseStation):
         # generate a station ID for database entries
         self.station_id = f"{latitude},{longitude}"
 
+        self._current_conditions = None
+        self._hourly_forecast = None
+
     @property
     def provider(self) -> WeatherProvider:
         """Return the provider name for this WeatherStation."""
@@ -135,23 +138,26 @@ class Station(BaseStation):
 
     @property
     def current_conditions(self) -> CurrentConditions:
-        conditions = self.get_current_weather()
+        conditions = self._current_conditions
 
         if conditions is None:
             return None
+
+        main = conditions.main
+        wind = conditions.wind
 
         return CurrentConditions(
             timestamp=conditions.dt,
             provider=self.provider,
             station_id=self.station_id,
-            temperature=conditions.main.temp,
-            feels_like=conditions.main.feels_like,
-            wind_speed=conditions.wind.speed,
-            wind_gusts=conditions.wind.gust,
-            wind_bearing=conditions.wind.deg,
-            humidity=conditions.main.humidity,
-            abs_pressure=units.hPa(conditions.main.grnd_level).inHg,
-            rel_pressure=units.hPa(conditions.main.sea_level).inHg,
+            temperature=main.temp,
+            feels_like=main.feels_like,
+            wind_speed=wind.speed,
+            wind_gusts=wind.gust,
+            wind_bearing=wind.deg,
+            humidity=main.humidity,
+            abs_pressure=units.hPa(main.grnd_level).inHg,
+            rel_pressure=units.hPa(main.sea_level).inHg,
             cloud_cover=conditions.clouds.all,
             visibility=units.meter(conditions.visibility).miles,
             remarks=conditions.description,
@@ -159,12 +165,15 @@ class Station(BaseStation):
 
     @property
     def hourly_forecast(self) -> Generator[HourlyForecast, None, None]:
-        forecast = self.get_hourly_forecast()
+        forecast = self._hourly_forecast
 
-        if forecast is None:
+        if self._hourly_forecast is None:
             return
 
         now = datetime.now(timezone.utc)
+
+        main = forecast.main
+        wind = forecast.wind
 
         for hour in forecast.list:
             yield HourlyForecast(
@@ -172,26 +181,26 @@ class Station(BaseStation):
                 for_time=hour.dt,
                 provider=self.provider,
                 station_id=self.station_id,
-                temperature=hour.main.temp,
-                feels_like=hour.main.feels_like,
-                wind_speed=hour.wind.speed,
-                wind_gusts=hour.wind.gust,
-                wind_bearing=hour.wind.deg,
-                humidity=hour.main.humidity,
-                abs_pressure=units.hPa(hour.main.grnd_level).inHg,
-                rel_pressure=units.hPa(hour.main.sea_level).inHg,
+                temperature=main.temp,
+                feels_like=main.feels_like,
+                wind_speed=wind.speed,
+                wind_gusts=wind.gust,
+                wind_bearing=wind.deg,
+                humidity=main.humidity,
+                abs_pressure=units.hPa(main.grnd_level).inHg,
+                rel_pressure=units.hPa(main.sea_level).inHg,
                 cloud_cover=hour.clouds.all,
                 visibility=units.meter(hour.visibility).miles,
                 remarks=hour.description,
             )
 
-    def get_current_weather(self) -> API_Weather:
-        return self.get_wx_data(API_Weather, API_CURRENT_WX)
+    def refresh(self) -> API_Weather:
+        self._current_conditions = self.get_wx_data(API_Weather, API_CURRENT_WX)
+        self._hourly_forecast = self.get_wx_data(API_HourlyForecast, API_3HOUR_FORECAST)
 
-    def get_hourly_forecast(self) -> API_HourlyForecast:
-        return self.get_wx_data(API_HourlyForecast, API_3HOUR_FORECAST)
+        return True
 
-    def get_wx_data(self, model: BaseModel, url) -> API_HourlyForecast:
+    def get_wx_data(self, model: BaseModel, url):
         self.logger.debug("getting weather data :: %s", model)
 
         params = {
