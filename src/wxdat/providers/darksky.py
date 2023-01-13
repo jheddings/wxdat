@@ -148,6 +148,8 @@ class Station(BaseStation):
         # generate a station ID for database entries
         self.station_id = f"{latitude},{longitude}"
 
+        self._cached = None
+
     @property
     def provider(self) -> WeatherProvider:
         """Return the provider name for this WeatherStation."""
@@ -155,12 +157,12 @@ class Station(BaseStation):
 
     @property
     def current_conditions(self) -> CurrentConditions:
-        weather = self.get_current_weather()
+        self._cached = self.get_current_weather()
 
-        if weather is None:
+        if self._cached is None:
             return None
 
-        conditions = weather.currently
+        conditions = self._cached.currently
 
         # convert pressure from hPa to inHg
 
@@ -185,7 +187,36 @@ class Station(BaseStation):
     @property
     def hourly_forecast(self) -> List[HourlyForecast]:
         """Return the hourly forecast for this WeatherStation."""
-        return None
+        self._cached = self.get_current_weather()
+
+        if self._cached is None:
+            return None
+
+        hourly = self._cached.hourly
+        origin_time = self._cached.currently.timestamp
+
+        return [
+            HourlyForecast(
+                timestamp=hour.timestamp,
+                origin_time=origin_time,
+                provider=self.provider,
+                station_id=self.station_id,
+                temperature=hour.temperature,
+                feels_like=hour.apparentTemperature,
+                wind_speed=hour.windSpeed,
+                wind_gusts=hour.windGust,
+                wind_bearing=hour.windBearing,
+                humidity=hour.humidity,
+                precip=hour.precipIntensity,
+                abs_pressure=units.hPa(hour.pressure).inHg,
+                cloud_cover=hour.cloudCover * 100.0,
+                visibility=hour.visibility,
+                ozone=hour.ozone,
+                uv_index=hour.uvIndex,
+                remarks=hour.summary,
+            )
+            for hour in hourly.data
+        ]
 
     def get_current_weather(self) -> API_Weather:
         self.logger.debug("getting current weather")
