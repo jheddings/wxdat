@@ -7,7 +7,7 @@ import logging
 from datetime import datetime
 from typing import List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from .. import units
 from ..database import CurrentConditions
@@ -50,6 +50,14 @@ class API_Wind(BaseModel):
     gust: Optional[float] = None
 
 
+class API_Rain(BaseModel):
+    three_hour: float = Field(alias="3h")
+
+
+class API_Snow(BaseModel):
+    three_hour: float = Field(alias="3h")
+
+
 class API_Clouds(BaseModel):
     all: int
 
@@ -58,16 +66,37 @@ class API_Conditions(BaseModel):
     dt: datetime
     clouds: API_Clouds
     main: API_Main
+
     wind: API_Wind
+    clouds: API_Clouds
     visibility: int
+
+    rain: Optional[API_Rain] = None
+    snow: Optional[API_Snow] = None
+
+    weather: Optional[List[API_Notes]] = None
+
+    dt_txt: Optional[datetime] = None
+
+    @property
+    def description(self):
+        if self.weather is None or len(self.weather) < 1:
+            return None
+
+        wx = self.weather[0]
+
+        return f"{wx.main}: {wx.description} [{wx.id}]"
 
 
 class API_City(BaseModel):
     id: int
+
     name: str
     country: str
+
     sunrise: int
     sunset: int
+
     coord: API_Coordinates
 
 
@@ -76,7 +105,6 @@ class API_Weather(API_Conditions):
     id: int
     name: str
     coord: API_Coordinates
-    weather: List[API_Notes]
 
 
 # https://openweathermap.org/api/hourly-forecast
@@ -128,6 +156,7 @@ class Station(BaseStation):
             abs_pressure=pressure,
             cloud_cover=conditions.clouds.all,
             visibility=units.meter(conditions.visibility).miles,
+            remarks=conditions.description,
         )
 
     def get_current_weather(self) -> API_Weather:
