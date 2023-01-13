@@ -46,7 +46,7 @@ class HourlyForecast(MagicTable):
 
 
 class CurrentConditions(MagicTable):
-    """Define fields for current conditions."""
+    """Define data fields for current conditions."""
 
     __tablename__ = "current_conditions"
 

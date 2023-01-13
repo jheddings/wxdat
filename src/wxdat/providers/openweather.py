@@ -198,18 +198,21 @@ class Station(BaseStation):
         if conditions is None:
             return None
 
+        main = conditions.main
+        wind = conditions.wind
+
         return CurrentConditions(
             timestamp=conditions.dt,
             provider=self.provider,
             station_id=self.station_id,
-            temperature=conditions.main.temp,
-            feels_like=conditions.main.feels_like,
-            wind_speed=conditions.wind.speed,
-            wind_gusts=conditions.wind.gust,
-            wind_bearing=conditions.wind.deg,
-            humidity=conditions.main.humidity,
-            abs_pressure=units.hPa(conditions.main.grnd_level).inHg,
-            rel_pressure=units.hPa(conditions.main.sea_level).inHg,
+            temperature=main.temp,
+            feels_like=main.feels_like,
+            wind_speed=wind.speed,
+            wind_gusts=wind.gust,
+            wind_bearing=wind.deg,
+            humidity=main.humidity,
+            abs_pressure=units.hPa(main.grnd_level).inHg,
+            rel_pressure=units.hPa(main.sea_level).inHg,
             cloud_cover=conditions.clouds.all,
             visibility=units.meter(conditions.visibility).miles,
             remarks=conditions.remarks,
@@ -251,7 +254,7 @@ class Station(BaseStation):
     def get_hourly_forecast(self) -> API_HourlyForecast:
         return self.get_wx_data(API_HourlyForecast, API_3HOUR_FORECAST)
 
-    def get_wx_data(self, model: BaseModel, url) -> API_HourlyForecast:
+    def get_wx_data(self, model: BaseModel, url):
         self.logger.debug("getting weather data :: %s", model)
 
         params = {

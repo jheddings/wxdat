@@ -11,6 +11,7 @@ __pycache__
 
 .venv
 
+local.env
 local.yaml
 wxdat.db
 
