@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "wxdat"
-version = "0.1.0"
+version = "0.1.2"
 description = "Weather data explorer."
 authors = ["jheddings <jheddings@gmail.com>"]
 license = "MIT"
@@ -14,7 +14,7 @@ prometheus-client = "^0.15.0"
 pydantic = "^1.10.4"
 ruamel-yaml = "^0.17.21"
 sqlalchemy = "^1.4.46"
-psycopg2-binary = "^2.9.5"
+psycopg2 = "^2.9.5"
 ratelimit = "^2.2.1"
 
 [tool.poetry.group.dev.dependencies]
