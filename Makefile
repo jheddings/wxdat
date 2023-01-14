@@ -31,9 +31,15 @@ rebuild:
 ################################################################################
 .PHONY: release
 
-release: build test
-	docker image tag "$(APPNAME):dev" "$(APPNAME):latest"
-	docker image tag "$(APPNAME):latest" "$(APPNAME):$(APPVER)"
+publish: build test
+	# publish PIP package
+	poetry publish --no-interaction
+	# create docker release tags
+	docker image tag "$(APPNAME):dev" "jheddings/$(APPNAME):latest"
+	docker image tag "jheddings/$(APPNAME):latest" "jheddings/$(APPNAME):$(APPVER)"
+	# push docker release tags
+	docker push "jheddings/$(APPNAME):$(APPVER)"
+	docker push "jheddings/$(APPNAME):latest"
 
 ################################################################################
 .PHONY: run
