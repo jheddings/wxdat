@@ -1,6 +1,8 @@
 """Weather station and data models for Dark Sky.
 
 TODO - URL
+
+Support for the Dark Sky API will be ending on March 31st, 2023
 """
 
 import logging
