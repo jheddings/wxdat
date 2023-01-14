@@ -4,6 +4,7 @@ TODO - URL
 """
 
 import logging
+from datetime import datetime
 from enum import Enum
 from typing import List, Optional
 
@@ -24,7 +25,7 @@ class PrecipitationType(str, Enum):
 
 
 class API_Conditions(BaseModel):
-    time: int
+    time: datetime
     summary: Optional[str] = None
     icon: Optional[str] = None
 
@@ -51,7 +52,7 @@ class API_Conditions(BaseModel):
 
 
 class API_Forecast(BaseModel):
-    time: int
+    time: datetime
     summary: str
     icon: Optional[str] = None
 
