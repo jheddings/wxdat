@@ -4,7 +4,6 @@ TODO - URL
 """
 
 import logging
-from datetime import datetime
 from enum import Enum
 from typing import List, Optional
 
@@ -49,10 +48,6 @@ class API_Conditions(BaseModel):
     precipProbability: Optional[float] = None
     nearestStormDistance: Optional[float] = None
     nearestStormBearing: Optional[float] = None
-
-    @property
-    def timestamp(self):
-        return datetime.fromtimestamp(self.time)
 
 
 class API_Forecast(BaseModel):
@@ -165,7 +160,7 @@ class Station(BaseStation):
         # convert pressure from hPa to inHg
 
         return CurrentConditions(
-            timestamp=conditions.timestamp,
+            timestamp=conditions.time,
             provider=self.provider,
             station_id=self.station_id,
             temperature=conditions.temperature,
