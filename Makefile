@@ -51,8 +51,9 @@ run: venv
 .PHONY: runc
 
 runc:
-	docker container run --rm --tty --publish 8077:8077 \
-		--volume "$(BASEDIR):/opt/wxdat" "$(APPNAME):dev"
+	docker container run --rm --tty \
+		--publish 8077:8077 --volume "$(BASEDIR):/opt/wxdat" \
+		"$(APPNAME):dev" --config=/opt/wxdat/local.yaml
 
 ################################################################################
 .PHONY: test
