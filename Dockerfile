@@ -9,4 +9,9 @@ WORKDIR "/opt/wxdat"
 
 EXPOSE 8077
 
-CMD /usr/local/bin/python3 -m wxdat --config=/opt/wxdat/local.yaml
+# commands must be presented as an array, otherwise it will be launched
+# using a shell, which causes problems handling signals for shutdown (#15)
+ENTRYPOINT ["python3", "-m", "wxdat"]
+
+# allow local callers to change the config file
+CMD ["--config=/opt/wxdat/wxdat.yaml"]
