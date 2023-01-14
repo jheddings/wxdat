@@ -173,7 +173,7 @@ class Station(BaseStation):
             wind_speed=conditions.windSpeed,
             wind_gusts=conditions.windGust,
             wind_bearing=conditions.windBearing,
-            humidity=conditions.humidity,
+            humidity=conditions.humidity * 100.0,
             dew_point=conditions.dewPoint,
             abs_pressure=units.hPa(conditions.pressure).inHg,
             cloud_cover=conditions.cloudCover * 100.0,

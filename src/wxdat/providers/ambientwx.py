@@ -128,4 +128,4 @@ class Station(BaseStation):
         data = resp.json()
         data_list = parse_obj_as(List[API_DeviceData], data)
 
-        return data_list[0]
+        return data_list[0] if len(data_list) > 0 else None
