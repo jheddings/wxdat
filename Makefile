@@ -12,12 +12,12 @@ PY := $(VENV) python3
 ################################################################################
 .PHONY: all
 
-all: build
+all: venv build test
 
 ################################################################################
 .PHONY: build
 
-build: test
+build: venv test
 	poetry --no-interaction build
 	docker image build --tag "$(APPNAME):dev" "$(BASEDIR)"
 
@@ -37,14 +37,14 @@ publish: build test
 	## create docker release tags
 	docker image tag "$(APPNAME):dev" "jheddings/$(APPNAME):latest"
 	docker image tag "jheddings/$(APPNAME):latest" "jheddings/$(APPNAME):$(APPVER)"
-	## push docker release tags
+	## publish docker release tags
 	docker push "jheddings/$(APPNAME):$(APPVER)"
 	docker push "jheddings/$(APPNAME):latest"
 
 ################################################################################
 .PHONY: run
 
-run:
+run: venv
 	$(PY) -m wxdat --config $(BASEDIR)/local.yaml
 
 ################################################################################
@@ -59,6 +59,12 @@ runc:
 
 test:
 	$(VENV) pytest $(BASEDIR)/tests --vcr-record=once
+
+################################################################################
+.PHONY: venv
+
+venv:
+	poetry install
 
 ################################################################################
 .PHONY: clean
