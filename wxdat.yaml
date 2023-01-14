@@ -1,0 +1,77 @@
+## local config file for wxdat app
+---
+
+units: imperial
+update_interval: 60
+
+#-------------------------------------------------------------------------------
+stations:
+
+  - name: Ambient Weather @ Home
+    provider: AmbientWeather
+    app_key: 8a7748df41d14ae8a2fd7db6f69d376313d562da43e84fe38d83a236d6301b7c
+    user_key: 8a4b8e6aa7d94b36b712503f5e9247516f563f0e153543f0bcd3fe685c23ba76
+    device_id: 98:CD:AC:22:F4:07
+
+  - name: OpenWeather @ Home
+    provider: OpenWeatherMap
+    api_key: a8038b8b31f4fd6908333ae442310388
+    latitude: 39.99252
+    longitude: -104.89014
+
+  - name: Dark Sky @ Home
+    provider: DarkSky
+    update_interval: 300
+    api_key: 51d52fb3bea7a24cfc766d54033c4194
+    latitude: 39.99252
+    longitude: -104.89014
+
+  - name: WUnderground @ Home
+    provider: WUndergroundPWS
+    update_interval: 300
+    api_key: eeb5dfaae1b54fb9b5dfaae1b5ffb9b5
+    station_id: KCOBRIGH57
+
+  #- name: AccuWeather @ Home
+  #  provider: AccuWeather
+  #  update_interval: 1800
+  #  api_key: bhZA3oYnk8jU52xnKXrF0cwVF8ful2Rf
+  #  location: 2207713
+
+  - name: NWS @ KEIK
+    provider: NOAA
+    station: KEIK
+
+  - name: NWS @ KDEN
+    provider: NOAA
+    station: KDEN
+
+#-------------------------------------------------------------------------------
+# setup logging system -- or remove this section to disable logging
+# this uses the standard dict config for the Python logging framework
+logging:
+  version: 1
+
+  formatters:
+    brief:
+      format: '%(message)s'
+    short:
+      format: '%(levelname)s:%(name)s:%(message)s'
+    precise:
+      format: '%(asctime)s %(levelname)-8s %(threadName)s %(name)s %(message)s'
+      datefmt: '%Y-%m-%d %H:%M:%S'
+
+  root:
+    level: DEBUG
+    handlers: [console]
+
+  handlers:
+    console:
+      class: logging.StreamHandler
+      formatter: brief
+      stream: ext://sys.stdout
+    logfile:
+      class : logging.FileHandler
+      formatter: precise
+      filename: wxdat.log
+      mode: w
