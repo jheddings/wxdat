@@ -52,7 +52,7 @@ run:
 
 runc:
 	docker container run --rm --tty --publish 8077:8077 \
-		--volume "/opt/wxdat:/opt/wxdat" "$(APPNAME):dev"
+		--volume "$(BASEDIR):/opt/wxdat" "$(APPNAME):dev"
 
 ################################################################################
 .PHONY: test

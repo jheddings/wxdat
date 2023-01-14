@@ -7,8 +7,6 @@ RUN pip3 install /tmp/wxdat/ && rm -Rf /tmp/wxdat
 
 WORKDIR "/opt/wxdat"
 
-COPY etc/wxdat.yaml /opt/wxdat/
-
 EXPOSE 8077
 
-CMD /usr/local/bin/python3 -m wxdat --config=/opt/wxdat/wxdat.yaml
+CMD /usr/local/bin/python3 -m wxdat --config=/opt/wxdat/local.yaml
