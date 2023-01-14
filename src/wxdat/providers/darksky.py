@@ -25,7 +25,7 @@ class PrecipitationType(str, Enum):
 
 
 class API_Conditions(BaseModel):
-    time: int
+    time: datetime
     summary: Optional[str] = None
     icon: Optional[str] = None
 
@@ -50,13 +50,9 @@ class API_Conditions(BaseModel):
     nearestStormDistance: Optional[float] = None
     nearestStormBearing: Optional[float] = None
 
-    @property
-    def timestamp(self):
-        return datetime.fromtimestamp(self.time)
-
 
 class API_Forecast(BaseModel):
-    time: int
+    time: datetime
     summary: str
     icon: Optional[str] = None
 
@@ -167,7 +163,7 @@ class Station(BaseStation):
         # convert pressure from hPa to inHg
 
         return CurrentConditions(
-            timestamp=conditions.timestamp,
+            timestamp=conditions.time,
             provider=self.provider,
             station_id=self.station_id,
             temperature=conditions.temperature,

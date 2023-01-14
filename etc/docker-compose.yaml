@@ -1,0 +1,11 @@
+## References ##
+---
+version: "3"
+
+services:
+  wxdat:
+    image: jheddings/wxdat:latest
+    volumes:
+      - /opt/wxdat:/opt/wxdat
+    restart: unless-stopped
+    network_mode: host
