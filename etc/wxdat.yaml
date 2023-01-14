@@ -1,0 +1,71 @@
+## config file for wxdat app
+
+# update interval for station data (may be specified per station);
+# note that statoins will not be updates more than every minute
+#
+# durations may be specified in either a short or long form...
+# short form examples: 5m (5 minutes), 90s (90 seconds), 1h (1 hour)
+# long form examples: 00:05:00 (5 minutes), 00:01:30 (90 seconds), 01:00:00 (1 hour)
+update_interval: 5m
+
+# units will be represented by the following: imperial (default), metric
+units: imperial
+
+# override the database connection string (used by SQLAlcheny)
+# database: sqlite:///wxdat.db
+
+#-------------------------------------------------------------------------------
+stations:
+
+  - name: Denver Airport via WUnderground
+    type: WUndergroundPWS
+    update_interval: 30m
+    api_key: SECRET_API_KEY
+    station_id: KDEN
+
+  - name: Denver Airport via Dark Sky
+    type: DarkSky
+    update_interval: 3m
+    api_key: SECRET_API_EY
+    latitude: 39.8561
+    longitude: -104.6737
+
+  - name: Denver Airport via OpenWeather
+    type: OpenWeather
+    api_key: SECRET_API_EY
+    latitude: 39.8561
+    longitude: -104.6737
+
+  - name: Denver Airport via NOAA
+    type: NOAA
+    station: KDEN
+
+#-------------------------------------------------------------------------------
+# setup logging system -- or remove this section to disable logging
+# this uses the standard dict config for the Python logging framework
+logging:
+  version: 1
+
+  formatters:
+    brief:
+      format: '%(message)s'
+    short:
+      format: '%(levelname)s:%(name)s:%(message)s'
+    precise:
+      format: '%(asctime)s %(levelname)-8s %(threadName)s %(name)s %(message)s'
+      datefmt: '%Y-%m-%d %H:%M:%S'
+
+  root:
+    level: INFO
+    handlers: [console]
+
+  handlers:
+    console:
+      class: logging.StreamHandler
+      formatter: brief
+      stream: ext://sys.stdout
+    logfile:
+      class : logging.FileHandler
+      formatter: precise
+      filename: wxdat.log
+      mode: w

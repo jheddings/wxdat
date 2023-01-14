@@ -1,43 +1,49 @@
-## config file for wxdat app
+## local config file for wxdat app
+---
 
-# update interval for station data (may be specified per station);
-# note that statoins will not be updates more than every minute
-#
-# durations may be specified in either a short or long form...
-# short form examples: 5m (5 minutes), 90s (90 seconds), 1h (1 hour)
-# long form examples: 00:05:00 (5 minutes), 00:01:30 (90 seconds), 01:00:00 (1 hour)
-update_interval: 5m
-
-# units will be represented by the following: imperial (default), metric
 units: imperial
-
-# override the database connection string (used by SQLAlcheny)
-# database: sqlite:///wxdat.db
+update_interval: 60
 
 #-------------------------------------------------------------------------------
 stations:
 
-  - name: Denver Airport via WUnderground
-    type: WUndergroundPWS
-    update_interval: 30m
-    api_key: SECRET_API_KEY
-    station_id: KDEN
+  - name: Ambient Weather @ Home
+    provider: AmbientWeather
+    app_key: 8a7748df41d14ae8a2fd7db6f69d376313d562da43e84fe38d83a236d6301b7c
+    user_key: 8a4b8e6aa7d94b36b712503f5e9247516f563f0e153543f0bcd3fe685c23ba76
+    device_id: 98:CD:AC:22:F4:07
 
-  - name: Denver Airport via Dark Sky
-    type: DarkSky
-    update_interval: 3m
-    api_key: SECRET_API_EY
-    latitude: 39.8561
-    longitude: -104.6737
+  - name: OpenWeather @ Home
+    provider: OpenWeatherMap
+    api_key: a8038b8b31f4fd6908333ae442310388
+    latitude: 39.99252
+    longitude: -104.89014
 
-  - name: Denver Airport via OpenWeather
-    type: OpenWeather
-    api_key: SECRET_API_EY
-    latitude: 39.8561
-    longitude: -104.6737
+  - name: Dark Sky @ Home
+    provider: DarkSky
+    update_interval: 300
+    api_key: 51d52fb3bea7a24cfc766d54033c4194
+    latitude: 39.99252
+    longitude: -104.89014
 
-  - name: Denver Airport via NOAA
-    type: NOAA
+  - name: WUnderground @ Home
+    provider: WUndergroundPWS
+    update_interval: 300
+    api_key: eeb5dfaae1b54fb9b5dfaae1b5ffb9b5
+    station_id: KCOBRIGH57
+
+  #- name: AccuWeather @ Home
+  #  provider: AccuWeather
+  #  update_interval: 1800
+  #  api_key: bhZA3oYnk8jU52xnKXrF0cwVF8ful2Rf
+  #  location: 2207713
+
+  - name: NWS @ KEIK
+    provider: NOAA
+    station: KEIK
+
+  - name: NWS @ KDEN
+    provider: NOAA
     station: KDEN
 
 #-------------------------------------------------------------------------------
@@ -56,7 +62,7 @@ logging:
       datefmt: '%Y-%m-%d %H:%M:%S'
 
   root:
-    level: INFO
+    level: DEBUG
     handlers: [console]
 
   handlers:
