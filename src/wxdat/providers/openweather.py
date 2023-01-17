@@ -1,21 +1,29 @@
 """Weather station and data models for OpenWeatherMap.
 
-https://openweathermap.org/api
+Documentation: https://openweathermap.org/api
+
+The data model for OpenWeatherMap is somewhat complicated and not consistent
+across API calls.  Because of this, there are several similar objects to parse
+data from various API endpoints.
 """
 
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
 from .. import units
-from ..database import CurrentConditions
+from ..database import CurrentConditions, HourlyForecast
 from . import BaseStation, WeatherProvider
 
 logger = logging.getLogger(__name__)
 
 API_CURRENT_WX = "https://api.openweathermap.org/data/2.5/weather"
+API_DAILY_FORECAST = "https://api.openweathermap.org/data/2.5/forecast/daily"
+API_HOURLY_FORECAST = "https://pro.openweathermap.org/data/2.5/forecast/hourly"
+API_3HOUR_FORECAST = "https://api.openweathermap.org/data/2.5/forecast"
+API_ONECALL = "https://api.openweathermap.org/data/3.0/onecall"
 
 
 class API_Main(BaseModel):
@@ -32,13 +40,6 @@ class API_Main(BaseModel):
     grnd_level: Optional[int] = None
 
 
-class API_Notes(BaseModel):
-    id: int
-    main: str
-    description: str
-    icon: Optional[str] = None
-
-
 class API_Coordinates(BaseModel):
     lat: float
     lon: float
@@ -50,36 +51,38 @@ class API_Wind(BaseModel):
     gust: Optional[float] = None
 
 
-class API_Rain(BaseModel):
-    three_hour: float = Field(alias="3h")
-
-
-class API_Snow(BaseModel):
-    three_hour: float = Field(alias="3h")
+class API_HourlyPrecip(BaseModel):
+    hour1: Optional[float] = Field(alias="1h")
+    hour3: Optional[float] = Field(alias="3h")
 
 
 class API_Clouds(BaseModel):
     all: int
 
 
-class API_Conditions(BaseModel):
-    dt: datetime
-    clouds: API_Clouds
-    main: API_Main
+class API_City(BaseModel):
+    id: int
 
-    wind: API_Wind
-    clouds: API_Clouds
-    visibility: int
+    name: str
+    country: str
+    coord: API_Coordinates
 
-    rain: Optional[API_Rain] = None
-    snow: Optional[API_Snow] = None
+    sunrise: Optional[int] = None
+    sunset: Optional[int] = None
 
-    weather: Optional[List[API_Notes]] = None
 
-    dt_txt: Optional[datetime] = None
+class API_WeatherNotes(BaseModel):
+    id: int
+    main: str
+    description: str
+    icon: Optional[str] = None
+
+
+class WeatherNotesMixin:
+    weather: Optional[List[API_WeatherNotes]] = None
 
     @property
-    def description(self):
+    def remarks(self):
         if self.weather is None or len(self.weather) < 1:
             return None
 
@@ -88,30 +91,85 @@ class API_Conditions(BaseModel):
         return f"{wx.main}: {wx.description} [{wx.id}]"
 
 
-class API_City(BaseModel):
-    id: int
+class API_DailyTemperature(BaseModel):
+    min: float
+    max: float
 
-    name: str
-    country: str
+    morn: float
+    day: float
+    eve: float
+    night: float
+
+
+class API_DailyWeather(BaseModel, WeatherNotesMixin):
+    dt: datetime
 
     sunrise: int
     sunset: int
 
-    coord: API_Coordinates
+    temp: API_DailyTemperature
+
+    humidity: int
+    pressure: int
+
+    speed: float
+    deg: float
+    gust: float
+
+    pop: Optional[float] = None
+    rain: Optional[float] = None
+    snow: Optional[float] = None
+
+    clouds: Optional[float] = None
+
+
+class API_HourlyWeather(BaseModel, WeatherNotesMixin):
+    dt: datetime
+
+    main: API_Main
+    wind: API_Wind
+    clouds: API_Clouds
+    visibility: int
+
+    pop: Optional[float] = None
+    rain: Optional[API_HourlyPrecip] = None
+    snow: Optional[API_HourlyPrecip] = None
+
+    dt_txt: Optional[datetime] = None
 
 
 # https://openweathermap.org/current
-class API_Weather(API_Conditions):
+class API_CurrentWeather(BaseModel, WeatherNotesMixin):
+    dt: datetime
+
     id: int
     name: str
+    timezone: int
     coord: API_Coordinates
+
+    main: API_Main
+    wind: API_Wind
+    clouds: API_Clouds
+    visibility: int
+
+    rain: Optional[API_HourlyPrecip] = None
+    snow: Optional[API_HourlyPrecip] = None
+
+    dt_txt: Optional[datetime] = None
 
 
 # https://openweathermap.org/api/hourly-forecast
 class API_HourlyForecast(BaseModel):
     cnt: int
     city: API_City
-    list: List[API_Conditions]
+    list: List[API_HourlyWeather]
+
+
+# https://openweathermap.org/api/forecast16
+class API_DailyForecast(BaseModel):
+    cnt: int
+    city: API_City
+    list: List[API_DailyWeather]
 
 
 class Station(BaseStation):
@@ -157,11 +215,47 @@ class Station(BaseStation):
             rel_pressure=units.hPa(main.sea_level).inHg,
             cloud_cover=conditions.clouds.all,
             visibility=units.meter(conditions.visibility).miles,
-            remarks=conditions.description,
+            remarks=conditions.remarks,
         )
 
-    def get_current_weather(self) -> API_Weather:
-        self.logger.debug("getting current weather")
+    @property
+    def hourly_forecast(self) -> List[HourlyForecast]:
+        forecast = self.get_hourly_forecast()
+
+        if forecast is None:
+            return None
+
+        now = datetime.now(tz=timezone.utc)
+
+        return [
+            HourlyForecast(
+                timestamp=hour.dt,
+                origin_time=now,
+                provider=self.provider,
+                station_id=self.station_id,
+                temperature=hour.main.temp,
+                feels_like=hour.main.feels_like,
+                wind_speed=hour.wind.speed,
+                wind_gusts=hour.wind.gust,
+                wind_bearing=hour.wind.deg,
+                humidity=hour.main.humidity,
+                abs_pressure=units.hPa(hour.main.grnd_level).inHg,
+                rel_pressure=units.hPa(hour.main.sea_level).inHg,
+                cloud_cover=hour.clouds.all,
+                visibility=units.meter(hour.visibility).miles,
+                remarks=hour.remarks,
+            )
+            for hour in forecast.list
+        ]
+
+    def get_current_weather(self) -> API_CurrentWeather:
+        return self.get_wx_data(API_CurrentWeather, API_CURRENT_WX)
+
+    def get_hourly_forecast(self) -> API_HourlyForecast:
+        return self.get_wx_data(API_HourlyForecast, API_3HOUR_FORECAST)
+
+    def get_wx_data(self, model: BaseModel, url):
+        self.logger.debug("getting weather data :: %s", model)
 
         params = {
             "lat": self.latitude,
@@ -170,10 +264,10 @@ class Station(BaseStation):
             "units": "imperial",
         }
 
-        resp = self.safer_get(API_CURRENT_WX, params)
+        resp = self.safer_get(url, params)
 
         if resp is None:
             return None
 
         data = resp.json()
-        return API_Weather.parse_obj(data)
+        return model.parse_obj(data)
