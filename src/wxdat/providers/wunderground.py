@@ -9,7 +9,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
-from ..database import CurrentConditions
+from ..database import CurrentConditions, HourlyForecast
 from . import BaseStation, WeatherProvider
 
 logger = logging.getLogger(__name__)
@@ -47,7 +47,7 @@ class API_ImperialObs(BaseModel):
 class API_Observation(BaseModel):
     stationID: str
 
-    epoch: Optional[int] = None
+    epoch: Optional[datetime] = None
     obsTimeUtc: Optional[datetime] = None
     obsTimeLocal: Optional[datetime] = None
 
@@ -111,6 +111,11 @@ class Station(BaseStation):
             precip_day=conditions.precipTotal,
             precip_hour=conditions.precipRate,
         )
+
+    @property
+    def hourly_forecast(self) -> List[HourlyForecast]:
+        """Return the hourly forecast for this WeatherStation."""
+        return None
 
     def get_current_weather(self) -> API_Observation:
         self.logger.debug("getting current weather")
