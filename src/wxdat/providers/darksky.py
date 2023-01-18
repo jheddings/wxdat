@@ -53,7 +53,7 @@ class API_Conditions(BaseModel):
     nearestStormBearing: Optional[float] = None
 
 
-class API_Forecast(BaseModel):
+class API_DailyWeather(BaseModel):
     time: datetime
     summary: str
     icon: Optional[str] = None
@@ -110,7 +110,7 @@ class API_Hourly(BaseModel):
 class API_Daily(BaseModel):
     summary: str
     icon: Optional[str] = None
-    data: List[API_Forecast] = []
+    data: List[API_DailyWeather] = []
 
 
 class API_Flags(BaseModel):
@@ -191,11 +191,11 @@ class Station(BaseStation):
             return None
 
         hourly = self._cached.hourly
-        origin_time = self._cached.currently.timestamp
+        origin_time = self._cached.currently.time
 
         return [
             HourlyForecast(
-                timestamp=hour.timestamp,
+                timestamp=hour.time,
                 origin_time=origin_time,
                 provider=self.provider,
                 station_id=self.station_id,
