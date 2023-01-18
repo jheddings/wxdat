@@ -16,11 +16,8 @@ local.env
 local.yaml
 wxdat.db
 
-build
 dist
 lib
 tmp
 site
 htmlcov
-
-*.egg-info
