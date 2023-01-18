@@ -11,7 +11,7 @@ WITH_VENV := poetry run
 ################################################################################
 .PHONY: all
 
-all: venv build test
+all: venv preflight build
 
 ################################################################################
 .PHONY: venv
@@ -21,46 +21,46 @@ venv:
 	$(WITH_VENV) pre-commit install --install-hooks --overwrite
 
 ################################################################################
-.PHONY: build-pkg
+.PHONY: build-dist
 
-build-pkg: venv preflight test
+build-dist: preflight
 	poetry --no-interaction build
 
 ################################################################################
 .PHONY: build-image
 
-build-image: preflight test
+build-image: preflight
 	docker image build --tag "$(APPNAME):dev" "$(BASEDIR)"
 
 ################################################################################
 .PHONY: build
 
-build: preflight test build-pkg build-image
+build: build-dist build-image
 
 ################################################################################
 .PHONY: github-reltag
 
-github-reltag: build test
+github-reltag: preflight
 	git tag "v$(APPVER)" main
 	git push origin "v$(APPVER)"
 
 ################################################################################
 .PHONY: image-reltag
 
-image-reltag: preflight test build-image
+image-reltag: preflight build-image
 	docker image tag "$(APPNAME):dev" "jheddings/$(APPNAME):latest"
 	docker image tag "jheddings/$(APPNAME):latest" "jheddings/$(APPNAME):$(APPVER)"
 
 ################################################################################
 .PHONY: publish-pypi
 
-publish-pypi: venv preflight test build-pkg
+publish-pypi: preflight build-dist
 	poetry publish --no-interaction
 
 ################################################################################
 .PHONY: publish-docker
 
-publish-docker: preflight test build-image image-reltag
+publish-docker: preflight image-reltag
 	docker push "jheddings/$(APPNAME):$(APPVER)"
 	docker push "jheddings/$(APPNAME):latest"
 
@@ -84,7 +84,7 @@ run: venv
 .PHONY: runc
 
 runc: build-image
-	docker container run --rm --tty --publish 8077:8077 --volume "$(BASEDIR):/opt/wxdat" \
+	docker container run --rm --tty --volume "$(BASEDIR):/opt/wxdat" \
 		"$(APPNAME):dev" --config=/opt/wxdat/local.yaml
 
 ################################################################################
@@ -120,7 +120,7 @@ coverage: coverage-report coverage-html
 ################################################################################
 .PHONY: preflight
 
-preflight: venv static-checks unit-tests coverage-report
+preflight: static-checks unit-tests coverage-report
 
 ################################################################################
 .PHONY: clean

@@ -7,8 +7,6 @@ RUN pip3 install /tmp/wxdat/ && rm -Rf /tmp/wxdat
 
 WORKDIR "/opt/wxdat"
 
-EXPOSE 8077
-
 # commands must be presented as an array, otherwise it will be launched
 # using a shell, which causes problems handling signals for shutdown (#15)
 ENTRYPOINT ["python3", "-m", "wxdat"]
