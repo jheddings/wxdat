@@ -6,13 +6,19 @@ SRCDIR ?= $(BASEDIR)/src
 APPNAME ?= $(shell grep -m1 '^name' "$(BASEDIR)/pyproject.toml" | sed -e 's/name.*"\(.*\)"/\1/')
 APPVER ?= $(shell grep -m1 '^version' "$(BASEDIR)/pyproject.toml" | sed -e 's/version.*"\(.*\)"/\1/')
 
-VENV := poetry run
-PY := $(VENV) python3
+WITH_VENV := poetry run
 
 ################################################################################
 .PHONY: all
 
 all: venv build test
+
+################################################################################
+.PHONY: venv
+
+venv:
+	poetry install --sync
+	$(WITH_VENV) pre-commit install --install-hooks --overwrite
 
 ################################################################################
 .PHONY: build-pkg
@@ -72,53 +78,49 @@ release: publish github-reltag
 .PHONY: run
 
 run: venv
-	$(PY) -m wxdat --config $(BASEDIR)/local.yaml
+	$(WITH_VENV) python3 -m wxdat --config $(BASEDIR)/local.yaml
 
 ################################################################################
 .PHONY: runc
 
 runc: build-image
-	docker container run --rm --tty \
-		--publish 8077:8077 --volume "$(BASEDIR):/opt/wxdat" \
+	docker container run --rm --tty --publish 8077:8077 --volume "$(BASEDIR):/opt/wxdat" \
 		"$(APPNAME):dev" --config=/opt/wxdat/local.yaml
 
 ################################################################################
-.PHONY: preflight
+.PHONY: static-checks
 
-preflight: venv
-	$(VENV) pre-commit run --all-files --verbose
-
-################################################################################
-.PHONY: test
-
-test: venv preflight
-	$(VENV) pytest $(BASEDIR)/tests --vcr-record=once
+static-checks: venv
+	$(WITH_VENV) pre-commit run --all-files --verbose
 
 ################################################################################
-.PHONY: test-coverage
+.PHONY: unit-tests
 
-test-coverage: venv
-	$(VENV) coverage run "--source=$(SRCDIR)" -m \
-		pytest $(BASEDIR)/tests --vcr-record=once
+unit-tests: venv
+	$(WITH_VENV) coverage run "--source=$(SRCDIR)" -m \
+		pytest "$(BASEDIR)/tests" --vcr-record=once
 
 ################################################################################
-.PHONY: coverage-txt
+.PHONY: coverage-report
 
-coverage-txt: venv test-coverage
-	$(VENV) coverage report
+coverage-report: venv unit-tests
+	$(WITH_VENV) coverage report
 
 ################################################################################
 .PHONY: coverage-html
 
-coverage-html: venv test-coverage
-	$(VENV) coverage html
+coverage-html: venv unit-tests
+	$(WITH_VENV) coverage html
 
 ################################################################################
-.PHONY: venv
+.PHONY: coverage
 
-venv:
-	poetry install --sync
-	$(VENV) pre-commit install --install-hooks --overwrite
+coverage coverage-report: coverage-html
+
+################################################################################
+.PHONY: preflight
+
+preflight: venv static-checks unit-tests coverage-report
 
 ################################################################################
 .PHONY: clean
@@ -134,6 +136,7 @@ clean:
 .PHONY: clobber
 
 clobber: clean
+	$(WITH_VENV) pre-commit uninstall
 	rm -Rf "$(BASEDIR)/htmlcov"
 	rm -Rf "$(BASEDIR)/dist"
 	rm -Rf "$(BASEDIR)/.venv"
