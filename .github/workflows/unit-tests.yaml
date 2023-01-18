@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      max-parallel: 1
+      max-parallel: 2
       fail-fast: false
       matrix:
         python-version:
@@ -34,8 +34,4 @@ jobs:
         uses: snok/install-poetry@v1
 
       - name: Run unit tests
-        run: |
-          make unit-tests
-        env:
-          NOTION_AUTH_TOKEN: ${{ secrets.NOTION_AUTH_TOKEN }}
-          NOTION_TEST_AREA: ${{ secrets.NOTION_TEST_AREA }}
+        run: make unit-tests
