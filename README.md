@@ -59,3 +59,13 @@ general, the pattern for using them is:
 
    # convert 100.0 from celsius to fahrenheit
    temp = units.degC(100).degf
+
+## Contributing ##
+
+To submit a new issue, please visit the [Issues](https://github.com/jheddings/wxdat/issues)
+page.
+
+If you are unsure where to start, create a post in the
+[Discussions](https://github.com/jheddings/wxdat/discussions) area.
+
+Additionally, [Pull Requests](https://github.com/jheddings/wxdat/pulls) are welcome.
