@@ -13,22 +13,30 @@ used as a framework for collecting weather information in other apps.
 
 Install the published package using pip:
 
-    pip3 install wxdat
+```shell
+pip3 install wxdat
+```
 
 This project uses `poetry` to manage dependencies and a local virtual environment.  To
 get started, clone the repository and install the dependencies with the following:
 
-    poetry install
+```shell
+poetry install
+```
 
 ## Usage ##
 
 Run the module and tell it which config file to use.
 
-    python3 -m wxdat --config wxdat.yaml
+```shell
+python3 -m wxdat --config wxdat.yaml
+```
 
 If you are using `poetry` to manage the virtual environment, use the following:
 
-    poetry run python -m wxdat --config wxdat.yaml
+```shell
+poetry run python -m wxdat --config wxdat.yaml
+```
 
 ## Configuration ##
 
@@ -55,10 +63,12 @@ the example configuration file for details on each provider.
 `wxdat` also includes a limited set of conversion helpers for working with units.  In
 general, the pattern for using them is:
 
-   from wxdat import units
+```python
+from wxdat import units
 
-   # convert 100.0 from celsius to fahrenheit
-   temp = units.degC(100).degf
+# convert 100.0 from celsius to fahrenheit
+temp = units.degC(100).degf
+```
 
 ## Contributing ##
 
