@@ -8,6 +8,7 @@ __pycache__
 *.py[cod]
 *.prof
 .coverage
+.pytest_cache
 
 .venv
 
@@ -20,5 +21,6 @@ dist
 lib
 tmp
 site
+htmlcov
 
 *.egg-info

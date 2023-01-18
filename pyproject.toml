@@ -27,9 +27,6 @@ pytest = "^7.2.0"
 pytest-vcr = "^1.0.2"
 coverage = "^7.0.5"
 
-[tool.poetry.scripts]
-wxdat = "wxdat.__main__:main"
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
