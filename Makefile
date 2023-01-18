@@ -115,7 +115,7 @@ coverage-html: venv unit-tests
 ################################################################################
 .PHONY: coverage
 
-coverage coverage-report: coverage-html
+coverage: coverage-report coverage-html
 
 ################################################################################
 .PHONY: preflight
