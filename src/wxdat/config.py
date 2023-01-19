@@ -7,8 +7,8 @@ from abc import abstractmethod
 from enum import Enum
 from typing import Dict, List, Optional
 
+import yaml
 from pydantic import BaseModel, validator
-from ruamel.yaml import YAML
 
 from .providers import (
     WeatherProvider,
@@ -215,10 +215,8 @@ class AppConfig(BaseModel):
         if not os.path.exists(config_file):
             raise FileNotFoundError(f"config file does not exist: {config_file}")
 
-        yaml = YAML(typ="safe")
-
         with open(config_file, "r") as fp:
-            data = yaml.load(fp)
+            data = yaml.load(fp, Loader=yaml.SafeLoader)
             conf = AppConfig(**data)
 
         logger = cls._configure_logging(conf)
