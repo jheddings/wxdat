@@ -310,3 +310,16 @@ def test_one_fps():
     assert isclose(fps.kph, 1.09728)
     assert isclose(fps.mph, 0.68181818)
     assert isclose(fps.knot, 0.5924838)
+
+
+def test_one_mmph():
+    """Confirm simple MillimeterPerHour conversions."""
+    mmph = units.mmph(1)
+
+    assert mmph == 1.0
+
+    assert float(mmph) == 1.0
+    assert int(mmph) == 1
+
+    assert mmph.cmph == 0.1
+    assert isclose(mmph.inph, 0.03937)
