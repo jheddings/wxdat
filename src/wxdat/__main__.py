@@ -38,7 +38,7 @@ class MainApp:
 
         self.database = WeatherDatabase(dburl)
 
-    def run(self):
+    def __call__(self):
 
         self.logger.debug("Starting main app")
 
@@ -60,8 +60,9 @@ class MainApp:
 )
 def main(config):
     cfg = AppConfig.load(config)
+    app = MainApp(cfg)
 
-    MainApp(cfg).run()
+    app()
 
 
 ### MAIN ENTRY
