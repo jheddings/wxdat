@@ -3,6 +3,7 @@
 
 from .distance import Centimeter, Feet, Inch, Kilometer, Meter, Mile, Millimeter, Yard
 from .pressure import Hectopascal, InchesMercury, Pascal
+from .rate import InchesPerHour, MillimetersPerHour
 from .temperature import Celsius, Fahrenheit, Kelvin
 from .velocity import FeetPerSecond, KilometersPerHour, MetersPerSecond, MilesPerHour
 
@@ -105,3 +106,13 @@ def mph(value: float) -> MilesPerHour:
 def fps(value: float) -> FeetPerSecond:
     """Return the given value as FeetPerSecond quantity."""
     return FeetPerSecond(value)
+
+
+def mmph(value: float) -> MillimetersPerHour:
+    """Return the given value as MillimetersPerHour quantity."""
+    return MillimetersPerHour(value)
+
+
+def inph(value: float) -> InchesPerHour:
+    """Return the given value as InchesPerHour quantity."""
+    return InchesPerHour(value)
