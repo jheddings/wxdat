@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "wxdat"
-version = "1.0.0"
+version = "1.0.1"
 description = "Weather data explorer."
 authors = ["jheddings <jheddings@gmail.com>"]
 license = "MIT"
@@ -26,6 +26,9 @@ git-python = "^1.0.3"
 pytest = "^7.2.0"
 pytest-vcr = "^1.0.2"
 coverage = "^7.0.5"
+
+[tool.poetry.scripts]
+wxdat = "wxdat.__main__:main"
 
 [build-system]
 requires = ["poetry-core"]
