@@ -179,6 +179,7 @@ class Station(BaseStation):
             precip_hour=units.mmph(conditions.precipIntensity).inph,
             cloud_cover=conditions.cloudCover * 100.0,
             visibility=conditions.visibility,
+            ozone=conditions.ozone,
             uv_index=conditions.uvIndex,
             remarks=conditions.summary,
         )
