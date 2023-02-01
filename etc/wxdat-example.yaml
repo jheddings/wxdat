@@ -1,4 +1,5 @@
 ## sample config file for wxdat app
+---
 
 # update interval (in seconds) for station data (may be specified per station);
 update_interval: 900
@@ -9,7 +10,7 @@ units: imperial
 # override the database connection string (used by SQLAlcheny)
 # database: sqlite:///wxdat.db
 
-#-------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 stations:
 
   - name: Denver Airport via WUnderground
@@ -35,7 +36,7 @@ stations:
     provider: NOAA
     station: KDEN
 
-#-------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # setup logging system -- or remove this section to disable logging
 # this uses the standard dict config for the Python logging framework
 logging:
@@ -60,7 +61,7 @@ logging:
       formatter: brief
       stream: ext://sys.stdout
     logfile:
-      class : logging.FileHandler
+      class: logging.FileHandler
       formatter: precise
       filename: wxdat.log
       mode: w
