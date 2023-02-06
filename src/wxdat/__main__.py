@@ -39,7 +39,6 @@ class MainApp:
         self.database = WeatherDatabase(dburl)
 
     def __call__(self):
-
         self.logger.debug("Starting main app")
 
         for obs in self.observers:

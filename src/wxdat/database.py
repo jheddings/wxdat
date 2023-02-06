@@ -106,7 +106,6 @@ class WeatherDatabase:
 
     def save(self, entry: MagicTable):
         with self.session() as session:
-
             try:
                 session.merge(entry)
                 session.commit()

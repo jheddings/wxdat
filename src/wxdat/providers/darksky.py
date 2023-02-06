@@ -114,7 +114,6 @@ class API_Daily(BaseModel):
 
 
 class API_Flags(BaseModel):
-
     units: str
     sources: List[str] = []
 
