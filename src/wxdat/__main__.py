@@ -6,6 +6,7 @@ import threading
 
 import click
 
+from . import version
 from .config import AppConfig
 from .providers import DataRecorder
 
@@ -56,6 +57,11 @@ class MainApp:
 @click.command()
 @click.option(
     "--config", "-f", default="wxdat.yaml", help="app config file (default: wxdat.yaml)"
+)
+@click.version_option(
+    version=version.__version__,
+    package_name=version.__pkgname__,
+    prog_name=version.__pkgname__,
 )
 def main(config):
     cfg = AppConfig.load(config)
