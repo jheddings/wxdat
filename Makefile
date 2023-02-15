@@ -26,6 +26,10 @@ venv:
 	$(WITH_VENV) pre-commit install --install-hooks --overwrite
 
 ################################################################################
+poetry.lock: venv
+	poetry lock --no-update
+
+################################################################################
 .PHONY: build-dist
 
 build-dist: preflight
