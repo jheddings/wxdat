@@ -8,33 +8,14 @@ from enum import Enum
 from typing import List
 
 import requests
-from prometheus_client import Counter
 from ratelimit import limits, sleep_and_retry
 from requests.exceptions import ConnectionError
 
 from ..database import CurrentConditions, HourlyForecast, WeatherDatabase
+from ..metrics import BaseStationMetrics, WeatherConditionMetrics
 from ..version import __pkgname__, __version__
 
 logger = logging.getLogger(__name__)
-
-
-STATION_GET_REQ = Counter(
-    "wxdat_station_get_requests",
-    "Total GET requests made by the station.",
-    labelnames=["station"],
-)
-
-STATION_FAILED = Counter(
-    "wxdat_station_failed",
-    "Failed requests made by the station.",
-    labelnames=["station"],
-)
-
-STATION_ERRORS = Counter(
-    "wxdat_station_errors",
-    "Errors reported by the station.",
-    labelnames=["station"],
-)
 
 
 class WeatherProvider(str, Enum):
@@ -46,18 +27,11 @@ class WeatherProvider(str, Enum):
     WUNDERGROUND = "WUndergroundPWS"
 
 
-class BaseStationMetrics:
-    def __init__(self, name):
-        self.get_req = STATION_GET_REQ.labels(station=name)
-        self.errors = STATION_ERRORS.labels(station=name)
-        self.failed = STATION_FAILED.labels(station=name)
-
-
 class BaseStation(ABC):
     def __init__(self, name):
         self.name = name
 
-        self.metrics = BaseStationMetrics(name)
+        self.metrics = BaseStationMetrics(self)
 
         self.logger = logger.getChild("WeatherStation")
         self.logger.debug("new station: %s", name)
@@ -132,6 +106,8 @@ class DataRecorder:
         self.loop_thread = threading.Thread(name=self.id, target=self.run_loop)
         self.loop_last_exec = None
 
+        self.metrics = WeatherConditionMetrics(name=station.name)
+
         self.logger = logger.getChild("DataRecorder")
 
     @property
@@ -203,6 +179,8 @@ class DataRecorder:
                 "Station '%s' did not provide current weather.", self.station.name
             )
             return False
+
+        self.metrics(wx_data)
 
         self.logger.debug("-- saving current data @ %s", wx_data.timestamp)
         return self.database.save(wx_data)
