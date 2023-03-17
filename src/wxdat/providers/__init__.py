@@ -8,6 +8,7 @@ from enum import Enum
 from typing import List
 
 import requests
+from prometheus_client import Counter
 from ratelimit import limits, sleep_and_retry
 from requests.exceptions import ConnectionError
 
@@ -15,6 +16,25 @@ from ..database import CurrentConditions, HourlyForecast, WeatherDatabase
 from ..version import __pkgname__, __version__
 
 logger = logging.getLogger(__name__)
+
+
+STATION_GET_REQ = Counter(
+    "wxdat_station_get_requests",
+    "Total GET requests made by the station.",
+    labelnames=["station"],
+)
+
+STATION_FAILED = Counter(
+    "wxdat_station_failed",
+    "Failed requests made by the station.",
+    labelnames=["station"],
+)
+
+STATION_ERRORS = Counter(
+    "wxdat_station_errors",
+    "Errors reported by the station.",
+    labelnames=["station"],
+)
 
 
 class WeatherProvider(str, Enum):
@@ -26,9 +46,18 @@ class WeatherProvider(str, Enum):
     WUNDERGROUND = "WUndergroundPWS"
 
 
+class BaseStationMetrics:
+    def __init__(self, name):
+        self.get_req = STATION_GET_REQ.labels(station=name)
+        self.errors = STATION_ERRORS.labels(station=name)
+        self.failed = STATION_FAILED.labels(station=name)
+
+
 class BaseStation(ABC):
     def __init__(self, name):
         self.name = name
+
+        self.metrics = BaseStationMetrics(name)
 
         self.logger = logger.getChild("WeatherStation")
         self.logger.debug("new station: %s", name)
@@ -67,17 +96,21 @@ class BaseStation(ABC):
         try:
             resp = requests.get(url, params=params, headers=full_headers)
             self.logger.debug("=> HTTP %d: %s", resp.status_code, resp.reason)
+            self.metrics.get_req.inc()
 
         except ConnectionError:
             self.logger.warning("Unable to download data; connection error")
+            self.metrics.errors.inc()
             return None
 
         except Exception:
             self.logger.exception("Unable to download data; unhandled exception")
+            self.metrics.errors.inc()
             return None
 
         if not resp.ok:
             self.logger.warning("Unable to download data; %d", resp.status_code)
+            self.metrics.failed.inc()
             return None
 
         return resp
