@@ -10,6 +10,9 @@ units: imperial
 # override the database connection string (used by SQLAlcheny)
 # database: sqlite:///wxdat.db
 
+# enable Prometheus metrics on the specified port (remove to disable)
+# metrics: 9110
+
 # ------------------------------------------------------------------------------
 stations:
 

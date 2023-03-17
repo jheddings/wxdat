@@ -5,6 +5,7 @@ import signal
 import threading
 
 import click
+from prometheus_client import start_http_server
 
 from . import version
 from .config import AppConfig
@@ -24,11 +25,14 @@ class MainApp:
 
         self._initialize_database(config.database)
         self._initialize_observers(config)
+        self._initialize_metrics(config.metrics)
 
     def _initialize_observers(self, config: AppConfig):
         self.observers = []
 
         for station_cfg in config.stations:
+            self.logger.info("Initializing observer: %s", station_cfg.name)
+
             station = station_cfg.initialize()
             interval = station_cfg.update_interval or config.update_interval
             recorder = DataRecorder(station, self.database, interval)
@@ -37,7 +41,15 @@ class MainApp:
     def _initialize_database(self, dburl):
         from .database import WeatherDatabase
 
+        self.logger.info("Initializing weather database session")
         self.database = WeatherDatabase(dburl)
+
+    def _initialize_metrics(self, port=None):
+        if port is None:
+            self.logger.debug("metrics server disabled by config")
+        else:
+            self.logger.info("Initializing app metrics: %d", port)
+            start_http_server(port)
 
     def __call__(self):
         self.logger.debug("Starting main app")

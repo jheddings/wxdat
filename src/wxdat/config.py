@@ -200,6 +200,7 @@ class AppConfig(BaseModel):
     stations: List[StationConfig] = []
     units: Units = Units.METRIC
     logging: Optional[Dict] = None
+    metrics: Optional[int] = None
 
     @validator("database", pre=True, always=True)
     def _check_env_for_database_str(cls, val):
