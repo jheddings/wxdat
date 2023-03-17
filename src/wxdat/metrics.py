@@ -6,10 +6,10 @@ from prometheus_client import Counter, Gauge
 
 from .database import CurrentConditions
 
-PROVIDER_GET_REQ = Counter(
+PROVIDER_REQUESTS = Counter(
     "wxdat_provider_get_requests",
     "Total GET requests made to a provider.",
-    labelnames=["station", "provider"],
+    labelnames=["station", "provider", "method"],
 )
 
 STATION_FAILED = Counter(
@@ -132,9 +132,10 @@ class BaseStationMetrics:
         self.errors = STATION_ERRORS.labels(station=station.name)
         self.failed = STATION_FAILED.labels(station=station.name)
 
-        self.get_req = PROVIDER_GET_REQ.labels(
-            station=station.name,
+        self.get_req = PROVIDER_REQUESTS.labels(
+            method="get",
             provider=station.provider.value,
+            station=station.name,
         )
 
 
