@@ -106,7 +106,7 @@ class DataRecorder:
         self.loop_thread = threading.Thread(name=self.id, target=self.run_loop)
         self.loop_last_exec = None
 
-        self.metrics = WeatherConditionMetrics(name=station.name)
+        self.metrics = WeatherConditionMetrics(station)
 
         self.logger = logger.getChild("DataRecorder")
 

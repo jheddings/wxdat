@@ -139,7 +139,9 @@ class BaseStationMetrics:
 
 
 class WeatherConditionMetrics:
-    def __init__(self, name):
+    def __init__(self, station):
+        name = station.name
+
         self.temperature = CURRENT_TEMPERATURE.labels(station=name)
         self.feels_like = CURRENT_FEELS_LIKE.labels(station=name)
         self.dew_point = CURRENT_DEWPOINT.labels(station=name)
@@ -166,6 +168,7 @@ class WeatherConditionMetrics:
             return False
 
         gauge.set(val)
+
         return True
 
     def __call__(self, current_conditions: CurrentConditions):

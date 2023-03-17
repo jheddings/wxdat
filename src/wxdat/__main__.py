@@ -77,6 +77,7 @@ class MainApp:
 )
 def main(config):
     cfg = AppConfig.load(config)
+
     app = MainApp(cfg)
 
     app()
