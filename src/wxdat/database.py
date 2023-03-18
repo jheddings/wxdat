@@ -2,6 +2,7 @@
 import logging
 
 import sqlalchemy as sql
+from prometheus_client import Counter
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import declarative_base, sessionmaker
 
@@ -93,6 +94,11 @@ class WeatherDatabase:
 
         self.migrate()
 
+        self.session_attempts = Counter(
+            "wxdat_session_attempts",
+            "Session initialzation requests.",
+        )
+
         # configure the session class to use our engine
         MagicSession.configure(bind=self.engine)
 
@@ -102,6 +108,7 @@ class WeatherDatabase:
 
     def session(self):
         """Starts a new session with the database engine."""
+        self.session_attempts.inc()
         return MagicSession()
 
     def save(self, entry: MagicTable):

@@ -12,6 +12,7 @@ from ratelimit import limits, sleep_and_retry
 from requests.exceptions import ConnectionError
 
 from ..database import CurrentConditions, HourlyForecast, WeatherDatabase
+from ..metrics import BaseStationMetrics, WeatherConditionMetrics
 from ..version import __pkgname__, __version__
 
 logger = logging.getLogger(__name__)
@@ -29,6 +30,8 @@ class WeatherProvider(str, Enum):
 class BaseStation(ABC):
     def __init__(self, name):
         self.name = name
+
+        self.metrics = BaseStationMetrics(self)
 
         self.logger = logger.getChild("WeatherStation")
         self.logger.debug("new station: %s", name)
@@ -67,17 +70,21 @@ class BaseStation(ABC):
         try:
             resp = requests.get(url, params=params, headers=full_headers)
             self.logger.debug("=> HTTP %d: %s", resp.status_code, resp.reason)
+            self.metrics.get_req.inc()
 
         except ConnectionError:
             self.logger.warning("Unable to download data; connection error")
+            self.metrics.errors.inc()
             return None
 
         except Exception:
             self.logger.exception("Unable to download data; unhandled exception")
+            self.metrics.errors.inc()
             return None
 
         if not resp.ok:
             self.logger.warning("Unable to download data; %d", resp.status_code)
+            self.metrics.failed.inc()
             return None
 
         return resp
@@ -98,6 +105,8 @@ class DataRecorder:
         self.thread_ctl = threading.Event()
         self.loop_thread = threading.Thread(name=self.id, target=self.run_loop)
         self.loop_last_exec = None
+
+        self.metrics = WeatherConditionMetrics(station)
 
         self.logger = logger.getChild("DataRecorder")
 
@@ -170,6 +179,8 @@ class DataRecorder:
                 "Station '%s' did not provide current weather.", self.station.name
             )
             return False
+
+        self.metrics(wx_data)
 
         self.logger.debug("-- saving current data @ %s", wx_data.timestamp)
         return self.database.save(wx_data)
