@@ -83,7 +83,7 @@ class BaseStation(ABC):
             return None
 
         if not resp.ok:
-            self.logger.warning("Unable to download data; %d", resp.status_code)
+            self.logger.warning("Unable to download data; HTTP %d", resp.status_code)
             self.metrics.failed.inc()
             return None
 
@@ -175,8 +175,9 @@ class DataRecorder:
         wx_data = self.station.current_conditions
 
         if wx_data is None:
-            self.logger.warning(
-                "Station '%s' did not provide current weather.", self.station.name
+            self.logger.info(
+                "Station '%s' did not provide current weather.",
+                self.station.name,
             )
             return False
 
@@ -192,8 +193,9 @@ class DataRecorder:
         forecast = self.station.hourly_forecast
 
         if forecast is None:
-            self.logger.warning(
-                "Station '%s' did not provide an hourly forecast.", self.station.name
+            self.logger.info(
+                "Station '%s' did not provide an hourly forecast.",
+                self.station.name,
             )
             return False
 
