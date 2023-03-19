@@ -175,7 +175,7 @@ class DataRecorder:
         wx_data = self.station.current_conditions
 
         if wx_data is None:
-            self.logger.info(
+            self.logger.debug(
                 "Station '%s' did not provide current weather.",
                 self.station.name,
             )
@@ -193,7 +193,7 @@ class DataRecorder:
         forecast = self.station.hourly_forecast
 
         if forecast is None:
-            self.logger.info(
+            self.logger.debug(
                 "Station '%s' did not provide an hourly forecast.",
                 self.station.name,
             )
