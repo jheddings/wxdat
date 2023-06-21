@@ -28,6 +28,11 @@ poetry.lock: venv
 	poetry lock --no-update --no-interaction
 
 
+.PHONY: buildx
+buildx:
+	docker buildx create --use --name $(APPNAME)-buildx
+
+
 .PHONY: build-dist
 build-dist: preflight
 	poetry build --no-interaction
@@ -42,27 +47,18 @@ build-image: preflight
 build: build-dist build-image
 
 
-.PHONY: github-reltag
-github-reltag: preflight
-	git tag "v$(APPVER)" main
-	git push origin "v$(APPVER)"
-
-
-.PHONY: image-reltag
-image-reltag: preflight build-image
-	docker image tag "$(APPNAME):dev" "jheddings/$(APPNAME):latest"
-	docker image tag "jheddings/$(APPNAME):latest" "jheddings/$(APPNAME):$(APPVER)"
-
-
 .PHONY: publish-pypi
 publish-pypi: preflight build-dist
 	poetry publish --no-interaction
 
 
 .PHONY: publish-docker
-publish-docker: preflight image-reltag
-	docker push "jheddings/$(APPNAME):$(APPVER)"
-	docker push "jheddings/$(APPNAME):latest"
+publish-docker: preflight
+	docker buildx build --push \
+		--platform linux/amd64,linux/arm64 \
+		--tag "jheddings/$(APPNAME):$(APPVER)" \
+		--tag "jheddings/$(APPNAME):latest" \
+		"$(BASEDIR)"
 
 
 .PHONY: publish
@@ -70,7 +66,9 @@ publish: publish-pypi publish-docker
 
 
 .PHONY: release
-release: publish github-reltag
+release: publish
+	git tag "v$(APPVER)" main
+	git push origin "v$(APPVER)"
 
 
 .PHONY: run
