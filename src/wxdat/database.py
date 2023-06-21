@@ -70,6 +70,7 @@ class CurrentConditions(MagicTable):
     precip_week = sql.Column(sql.Float())
     precip_month = sql.Column(sql.Float())
     precip_year = sql.Column(sql.Float())
+    precip_total = sql.Column(sql.Float())
 
     rel_pressure = sql.Column(sql.Float())
     abs_pressure = sql.Column(sql.Float())

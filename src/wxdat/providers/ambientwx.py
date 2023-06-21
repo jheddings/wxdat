@@ -49,6 +49,7 @@ class API_DeviceData(BaseModel):
     monthlyrainin: Optional[float] = None
     yearlyrainin: Optional[float] = None
     eventrainin: Optional[float] = None
+    totalrainin: Optional[float] = None
 
     uv: Optional[float] = None
 
@@ -103,6 +104,7 @@ class Station(BaseStation):
             precip_week=conditions.weeklyrainin,
             precip_month=conditions.monthlyrainin,
             precip_year=conditions.yearlyrainin,
+            precip_total=conditions.totalrainin,
             rel_pressure=conditions.baromrelin,
             abs_pressure=conditions.baromabsin,
             solar_rad=conditions.solarradiation,
