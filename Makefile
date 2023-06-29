@@ -31,7 +31,7 @@ poetry.lock: venv
 .PHONY: buildx
 buildx:
 	-docker buildx create --name $(APPNAME)-buildx
-	docker buildx use --name $(APPNAME)-buildx
+	docker buildx use $(APPNAME)-buildx
 
 
 .PHONY: build-dist
