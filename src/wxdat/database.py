@@ -2,18 +2,19 @@
 import logging
 
 import sqlalchemy as sql
-from prometheus_client import Counter
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import declarative_base, sessionmaker
+
+from . import metrics
 
 logger = logging.getLogger(__name__)
 
 
-MagicTable = declarative_base()
+WeatherData = declarative_base()
 MagicSession = sessionmaker()
 
 
-class HourlyForecast(MagicTable):
+class HourlyForecast(WeatherData):
     """Define fields for hourly forecast data."""
 
     __tablename__ = "hourly_forecast"
@@ -46,7 +47,7 @@ class HourlyForecast(MagicTable):
     remarks = sql.Column(sql.Text())
 
 
-class CurrentConditions(MagicTable):
+class CurrentConditions(WeatherData):
     """Define data fields for current conditions."""
 
     __tablename__ = "current_conditions"
@@ -95,24 +96,24 @@ class WeatherDatabase:
 
         self.migrate()
 
-        self.session_attempts = Counter(
-            "wxdat_session_attempts",
-            "Session initialzation requests.",
-        )
+        self.metrics = metrics.DatabaseMetrics(self.engine)
 
         # configure the session class to use our engine
         MagicSession.configure(bind=self.engine)
 
     def migrate(self):
         # TODO create / migrate schema as needed
-        MagicTable.metadata.create_all(self.engine)
+        WeatherData.metadata.create_all(self.engine)
 
     def session(self):
         """Starts a new session with the database engine."""
-        self.session_attempts.inc()
+        self.metrics.sessions.inc()
+
         return MagicSession()
 
-    def save(self, entry: MagicTable):
+    def save(self, entry: WeatherData):
+        self.metrics.writes.inc()
+
         with self.session() as session:
             try:
                 session.merge(entry)
@@ -121,6 +122,9 @@ class WeatherDatabase:
             except SQLAlchemyError:
                 logger.exception("Error saving entry; rolling back")
                 session.rollback()
+                self.metrics.errors.inc()
                 return False
+
+        self.metrics.commits.inc()
 
         return True
