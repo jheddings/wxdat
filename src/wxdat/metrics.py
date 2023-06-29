@@ -5,7 +5,7 @@ from typing import Optional
 from prometheus_client import Counter, Gauge
 
 PROVIDER_REQUESTS = Counter(
-    "wxdat_provider_",
+    "wxdat_provider_requests",
     "Total requests made to a provider.",
     labelnames=["station", "provider", "method"],
 )

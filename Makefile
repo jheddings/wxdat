@@ -30,7 +30,8 @@ poetry.lock: venv
 
 .PHONY: buildx
 buildx:
-	docker buildx create --use --name $(APPNAME)-buildx
+	-docker buildx create --name $(APPNAME)-buildx
+	docker buildx use --name $(APPNAME)-buildx
 
 
 .PHONY: build-dist
@@ -53,7 +54,7 @@ publish-pypi: preflight build-dist
 
 
 .PHONY: publish-docker
-publish-docker: preflight
+publish-docker: preflight buildx
 	docker buildx build --push \
 		--platform linux/amd64,linux/arm64 \
 		--tag "jheddings/$(APPNAME):$(APPVER)" \
