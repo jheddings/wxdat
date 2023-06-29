@@ -14,7 +14,6 @@ from .providers import (
     WeatherProvider,
     accuweather,
     ambientwx,
-    darksky,
     noaa,
     openweather,
     wunderground,
@@ -121,24 +120,6 @@ class OpenWeatherMapConfig(StationConfig, provider=WeatherProvider.OPENWEATHERMA
         """Initialize a new OpenWeatherMap station based on this config."""
 
         return openweather.Station(
-            name=self.name,
-            api_key=self.api_key,
-            latitude=self.latitude,
-            longitude=self.longitude,
-        )
-
-
-class DarkSkyConfig(StationConfig, provider=WeatherProvider.DARKSKY):
-    """Station configuration for Dark Sky."""
-
-    api_key: str
-    latitude: float
-    longitude: float
-
-    def initialize(self):
-        """Initialize a new Dark Sky station based on this config."""
-
-        return darksky.Station(
             name=self.name,
             api_key=self.api_key,
             latitude=self.latitude,

@@ -9,52 +9,53 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - wxdat/0.1.0-1f17c8b-unit_tests+ (+https://github.com/jheddings/wxdat)
+      - wxdat/1.3.0-3344a0f+ (+https://github.com/jheddings/wxdat)
     method: GET
     uri: https://api.weather.gov/stations//KDEN/observations/latest
   response:
     body:
       string: !!binary |
-        H4sIAAAAAAAAA8VX72/iNhj+3r8iyn3ZtBGcUBJAmtYT3XpTYe3a7iZ1qk4meRu8OnbOdki7U//3
-        s5NCEyCUQnfLBxTi933e5/1p+8uBpR/7KORMwb2yB9bfxZfi61SpVA7a7Rj4P5Izh4t4/t6i0eL1
-        Sdcxf2hk/7gA+LJ4K43MQEjCmTZiu45bESyW83uzMLeJU+LkgNUUhBPzWVvb4JTHD++W1WRVS4ZT
-        SHBBdFlOs51LasE8zx2eAouJdBgoA2/8kSkWn+mKjYwRVVEOeQTSyRPuEK0W8iThrG1kVowezXiI
-        Jzv5pdkkoMSDVq7HsQQmkUGVgxPgQ85FRBhWIJdASlH1kIIR1oiD/E6NiAKBqV2TfFyyHhL1UBrA
-        USRAypF2hJqPy+FX2m5N8gJik+QluYhoSRbCC+4cz8U2OSIHf2SYKaJNkxl8xDSDzd5MAAvC4gbb
-        O8POCpHNDs1ehjGVM9Ql9QLSQmxTaIz0RmO3XECIpTq7vSWN2Xg12okg0TFWeF+8NJtQEl5ztjez
-        kGdMNTVPM8pB/e2mRLXLHDT1sOkBXfKyfXr8y+9tPpEgZk9fPOR1Wshtod4VcgfdzgChHxDSv09Z
-        tOdUftV4mZgnd333L4TPuR48lTrQ3j6PgOoIN0/LRYeOH9Tj0+k7vW6/+iyWbw4q8bRTocekUKQA
-        rlA5+s9CUk9Rfj84e9a+LGGrkkChXFvJdbWxbD2t/9R/B8nyYJo3set3/efsVww8ubK1t1VyiiSg
-        F5PUaG/luMD5WA9RHBesDZ6Fesjtdq4tz0MoOL2yXHQ5toajC2uMvPYYBdb7jka2Lsan1vszz7oc
-        nXt+YF25yA1c5Ac1PnqfPgYZCpLOfRpSPRyrMiTc7KxZl22KWdRmJJ6qtrwLf5bkX/gpgYhk1QDr
-        6gEJTP1VqpvSvKmxSXRtlXW/VfIiiIdN+Wu5zlKN25+zYssa6j1WcGqAPtprUxxBnhYttT8L3wlQ
-        7fF2JZUTFh0TPV+3L27NTAB8+g6zmML3TRx1He3D6TIFiLbjc5d8mrZWDnqLjvOcvl8NlbsPrZNM
-        bpm/zaxYRumLPK7X85hgUYxtEp6bk9DWdX2OG2OkOzvYOV0S8AhmQN+Qjb87mxmRZEIoWbMtv3ZU
-        o/7LLIbrWST4/up57oz04cU7/MAzIfdvflM6620S9s1t6tEbkpSUO5MxaQxuGfjGyO/THCuEOq8I
-        wTei5P/vlATQ4vrxIUtItHWr6NIKoXYkrBHye47fP+weBn23izwXoe4+k3Y4JZS+yVaJ/E7Q7bl9
-        z/O9IOjtPP+n+nzxG4vg/m36aVcaIeVZNMIPIFZP4WuuIRMs119zGokvV9xa9isSj6tKNk7M/agY
-        k6OLpjvQ003g4PEr+NbjCCYSAAA=
+        H4sIAAAAAAAAA81XW1PjNhR+51d43Jd2WhzJt8SZ6ZSdwLIdQqELXWboMDuKfUjUtS2vJMdJd/jv
+        lWwS7NwICaX1AzjWd875zlXStwNDPeZRyFIJE2l2jT/LL+XXkZSZ6LZaQ2B/CZZajA9n74dxNH99
+        lLX0jzgyf5or+DZ/q4yMgQvKUmXExBauAcvlYqIXZjZJRq0CiBwBt4Zs3FI2WMyG0+8WxURdSoQj
+        SEhJdBGn2M6QClgUhcUySIdUWClIrV77IzLCv8ZLNvKUyppwyCIQVpEwiyqxkCUJS1sas2T0aMxC
+        MtjJL8UmAcmnSrgZx0oxjbRW0T0F1mOMRzQlEsSCkgoqpxlosNLYLb7IPpXASWw2kA8L1kMqp5UB
+        EkUchOgrR2L9cTH8UtltID/CUCd5ARdRhUxDeMad4xlskyOi+3tOUkmVaTqGTyTOYbM3AyCcpsM1
+        tndWOy4hmx0aP69GV05PldQzmuawTaHR6I3G7hmHkAh5cX9P12bjxdpOOY2OiST76svyQUzDW5bu
+        zSxkeSrXNc96LQfNt7tKq1nlYF0P6x5QJS9aZ8cnv7XYQAAfP36xke0cIv/QDq5xu+s5XYR+REj9
+        fcyiOaPyXunL+Sy5q7t/Dr5kavDU6kB5+zQC6iNcP4cYuZbfbsbHCayOF9Sf+fLdQS2eZsbVmOSS
+        loprVI7+tZA0U1RMuhdP0leV2joSYqjWlnJdbyxTTes/1M9usjiYZk2Mfc9/yn7NwKMrW3tbJydp
+        AmoxybT0Vo5zUpyrIUqGJWutz7AD3PacWwO7CDtn1wZGV+fG+5Mb5HrGVe8a+Uj/wzYybLeFHeOd
+        gzAyPp6fGe8ubOOqf4mxZ1wj21XydkeJqzfDRrhtG14H2Q3zeiM/BhFyms2cviRcxlOjF7M8qo9/
+        k4abo6LXRSsmadSKyFTtzfIXQf+GnxOIaF7PgyoyEJDKm0pYV/Bdg1OiSrBqj61yHMGwty7Ntms5
+        jboPFoBf83Kf66mNmbNYq/1krqyLCIqs7MO9OWHb6qD6g3flVNA0OqZqJm/fEIoYB/j8PUmHMfyw
+        lqKL9uF0lQFE2/H5knweHS4dDmvpU4X+WqE6zcWW6dvMKs3j+Fket6t5DAgvRz0NL/XpaesivyRr
+        c4Vw4OycLgGkD2OIX5EN9nZmM6aCDmhMV2zlLx3vKHieRW81i4RMrp+GUF8deGz3A8u52L/3dems
+        tknTN7ep5nBIM1rtZtqkNrhl4NdGfp/mWCLkvCAEb0TJ/88pcYjLK8uHPKHR1q2iSiuExjGyQcjt
+        WE7bsT0Pt13f9oOgs8+k7Y1oHL9O5e5KY6ROF7+mEUxe5RCBvY7vuEHg27aPsb0rqVCfqvpkCnz5
+        4L7i5jIgYvXNaK0biwW35At22mgJ8bAsZJJEX6nKu8rJzcbL1xsR7zgvJa6Oyf8D4o7v70988bp2
+        8PAPU7M8bMsTAAA=
     headers:
       Access-Control-Allow-Origin:
       - '*'
       Access-Control-Expose-Headers:
       - X-Correlation-Id, X-Request-Id, X-Server-Id
       Cache-Control:
-      - public, max-age=223, s-maxage=300
+      - public, max-age=118, s-maxage=300
       Connection:
       - keep-alive
       Content-Encoding:
       - gzip
       Content-Length:
-      - '1046'
+      - '1094'
       Content-Type:
       - application/geo+json
       Date:
-      - Sun, 08 Jan 2023 02:48:23 GMT
+      - Thu, 29 Jun 2023 18:56:28 GMT
       Expires:
-      - Sun, 08 Jan 2023 02:52:06 GMT
+      - Thu, 29 Jun 2023 18:58:26 GMT
       Last-Modified:
-      - Sun, 08 Jan 2023 01:53:00 GMT
+      - Thu, 29 Jun 2023 17:53:00 GMT
       Server:
       - nginx/1.20.1
       Strict-Transport-Security:
@@ -63,87 +64,13 @@ interactions:
       - Accept-Encoding
       - Accept,Feature-Flags,Accept-Language
       X-Correlation-ID:
-      - 182065ce
+      - 27747b54
       X-Edge-Request-ID:
-      - 2e1cd163
+      - 1c0328bc
       X-Request-ID:
-      - c850e2f1-d09a-433d-b21b-f47c5ce90d41
+      - 1f5581fc-c5c4-4147-bb9e-958934e4339a
       X-Server-ID:
-      - vm-lnx-nids-apiapp3.ncep.noaa.gov
-    status:
-      code: 200
-      message: OK
-- request:
-    body: null
-    headers:
-      Accept:
-      - application/geo+json
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      User-Agent:
-      - wxdat/0.1.0-e6def09-unit_tests+ (+https://github.com/jheddings/wxdat)
-    method: GET
-    uri: https://api.weather.gov/stations//KDEN/observations/latest
-  response:
-    body:
-      string: !!binary |
-        H4sIAAAAAAAAA8VXW2/bNhR+z68QtJcNm2VKsmXHwLAUTpoWsZesyRogQ1DQ0onMlSJVkrLiFfnv
-        I6XYkXyLY2eZHmyJ/HjOd64kvx9Y+rGPQs4U3Cu7Z/1VjBSjY6VS2Ws2Y+B/S84cLuLZe4NG89fH
-        tY75oJH9y1zA9/lbqWQCQhLOtBLbddwKsJjO783ETCdOiZMDVmMQTswnTa2DUx5Pf1hcJqurZDiG
-        BBdEF3Ga7QypgXmeOzwFFhPpMFBGvLFHplh8o0s6MkZUZXHII5BOnnCH6GUhTxLOmgazpPRowkM8
-        2skuzSYBJaZ6cd2PpWASGamydwq8z7mICMMK5IKQEqqmKRiwltjLv6oBUSAwtWvIhwXtIVHTUgGO
-        IgFSDrQh1Awuul9pvTXkJ4hNkBdwEdFIFsIz5hzPYJsMkb0/MswU0arJBD5jmsFma0aABWHxGt07
-        i50UkM0GTZ4XYzKnr1PqGUlz2CbXGPRGZXdcQIilOr+7I2uj8WJpp4JEx1jhfeWl2YiS8IazvZmF
-        PGNqXfGsl3JQf7stpdplDNbVsKkBnfKyeXZ88nuTjySIyeOIhzy/gdwGOrxCfq/t9xD6GSH9+xhF
-        e0blvZaXiVlwV1f/HHzBdeOp5IG29qkFVFu4eRouajlBp+4f/9Dptg+rz3z69qDiTzsVuk0KRQrB
-        FSpH/5lL6iHK73vnT6svS7FVJFAo55ZiXS0sW3frP/VnL1lsTLMidoN28BT9ioJHU7a2tkpOkQT0
-        ZJKa1VsZLnA+1E0UxwVrI89Ch8hv+zeW5yEXnV1ZLrocWu9Prt0WMn962EJ+c4i61jsfIc/6NDyz
-        3p171uXgwu10rSs91nVRp1sjpjfsY5ChIOnMuCGXik6tPtXNsgol4WbjzbxsUsyiJiPxWDXvIP9N
-        kn/g1wQiklUdrrMJJDB1XS43qXpbI5XoXCvrYKtgRhD318XTczq1/D7sLgC/ZcWG1tc7sODUiP1s
-        r0yACPK0KLi9OTU6r0YqJyw6Jrr7bp/6mpkA+PIjZjGFn9b6zUP7cLpMAaLt+HxNvowbS8fAeT12
-        Hb/eofahdZrJLeO3mRXLKH2Wx81qHiMsiqZOwgtzTto6yy/wWh8hNwh2DpcEPIAJ0Fdk0+nuzGZC
-        JBkRSlZs2i9t5LphPsuiv5pFgu+vnrrQQB9tvNYHngm5f/Gb1Fmtk7A316kbcUhSUu5bRqVRuKXj
-        13p+n+JYIuS/wAVvRCn43ykJoMXl5EOWkGjrUtGpFULtwFgj1Go7AWq3vMANuvqkoY8L+3Ta/phQ
-        +gpbpeu0gsDv+LrFIc1MP7uyGuvTxkcWwf3r1NOuNELKs2iApyCWz+grLikjLFdfgtYSX8y4JfYt
-        r4OWEA/Li2ycmNtTcS05ud54z3ob4kHH3Z/44gXn4OFfG8l/+P0SAAA=
-    headers:
-      Access-Control-Allow-Origin:
-      - '*'
-      Access-Control-Expose-Headers:
-      - X-Correlation-Id, X-Request-Id, X-Server-Id
-      Cache-Control:
-      - public, max-age=269, s-maxage=300
-      Connection:
-      - keep-alive
-      Content-Encoding:
-      - gzip
-      Content-Length:
-      - '1067'
-      Content-Type:
-      - application/geo+json
-      Date:
-      - Mon, 09 Jan 2023 04:12:16 GMT
-      Expires:
-      - Mon, 09 Jan 2023 04:16:45 GMT
-      Last-Modified:
-      - Mon, 09 Jan 2023 03:53:00 GMT
-      Server:
-      - nginx/1.20.1
-      Strict-Transport-Security:
-      - max-age=31536000 ; includeSubDomains ; preload
-      Vary:
-      - Accept-Encoding
-      - Accept,Feature-Flags,Accept-Language
-      X-Correlation-ID:
-      - 1e0b8678
-      X-Edge-Request-ID:
-      - '58106227'
-      X-Request-ID:
-      - 9b14dbff-da0b-4e1d-893e-8fc95b76e7d7
-      X-Server-ID:
-      - vm-lnx-nids-apiapp1.ncep.noaa.gov
+      - vm-lnx-nids-apiapp5.ncep.noaa.gov
     status:
       code: 200
       message: OK

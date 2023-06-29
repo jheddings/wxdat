@@ -22,13 +22,6 @@ stations:
     api_key: SECRET_API_KEY
     station_id: KDEN
 
-  - name: Denver Airport via Dark Sky
-    provider: DarkSky
-    update_interval: 300
-    api_key: SECRET_API_EY
-    latitude: 39.8561
-    longitude: -104.6737
-
   - name: Denver Airport via OpenWeather
     provider: OpenWeatherMap
     api_key: SECRET_API_EY

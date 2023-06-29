@@ -21,7 +21,6 @@ logger = logging.getLogger(__name__)
 class WeatherProvider(str, Enum):
     ACCUWEATHER = "AccuWeather"
     AMBIENT = "AmbientWeather"
-    DARKSKY = "DarkSky"
     NOAA = "NOAA"
     OPENWEATHERMAP = "OpenWeatherMap"
     WUNDERGROUND = "WUndergroundPWS"
@@ -70,7 +69,7 @@ class BaseStation(ABC):
         try:
             resp = requests.get(url, params=params, headers=full_headers)
             self.logger.debug("=> HTTP %d: %s", resp.status_code, resp.reason)
-            self.metrics.get_req.inc()
+            self.metrics.requests.inc()
 
         except ConnectionError:
             self.logger.warning("Unable to download data; connection error")
@@ -84,7 +83,7 @@ class BaseStation(ABC):
 
         if not resp.ok:
             self.logger.warning("Unable to download data; HTTP %d", resp.status_code)
-            self.metrics.failed.inc()
+            self.metrics.errors.inc()
             return None
 
         return resp
@@ -181,10 +180,17 @@ class DataRecorder:
             )
             return False
 
-        self.metrics(wx_data)
+        self.metrics.update(wx_data)
 
         self.logger.debug("-- saving current data @ %s", wx_data.timestamp)
-        return self.database.save(wx_data)
+
+        # if we succesfully record the data, update the total readings for the station...  it's a bit
+        # hacky to reach into the station this way, but this is the only place we can be sure that the
+        # data has been stored in the database and have reference to the station identifiers
+        if self.database.save(wx_data):
+            self.station.metrics.readings.inc()
+        else:
+            self.station.metrics.failed.inc()
 
     def record_hourly_forecast(self):
         """Record the hourly forecast from the internal station."""
