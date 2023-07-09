@@ -47,7 +47,7 @@ CURRENT_DEWPOINT = Gauge(
 )
 
 CURRENT_WIND_SPEED = Gauge(
-    "wxdat_current_wind_spped",
+    "wxdat_current_wind_speed",
     "Current wind speed reported by the station.",
     labelnames=["station"],
 )
