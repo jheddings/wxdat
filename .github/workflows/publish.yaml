@@ -16,6 +16,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install dependencies
+        run: apt-get install libpq-dev
+
       - name: Upload package to PyPI
         uses: JRubics/poetry-publish@v1.17
         with:
