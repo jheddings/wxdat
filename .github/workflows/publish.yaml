@@ -16,14 +16,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: sudo apt-get install libpq-dev
-
       - name: Upload package to PyPI
         uses: JRubics/poetry-publish@v1.17
         with:
           pypi_token: ${{ secrets.PYPI_TOKEN }}
           ignore_dev_requirements: true
+          extra_build_dependency_packages: libpq-dev
 
   docker-publish:
     name: Publish release to Docker Hub
