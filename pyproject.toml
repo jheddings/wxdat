@@ -16,7 +16,7 @@ sqlalchemy = "^2.0.20"
 psycopg2 = "^2.9.7"
 ratelimit = "^2.2.1"
 pyyaml = "^6.0.1"
-gitpython = "^3.1.35"
+gitpython = "^3.1.36"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.4.0"
