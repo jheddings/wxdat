@@ -27,6 +27,12 @@ coverage = "^7.3.2"
 [tool.poetry.scripts]
 wxdat = "wxdat.__main__:main"
 
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line_length = 88
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
