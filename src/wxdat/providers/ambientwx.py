@@ -7,7 +7,7 @@ import logging
 from datetime import datetime
 from typing import List, Optional
 
-from pydantic import BaseModel, parse_obj_as
+from pydantic import BaseModel, TypeAdapter
 
 from ..database import CurrentConditions, HourlyForecast
 from . import BaseStation, WeatherProvider
@@ -61,8 +61,7 @@ class API_DeviceData(BaseModel):
     solarradiation: Optional[float] = None
 
 
-class API_DeviceDataList(BaseModel):
-    __root__: List[API_DeviceData]
+API_DeviceDataList = TypeAdapter(List[API_DeviceData])
 
 
 class Station(BaseStation):
@@ -133,6 +132,7 @@ class Station(BaseStation):
             return None
 
         data = resp.json()
-        data_list = parse_obj_as(List[API_DeviceData], data)
+
+        data_list = API_DeviceDataList.validate_python(data)
 
         return data_list[0] if len(data_list) > 0 else None

@@ -270,4 +270,4 @@ class Station(BaseStation):
             return None
 
         data = resp.json()
-        return model.parse_obj(data)
+        return model.model_validate(data)
