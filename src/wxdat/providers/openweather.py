@@ -78,7 +78,9 @@ class API_WeatherNotes(BaseModel):
     icon: Optional[str] = None
 
 
-class WeatherNotesMixin:
+class API_WeatherBase(BaseModel):
+    dt: datetime
+
     weather: Optional[List[API_WeatherNotes]] = None
 
     @property
@@ -101,9 +103,7 @@ class API_DailyTemperature(BaseModel):
     night: float
 
 
-class API_DailyWeather(BaseModel, WeatherNotesMixin):
-    dt: datetime
-
+class API_DailyWeather(API_WeatherBase):
     sunrise: int
     sunset: int
 
@@ -123,9 +123,7 @@ class API_DailyWeather(BaseModel, WeatherNotesMixin):
     clouds: Optional[float] = None
 
 
-class API_HourlyWeather(BaseModel, WeatherNotesMixin):
-    dt: datetime
-
+class API_HourlyWeather(API_WeatherBase):
     main: API_Main
     wind: API_Wind
     clouds: API_Clouds
@@ -139,9 +137,7 @@ class API_HourlyWeather(BaseModel, WeatherNotesMixin):
 
 
 # https://openweathermap.org/current
-class API_CurrentWeather(BaseModel, WeatherNotesMixin):
-    dt: datetime
-
+class API_CurrentWeather(API_WeatherBase):
     id: int
     name: str
     timezone: int
