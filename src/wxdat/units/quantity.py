@@ -18,7 +18,7 @@ class Quantity:
 
         # avoid recursion if `value` is requested ...
         if attr == "value":
-            return super(Quantity, self).__getattribute__("value")
+            return super().__getattribute__("value")
 
         # ... now we can access self.value for our check
         if self.value is None:
