@@ -9,6 +9,7 @@ __pycache__
 *.prof
 .coverage
 .pytest_cache
+.ruff_cache
 
 .venv
 
