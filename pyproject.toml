@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "wxdat"
-version = "1.4.0"
+version = "1.4.1"
 description = "Weather data explorer."
 authors = ["jheddings <jheddings@gmail.com>"]
 license = "MIT"

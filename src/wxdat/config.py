@@ -45,7 +45,7 @@ class AccuWeatherConfig(StationConfigBase):
     """Station configuration for AccuWeather."""
 
     api_key: str
-    location: str
+    location: Union[str, int]
     provider: Literal[WeatherProvider.ACCUWEATHER]
 
     def initialize(self):
