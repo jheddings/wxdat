@@ -1,4 +1,4 @@
-FROM python:3.11
+FROM python:3.12
 
 COPY src poetry.lock pyproject.toml README.md /tmp/wxdat/
 RUN pip3 install /tmp/wxdat/ && rm -Rf /tmp/wxdat
