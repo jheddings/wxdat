@@ -5,10 +5,10 @@ import os
 import os.path
 from abc import abstractmethod
 from enum import Enum
-from typing import Dict, List, Optional
+from typing import Annotated, Dict, List, Literal, Optional, Union
 
 import yaml
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, Field, validator
 
 from .providers import (
     WeatherProvider,
@@ -27,7 +27,7 @@ class Units(str, Enum):
     METRIC = "metric"
 
 
-class StationConfig(BaseModel):
+class StationConfigBase(BaseModel):
     """Base configuration for weather providers."""
 
     __providers__ = {}
@@ -36,67 +36,35 @@ class StationConfig(BaseModel):
     provider: WeatherProvider
     update_interval: Optional[int] = None
 
-    # used techniques from https://github.com/jheddings/notional/
-    def __init_subclass__(cls, provider=None, **kwargs):
-        """Register the subtypes of the StationConfig class."""
-        super().__init_subclass__(**kwargs)
-
-        if provider is None:
-            provider = cls.__name__
-
-        cls._register_provider_type(provider)
-
-    @classmethod
-    def __get_validators__(cls):
-        yield cls._resolve_provider_type
-
-    @classmethod
-    def _register_provider_type(cls, provider):
-        """Register a specific class for the given 'provider' name."""
-
-        if provider in cls.__providers__:
-            raise ValueError(f"Duplicate subtype for class - {provider} :: {cls}")
-
-        field = cls.__fields__.get("provider")
-        field.default = provider
-
-        logger.debug("registered new provider: %s => %s", provider, cls)
-
-        cls.__providers__[provider] = cls
-
-    @classmethod
-    def _resolve_provider_type(cls, data):
-        if isinstance(data, cls):
-            return data
-
-        if not isinstance(data, dict):
-            raise ValueError("Invalid 'data' object")
-
-        name = data.get("provider")
-
-        if name is None:
-            raise ValueError("Missing 'provider' in data")
-
-        sub = cls.__providers__.get(name)
-
-        if sub is None:
-            raise TypeError(f"Unsupported provider: {name}")
-
-        logger.debug("initializing provider %s :: %s => %s -- %s", cls, name, sub, data)
-
-        return sub(**data)
-
     @abstractmethod
     def initialize(self):
         """Initialize a new instance of the station based on this config."""
 
 
-class AmbientWeatherConfig(StationConfig, provider=WeatherProvider.AMBIENT):
+class AccuWeatherConfig(StationConfigBase):
+    """Station configuration for AccuWeather."""
+
+    api_key: str
+    location: str
+    provider: Literal[WeatherProvider.ACCUWEATHER]
+
+    def initialize(self):
+        """Initialize a new AccuWeather station based on this config."""
+
+        return accuweather.Station(
+            name=self.name,
+            api_key=self.api_key,
+            location=self.location,
+        )
+
+
+class AmbientWeatherConfig(StationConfigBase):
     """Station configuration for Ambient Weather Network."""
 
     app_key: str
     user_key: str
     device_id: str
+    provider: Literal[WeatherProvider.AMBIENT]
 
     def initialize(self):
         """Initialize a new Ambient Weather station based on this config."""
@@ -109,12 +77,28 @@ class AmbientWeatherConfig(StationConfig, provider=WeatherProvider.AMBIENT):
         )
 
 
-class OpenWeatherMapConfig(StationConfig, provider=WeatherProvider.OPENWEATHERMAP):
+class NOAA_Config(StationConfigBase):
+    """Station configuration for NOAA weather."""
+
+    station: str
+    provider: Literal[WeatherProvider.NOAA]
+
+    def initialize(self):
+        """Initialize a new NOAA station based on this config."""
+
+        return noaa.Station(
+            name=self.name,
+            station=self.station,
+        )
+
+
+class OpenWeatherMapConfig(StationConfigBase):
     """Station configuration for OpenWeatherMap."""
 
     api_key: str
     latitude: float
     longitude: float
+    provider: Literal[WeatherProvider.OPENWEATHERMAP]
 
     def initialize(self):
         """Initialize a new OpenWeatherMap station based on this config."""
@@ -127,11 +111,12 @@ class OpenWeatherMapConfig(StationConfig, provider=WeatherProvider.OPENWEATHERMA
         )
 
 
-class WeatherUndergroundConfig(StationConfig, provider=WeatherProvider.WUNDERGROUND):
+class WeatherUndergroundConfig(StationConfigBase):
     """Station configuration for Weather Underground."""
 
     api_key: str
     station_id: str
+    provider: Literal[WeatherProvider.WUNDERGROUND]
 
     def initialize(self):
         """Initialize a new Weather Underground PWS based on this config."""
@@ -143,34 +128,16 @@ class WeatherUndergroundConfig(StationConfig, provider=WeatherProvider.WUNDERGRO
         )
 
 
-class AccuWeatherConfig(StationConfig, provider=WeatherProvider.ACCUWEATHER):
-    """Station configuration for AccuWeather."""
-
-    api_key: str
-    location: str
-
-    def initialize(self):
-        """Initialize a new AccuWeather station based on this config."""
-
-        return accuweather.Station(
-            name=self.name,
-            api_key=self.api_key,
-            location=self.location,
-        )
-
-
-class NOAA_Config(StationConfig, provider=WeatherProvider.NOAA):
-    """Station configuration for NOAA weather."""
-
-    station: str
-
-    def initialize(self):
-        """Initialize a new NOAA station based on this config."""
-
-        return noaa.Station(
-            name=self.name,
-            station=self.station,
-        )
+StationConfig = Annotated[
+    Union[
+        AccuWeatherConfig,
+        AmbientWeatherConfig,
+        NOAA_Config,
+        OpenWeatherMapConfig,
+        WeatherUndergroundConfig,
+    ],
+    Field(discriminator="provider"),
+]
 
 
 class AppConfig(BaseModel):
