@@ -20,7 +20,7 @@ API_BASE = "https://api.weather.gov/stations/"
 
 class API_Geometry(BaseModel):
     type: str
-    coordinates: List[int]
+    coordinates: List[float]
 
 
 class API_Measurement(BaseModel):
@@ -137,4 +137,4 @@ class Station(BaseStation):
 
         data = resp.json()
 
-        return API_Observation.parse_obj(data)
+        return API_Observation.model_validate(data)

@@ -8,7 +8,7 @@ from datetime import datetime
 from enum import Enum
 from typing import List, Optional
 
-from pydantic import BaseModel, parse_obj_as
+from pydantic import BaseModel, TypeAdapter
 
 from ..database import CurrentConditions, HourlyForecast
 from . import BaseStation, WeatherProvider
@@ -84,6 +84,9 @@ class API_Observation(BaseModel):
     PrecipitationSummary: Optional[API_Precipitation] = None
 
 
+API_Observations = TypeAdapter(List[API_Observation])
+
+
 class Station(BaseStation):
     def __init__(self, name, *, api_key, location):
         super().__init__(name)
@@ -147,6 +150,7 @@ class Station(BaseStation):
             return None
 
         data = resp.json()
-        data_list = parse_obj_as(List[API_Observation], data)
+
+        data_list = API_Observations.validate_python(data)
 
         return data_list[0]

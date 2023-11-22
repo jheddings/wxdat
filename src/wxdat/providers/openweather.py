@@ -9,7 +9,7 @@ data from various API endpoints.
 
 import logging
 from datetime import datetime, timezone
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from pydantic import BaseModel, Field
 
@@ -47,13 +47,13 @@ class API_Coordinates(BaseModel):
 
 class API_Wind(BaseModel):
     deg: int
-    speed: int
+    speed: Union[int, float]
     gust: Optional[float] = None
 
 
 class API_HourlyPrecip(BaseModel):
-    hour1: Optional[float] = Field(alias="1h")
-    hour3: Optional[float] = Field(alias="3h")
+    hour1: Optional[float] = Field(alias="1h", default=None)
+    hour3: Optional[float] = Field(alias="3h", default=None)
 
 
 class API_Clouds(BaseModel):
@@ -78,7 +78,9 @@ class API_WeatherNotes(BaseModel):
     icon: Optional[str] = None
 
 
-class WeatherNotesMixin:
+class API_WeatherBase(BaseModel):
+    dt: datetime
+
     weather: Optional[List[API_WeatherNotes]] = None
 
     @property
@@ -101,9 +103,7 @@ class API_DailyTemperature(BaseModel):
     night: float
 
 
-class API_DailyWeather(BaseModel, WeatherNotesMixin):
-    dt: datetime
-
+class API_DailyWeather(API_WeatherBase):
     sunrise: int
     sunset: int
 
@@ -123,9 +123,7 @@ class API_DailyWeather(BaseModel, WeatherNotesMixin):
     clouds: Optional[float] = None
 
 
-class API_HourlyWeather(BaseModel, WeatherNotesMixin):
-    dt: datetime
-
+class API_HourlyWeather(API_WeatherBase):
     main: API_Main
     wind: API_Wind
     clouds: API_Clouds
@@ -139,9 +137,7 @@ class API_HourlyWeather(BaseModel, WeatherNotesMixin):
 
 
 # https://openweathermap.org/current
-class API_CurrentWeather(BaseModel, WeatherNotesMixin):
-    dt: datetime
-
+class API_CurrentWeather(API_WeatherBase):
     id: int
     name: str
     timezone: int
@@ -270,4 +266,4 @@ class Station(BaseStation):
             return None
 
         data = resp.json()
-        return model.parse_obj(data)
+        return model.model_validate(data)

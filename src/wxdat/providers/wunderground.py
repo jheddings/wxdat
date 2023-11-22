@@ -135,7 +135,7 @@ class Station(BaseStation):
 
         data = resp.json()
 
-        current = API_Current.parse_obj(data)
+        current = API_Current.model_validate(data)
 
         if len(current.observations) < 1:
             return None
