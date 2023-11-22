@@ -9,7 +9,7 @@ data from various API endpoints.
 
 import logging
 from datetime import datetime, timezone
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from pydantic import BaseModel, Field
 
@@ -47,13 +47,13 @@ class API_Coordinates(BaseModel):
 
 class API_Wind(BaseModel):
     deg: int
-    speed: int
+    speed: Union[int, float]
     gust: Optional[float] = None
 
 
 class API_HourlyPrecip(BaseModel):
-    hour1: Optional[float] = Field(alias="1h")
-    hour3: Optional[float] = Field(alias="3h")
+    hour1: Optional[float] = Field(alias="1h", default=None)
+    hour3: Optional[float] = Field(alias="3h", default=None)
 
 
 class API_Clouds(BaseModel):
