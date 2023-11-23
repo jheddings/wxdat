@@ -5,7 +5,7 @@ import pytest
 from wxdat.providers import noaa
 
 
-@pytest.fixture(scope="module", params=["KDEN", "KSEA"])
+@pytest.fixture(scope="function", params=["KDEN", "KSEA"])
 def station(request):
     """Return a configured NOAA station."""
 

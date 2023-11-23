@@ -14,7 +14,7 @@ def vcr_config():
     }
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="function")
 def station():
     """Return a configured Weather Underground station."""
 
@@ -37,7 +37,7 @@ def test_wunderground_bad_api_key():
 
     station = wunderground.Station(
         "Invalid Key",
-        api_key="bvcxz",
+        api_key="mymadeupapikeythatshouldnotwork",
         station_id="KCODENVE549",
     )
 

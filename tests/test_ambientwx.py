@@ -14,7 +14,7 @@ def vcr_config():
     }
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="function")
 def station():
     """Return a configured Ambient Weather station."""
 
