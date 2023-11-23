@@ -1,0 +1,50 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - wxdat/1.4.1-04bd5a1+ (+https://github.com/jheddings/wxdat)
+    method: GET
+    uri: https://rt.ambientweather.net/v1/devices/eb:8d:60:8a:33:e7?limit=1
+  response:
+    body:
+      string: '{"error":"applicationKey-invalid"}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 82a5cd068d4e5209-DEN
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '34'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 23 Nov 2023 01:57:21 GMT
+      ETag:
+      - W/"22-vHMvCrpjdAeQKnCuNYODXQ"
+      NEL:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=yHE1LHIEApzEXH3r6pjbA9rBX7uHsMv218K9PIOiZcfgpVGWOmA%2Fe4esRpbVstY3fhNoMCu%2FT81G3UNIX2OwXFcscJhnikolFDEcIJPWShW%2BunHLtQcdWta7qM3VKcTq9TheebMDZQ%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Powered-By:
+      - Express
+    status:
+      code: 401
+      message: Unauthorized
+version: 1

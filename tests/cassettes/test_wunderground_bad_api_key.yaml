@@ -1,0 +1,43 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - wxdat/1.4.1-04bd5a1+ (+https://github.com/jheddings/wxdat)
+    method: GET
+    uri: https://api.weather.com/v2/pws/observations/current?format=json&numericPrecision=decimal&stationId=KCODENVE549&units=e
+  response:
+    body:
+      string: '{"metadata":{"transaction_id":"##############"},"success":false,"errors":[{"error":{"code":"CDN-0001","message":"Invalid
+        apiKey."}}]}'
+    headers:
+      Cache-Control:
+      - max-age=0, no-cache, no-store
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '133'
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - text/html
+      Date:
+      - Thu, 23 Nov 2023 01:57:28 GMT
+      Expires:
+      - Thu, 23 Nov 2023 01:57:28 GMT
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=86400
+      X-Content-Type-Options:
+      - nosniff
+    status:
+      code: 401
+      message: Unauthorized
+version: 1

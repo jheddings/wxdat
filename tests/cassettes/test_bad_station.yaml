@@ -9,14 +9,15 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - wxdat/1.3.9-41f10d9-renovate/pydantic-2.x+ (+https://github.com/jheddings/wxdat)
+      - wxdat/1.4.1-04bd5a1+ (+https://github.com/jheddings/wxdat)
     method: GET
     uri: https://api.weather.gov/stations//XXXX/observations/latest
   response:
     body:
-      string: "{\n    \"correlationId\": \"9f358c5\",\n    \"title\": \"Not Found\",\n
-        \   \"type\": \"https://api.weather.gov/problems/NotFound\",\n    \"status\":
-        404,\n    \"detail\": \"Not Found\",\n    \"instance\": \"https://api.weather.gov/requests/9f358c5\"\n}"
+      string: "{\n    \"correlationId\": \"69d3db4\",\n    \"title\": \"Not Found\"\
+        ,\n    \"type\": \"https://api.weather.gov/problems/NotFound\",\n    \"status\"\
+        : 404,\n    \"detail\": \"Not Found\",\n    \"instance\": \"https://api.weather.gov/requests/69d3db4\"\
+        \n}"
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -31,9 +32,9 @@ interactions:
       Content-Type:
       - application/problem+json
       Date:
-      - Tue, 21 Nov 2023 19:25:26 GMT
+      - Thu, 23 Nov 2023 01:57:23 GMT
       Expires:
-      - Tue, 21 Nov 2023 19:30:26 GMT
+      - Thu, 23 Nov 2023 02:02:23 GMT
       Pragma:
       - no-cache
       Server:
@@ -43,13 +44,13 @@ interactions:
       Vary:
       - Accept,Feature-Flags,Accept-Language
       X-Correlation-ID:
-      - 9f358c5
+      - 69d3db4
       X-Edge-Request-ID:
-      - bc901550
+      - 2fee0900
       X-Request-ID:
-      - cf7c0ab6-733c-4d9e-9700-788bd3f03f05
+      - be6916c9-5e90-4e08-885e-d50f7f441ff9
       X-Server-ID:
-      - vm-bldr-nids-apiapp12.ncep.noaa.gov
+      - vm-bldr-nids-apiapp3.ncep.noaa.gov
     status:
       code: 404
       message: Not Found

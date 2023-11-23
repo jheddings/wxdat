@@ -9,9 +9,9 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - wxdat/1.3.9-41f10d9-renovate/pydantic-2.x+ (+https://github.com/jheddings/wxdat)
+      - wxdat/1.4.1-04bd5a1+ (+https://github.com/jheddings/wxdat)
     method: GET
-    uri: http://dataservice.accuweather.com/currentconditions/v1/2626674?apikey=12345&details=True&language=en-US
+    uri: http://dataservice.accuweather.com/currentconditions/v1/2626674?details=True&language=en-US
   response:
     body:
       string: '{"Code":"Unauthorized","Message":"Api Authorization failed","Reference":"/currentconditions/v1/2626674?apikey=12345&details=True&language=en-US"}'
@@ -23,7 +23,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 21 Nov 2023 19:25:23 GMT
+      - Thu, 23 Nov 2023 01:57:19 GMT
     status:
       code: 401
       message: Unauthorized

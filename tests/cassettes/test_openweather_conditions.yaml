@@ -1,0 +1,41 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - wxdat/1.4.1-04bd5a1+ (+https://github.com/jheddings/wxdat)
+    method: GET
+    uri: https://api.openweathermap.org/data/2.5/weather?lat=39.73465&lon=-104.98672&units=imperial
+  response:
+    body:
+      string: '{"coord":{"lon":-104.9867,"lat":39.7347},"weather":[{"id":800,"main":"Clear","description":"clear
+        sky","icon":"01n"}],"base":"stations","main":{"temp":49.3,"feels_like":49.3,"temp_min":42.28,"temp_max":55.81,"pressure":1013,"humidity":36},"visibility":10000,"wind":{"speed":1.01,"deg":246},"clouds":{"all":7},"dt":1700704199,"sys":{"type":2,"id":2004334,"country":"US","sunrise":1700661141,"sunset":1700696406},"timezone":-25200,"id":5419384,"name":"Denver","cod":200}'
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '468'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 23 Nov 2023 01:57:27 GMT
+      Server:
+      - openresty
+      X-Cache-Key:
+      - /data/2.5/weather?lat=39.73&lon=-104.99&units=imperial
+    status:
+      code: 200
+      message: OK
+version: 1
