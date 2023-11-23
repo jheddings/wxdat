@@ -6,6 +6,7 @@ from .pressure import Hectopascal, InchesMercury, Pascal
 from .rate import InchesPerHour, MillimetersPerHour
 from .temperature import Celsius, Fahrenheit, Kelvin
 from .velocity import FeetPerSecond, KilometersPerHour, MetersPerSecond, MilesPerHour
+from .volume import FluidOunceUS, Gallon, Liter, Milliliter, Pint
 from .weight import Gram, Kilogram, Milligram, Ounce, Pound, Ton
 
 
@@ -147,3 +148,28 @@ def oz(value: float) -> Ounce:
 def ton(value: float) -> Ton:
     """Return the given value as a Ton quantity."""
     return Ton(value)
+
+
+def L(value: float) -> Liter:
+    """Return the given value as a Liter quantity."""
+    return Liter(value)
+
+
+def ml(value: float) -> Milliliter:
+    """Return the given value as a Milliliter quantity."""
+    return Milliliter(value)
+
+
+def gal(value: float) -> Gallon:
+    """Return the given value as a Gallon quantity."""
+    return Gallon(value)
+
+
+def pint(value: float) -> Pint:
+    """Return the given value as a Pint quantity."""
+    return Pint(value)
+
+
+def fl_oz(value: float) -> FluidOunceUS:
+    """Return the given value as a FluidOunceUS quantity."""
+    return FluidOunceUS(value)
