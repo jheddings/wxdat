@@ -40,6 +40,8 @@ select = [
     "F",   # pyflakes
     "C",   # flake8-comprehensions
     "B",   # flake8-bugbear
+    "G",   # flake8-logging-format
+    "RET", # flake8-return
     "ERA", # eradicate
     "UP",  # pyupgrade
 ]

@@ -192,6 +192,8 @@ class DataRecorder:
         else:
             self.station.metrics.failed.inc()
 
+        return True
+
     def record_hourly_forecast(self):
         """Record the hourly forecast from the internal station."""
 
