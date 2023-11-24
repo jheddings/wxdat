@@ -20,6 +20,9 @@ def test_one_mps():
     assert isclose(mps.fps, 3.28084)
     assert isclose(mps.knot, 1.94384449)
 
+    assert str(mps) == "1 m/s"
+    assert repr(mps) == "MetersPerSecond(1)"
+
 
 def test_one_kph():
     """Confirm simple KilometersPerHour conversions."""
@@ -34,6 +37,9 @@ def test_one_kph():
     assert isclose(kph.mph, 0.62137119)
     assert isclose(kph.fps, 0.91134442)
     assert isclose(kph.knot, 0.5399568)
+
+    assert str(kph) == "1 km/h"
+    assert repr(kph) == "KilometersPerHour(1)"
 
 
 def test_one_mph():
@@ -50,6 +56,9 @@ def test_one_mph():
     assert isclose(mph.kph, 1.609344)
     assert isclose(mph.knot, 0.8689762419)
 
+    assert str(mph) == "1 mph"
+    assert repr(mph) == "MilesPerHour(1)"
+
 
 def test_one_fps():
     """Confirm simple FeetPerSecond conversions."""
@@ -65,15 +74,5 @@ def test_one_fps():
     assert isclose(fps.mph, 0.68181818)
     assert isclose(fps.knot, 0.5924838)
 
-
-def test_one_mmph():
-    """Confirm simple MillimeterPerHour conversions."""
-    mmph = units.mmph(1)
-
-    assert mmph == 1.0
-
-    assert float(mmph) == 1.0
-    assert int(mmph) == 1
-
-    assert mmph.cmph == 0.1
-    assert isclose(mmph.inph, 0.03937)
+    assert str(fps) == "1 fps"
+    assert repr(fps) == "FeetPerSecond(1)"

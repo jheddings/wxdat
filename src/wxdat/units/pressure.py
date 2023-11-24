@@ -2,7 +2,23 @@
 
 from abc import ABC, abstractproperty
 
-from .quantity import Quantity
+from .quantity import Quantity, UnitSymbol
+
+
+class PressureUnit(UnitSymbol):
+    """Symbols for pressure units."""
+
+    HECTOPASCAL = "hPa"
+    HPA = "hPa"
+
+    PASCAL = "Pa"
+    PA = "Pa"
+
+    INCHES_MERCURY = "inHg"
+    INHG = "inHg"
+
+    POUNDS_PER_SQUARE_INCH = "psi"
+    PSI = "psi"
 
 
 class Pressure(Quantity, ABC):
@@ -35,6 +51,11 @@ class Pascal(Pressure):
     """A representation of Pascals."""
 
     @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return PressureUnit.PASCAL
+
+    @property
     def Pa(self):
         """Return the value of this quantity as Pascals."""
         return self.value
@@ -54,6 +75,11 @@ class Hectopascal(Pascal):
     """A representation of Hectopascals."""
 
     @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return PressureUnit.HECTOPASCAL
+
+    @property
     def Pa(self):
         """Return the value of this quantity as Pascals."""
         return self.value * 100
@@ -61,6 +87,11 @@ class Hectopascal(Pascal):
 
 class InchesMercury(Pressure):
     """A representation of InchesMercury."""
+
+    @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return PressureUnit.INCHES_MERCURY
 
     @property
     def Pa(self):

@@ -1,12 +1,12 @@
 """Methods and classes for converting between units."""
 
 
-from .distance import Centimeter, Feet, Inch, Kilometer, Meter, Mile, Millimeter, Yard
+from .distance import Centimeter, Foot, Inch, Kilometer, Meter, Mile, Millimeter, Yard
 from .pressure import Hectopascal, InchesMercury, Pascal
 from .rate import InchesPerHour, MillimetersPerHour
 from .temperature import Celsius, Fahrenheit, Kelvin
 from .velocity import FeetPerSecond, KilometersPerHour, MetersPerSecond, MilesPerHour
-from .volume import FluidOunceUS, Gallon, Liter, Milliliter, Pint
+from .volume import FluidOunceUS, Gallon, Liter, Milliliter, Pint, Quart
 from .weight import Gram, Kilogram, Milligram, Ounce, Pound, Ton
 
 
@@ -50,9 +50,9 @@ def inch(value: float) -> Inch:
     return Inch(value)
 
 
-def ft(value: float) -> Feet:
+def ft(value: float) -> Foot:
     """Return the given value as a Feet quantity."""
-    return Feet(value)
+    return Foot(value)
 
 
 def yd(value: float) -> Yard:
@@ -170,6 +170,11 @@ def pint(value: float) -> Pint:
     return Pint(value)
 
 
-def fl_oz(value: float) -> FluidOunceUS:
+def quart(value: float) -> Quart:
+    """Return the given value as a Quart quantity."""
+    return Quart(value)
+
+
+def us_oz(value: float) -> FluidOunceUS:
     """Return the given value as a FluidOunceUS quantity."""
     return FluidOunceUS(value)

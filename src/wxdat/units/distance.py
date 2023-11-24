@@ -2,7 +2,43 @@
 
 from abc import ABC, abstractproperty
 
-from .quantity import Quantity
+from .quantity import Quantity, UnitSymbol
+
+
+class DistanceUnit(UnitSymbol):
+    """Symbols for distance units."""
+
+    METER = "m"
+    METERS = "m"
+    M = "m"
+
+    KILOMETER = "km"
+    KILOMETERS = "km"
+    KM = "km"
+
+    CENTIMETER = "cm"
+    CENTIMETERS = "cm"
+    CM = "cm"
+
+    MILLIMETER = "mm"
+    MILLIMETERS = "mm"
+    MM = "mm"
+
+    MILE = "mi"
+    MILES = "mi"
+    MI = "mi"
+
+    FOOT = "ft"
+    FEET = "ft"
+    FT = "ft"
+
+    INCH = "in"
+    INCHES = "in"
+    IN = "in"
+
+    YARD = "yd"
+    YARDS = "yd"
+    YD = "yd"
 
 
 class Distance(Quantity, ABC):
@@ -61,6 +97,11 @@ class Meter(Distance):
     """A representation of a meter."""
 
     @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return DistanceUnit.METER
+
+    @property
     def meters(self):
         return self.value
 
@@ -89,12 +130,22 @@ class Millimeter(Meter):
     """A representation of a millimeter."""
 
     @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return DistanceUnit.MILLIMETER
+
+    @property
     def meters(self):
         return self.value * 0.001
 
 
 class Centimeter(Meter):
     """A representation of a centimeter."""
+
+    @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return DistanceUnit.CENTIMETER
 
     @property
     def meters(self):
@@ -105,12 +156,22 @@ class Kilometer(Meter):
     """A representation of a kilometer."""
 
     @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return DistanceUnit.KILOMETER
+
+    @property
     def meters(self):
         return self.value * 1000.0
 
 
-class Feet(Distance):
-    """A representation of feet."""
+class Foot(Distance):
+    """A representation of foot measurements."""
+
+    @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return DistanceUnit.FOOT
 
     @property
     def meters(self):
@@ -122,8 +183,13 @@ class Feet(Distance):
         return self.value
 
 
-class Mile(Feet):
+class Mile(Foot):
     """A representation of a mile."""
+
+    @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return DistanceUnit.MILE
 
     @property
     def feet(self):
@@ -131,8 +197,13 @@ class Mile(Feet):
         return self.value * 5280.0
 
 
-class Yard(Feet):
+class Yard(Foot):
     """A representation of a yard."""
+
+    @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return DistanceUnit.YARD
 
     @property
     def feet(self):
@@ -140,8 +211,13 @@ class Yard(Feet):
         return self.value * 3.0
 
 
-class Inch(Feet):
+class Inch(Foot):
     """A representation of an inch."""
+
+    @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return DistanceUnit.INCH
 
     @property
     def feet(self):

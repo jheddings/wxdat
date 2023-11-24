@@ -2,7 +2,36 @@
 
 from abc import ABC, abstractproperty
 
-from .quantity import Quantity
+from .quantity import Quantity, UnitSymbol
+
+
+class VolumeUnit(UnitSymbol):
+    """Symbols for volume units."""
+
+    LITER = "L"
+    LITERS = "L"
+    L = "L"
+
+    MILLILITER = "mL"
+    MILLILITERS = "mL"
+    ML = "mL"
+
+    GALLON = "gal"
+    GALLONS = "gal"
+    GAL = "gal"
+
+    PINT = "pt"
+    PINTS = "pt"
+    PT = "pt"
+
+    QUART = "qt"
+    QUARTS = "qt"
+    QT = "qt"
+
+    US_FLUID_OUNCE = "fl oz"
+    US_FLUID_OUNCES = "fl oz"
+    US_FL_OZ = "fl oz"
+    US_OZ = "fl oz"
 
 
 class Volume(Quantity, ABC):
@@ -13,7 +42,7 @@ class Volume(Quantity, ABC):
         """Return the value of this quantity in liters."""
 
     @property
-    def ml(self):
+    def mL(self):
         """Return the value of this quantity in milliliters."""
         return self.L * 1000.0
 
@@ -41,6 +70,11 @@ class Liter(Volume):
     """A quantity of volume in liters."""
 
     @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return VolumeUnit.LITER
+
+    @property
     def L(self):
         """Return the value of this quantity in liters."""
         return self.value
@@ -55,6 +89,11 @@ class Milliliter(Liter):
     """A quantity of volume in milliliters."""
 
     @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return VolumeUnit.MILLILITER
+
+    @property
     def L(self):
         """Return the value of this quantity in liters."""
         return self.value / 1000
@@ -62,6 +101,11 @@ class Milliliter(Liter):
 
 class Gallon(Liter):
     """A quantity of volume in gallons."""
+
+    @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return VolumeUnit.GALLON
 
     @property
     def L(self):
@@ -78,6 +122,11 @@ class Pint(Gallon):
     """A quantity of volume in pints."""
 
     @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return VolumeUnit.PINT
+
+    @property
     def gal(self):
         """Return the value of this quantity in gallons."""
         return self.value / 8.0
@@ -87,6 +136,11 @@ class Quart(Gallon):
     """A quantity of volume in quarts."""
 
     @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return VolumeUnit.QUART
+
+    @property
     def gal(self):
         """Return the value of this quantity in gallons."""
         return self.value / 4.0
@@ -94,6 +148,11 @@ class Quart(Gallon):
 
 class FluidOunceUS(Gallon):
     """A quantity of volume in fluid ounces (US)."""
+
+    @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return VolumeUnit.US_FLUID_OUNCE
 
     @property
     def gal(self):

@@ -24,6 +24,9 @@ def test_one_meter():
     assert isclose(meter.yards, 1.09361)
     assert isclose(meter.inches, 39.3701)
 
+    assert str(meter) == "1 m"
+    assert repr(meter) == "Meter(1)"
+
 
 def test_more_meters():
     """Confirm additional Meter conversions."""
@@ -44,6 +47,9 @@ def test_one_kilometer():
     assert isclose(kilo.miles, 0.62137119)
     assert isclose(kilo.feet, 3280.8399)
 
+    assert str(kilo) == "1 km"
+    assert repr(kilo) == "Kilometer(1)"
+
 
 def test_one_millimeter():
     """Confirm simple Millimeter conversions."""
@@ -61,6 +67,9 @@ def test_one_millimeter():
     assert isclose(mm.inches, 0.03937)
     assert isclose(mm.feet, 0.00328084)
 
+    assert str(mm) == "1 mm"
+    assert repr(mm) == "Millimeter(1)"
+
 
 def test_one_mile():
     """Confirm simple Mile conversions."""
@@ -77,6 +86,9 @@ def test_one_mile():
 
     assert mile.meters == 1609.344
     assert mile.kilometers == 1.609344
+
+    assert str(mile) == "1 mi"
+    assert repr(mile) == "Mile(1)"
 
 
 def test_more_miles():
@@ -99,6 +111,9 @@ def test_one_yard():
     assert isclose(yard.meters, 0.9144)
     assert isclose(yard.centimeters, 91.44)
 
+    assert str(yard) == "1 yd"
+    assert repr(yard) == "Yard(1)"
+
 
 def test_one_foot():
     """Confirm simple Feet conversions."""
@@ -111,6 +126,9 @@ def test_one_foot():
 
     assert foot.inches == 12.0
     assert foot.centimeters == 30.48
+
+    assert str(foot) == "1 ft"
+    assert repr(foot) == "Foot(1)"
 
 
 def test_one_inch():
@@ -128,3 +146,6 @@ def test_one_inch():
 
     assert inch.centimeters == 2.54
     assert inch.millimeters == 25.4
+
+    assert str(inch) == "1 in"
+    assert repr(inch) == "Inch(1)"

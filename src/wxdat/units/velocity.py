@@ -2,7 +2,26 @@
 
 from abc import ABC, abstractproperty
 
-from .quantity import Quantity
+from .quantity import Quantity, UnitSymbol
+
+
+class VelocityUnit(UnitSymbol):
+    """Symbols for velocity units."""
+
+    METERS_PER_SECOND = "m/s"
+    MPS = "m/s"
+
+    KILOMETERS_PER_HOUR = "km/h"
+    KPH = "km/h"
+
+    MILES_PER_HOUR = "mph"
+    MPH = "mph"
+
+    FEET_PER_SECOND = "fps"
+    FPS = "fps"
+
+    KNOT = "knot"
+    KNOTS = "knots"
 
 
 class Velocity(Quantity, ABC):
@@ -31,6 +50,11 @@ class Velocity(Quantity, ABC):
 
 class MetersPerSecond(Velocity):
     """A representation of m/s."""
+
+    @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return VelocityUnit.METERS_PER_SECOND
 
     @property
     def mps(self):
@@ -62,6 +86,11 @@ class KilometersPerHour(MetersPerSecond):
     """A representation of km/h."""
 
     @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return VelocityUnit.KILOMETERS_PER_HOUR
+
+    @property
     def mps(self):
         """Return the value of this quantity as meters per second"""
         return (self.value * 1000.0) / 3600.0
@@ -69,6 +98,11 @@ class KilometersPerHour(MetersPerSecond):
 
 class MilesPerHour(Velocity):
     """A representation of mph."""
+
+    @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return VelocityUnit.MILES_PER_HOUR
 
     @property
     def mps(self):
@@ -98,6 +132,11 @@ class MilesPerHour(Velocity):
 
 class FeetPerSecond(MilesPerHour):
     """A representation of fps."""
+
+    @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return VelocityUnit.FEET_PER_SECOND
 
     @property
     def mph(self):

@@ -1,13 +1,11 @@
 """Base functionality for working with quantities."""
 
+from enum import Enum
 from typing import Union
 
 
-def _other_value(other):
-    """Return the value of `other` if it is a Quantity, otherwise return `other`."""
-    if isinstance(other, Quantity):
-        return other.value
-    return other
+class UnitSymbol(str, Enum):
+    """Symbols for all units."""
 
 
 class Quantity:
@@ -51,41 +49,41 @@ class Quantity:
 
     def __add__(self, other):
         """Return the sum of this `Quantity` and `other`."""
-        return Quantity(self.value + _other_value(other))
+        return Quantity(self.value + self._other_value(other))
 
     def __sub__(self, other):
         """Return the difference of this `Quantity` and `other`."""
-        return Quantity(self.value - _other_value(other))
+        return Quantity(self.value - self._other_value(other))
 
     def __mul__(self, other):
         """Return the product of this `Quantity` and `other`."""
-        return Quantity(self.value * _other_value(other))
+        return Quantity(self.value * self._other_value(other))
 
     def __truediv__(self, other):
         """Return the quotient of this `Quantity` and `other`."""
-        return Quantity(self.value / _other_value(other))
+        return Quantity(self.value / self._other_value(other))
 
     def __iadd__(self, other):
         """Add the given value to this Quantity."""
-        self.value += _other_value(other)
+        self.value += self._other_value(other)
 
         return self
 
     def __isub__(self, other):
         """Subtract the given value from this Number."""
-        self.value -= _other_value(other)
+        self.value -= self._other_value(other)
 
         return self
 
     def __imul__(self, other):
         """Multiply this `Quantity` by `other`."""
-        self.value *= _other_value(other)
+        self.value *= self._other_value(other)
 
         return self
 
     def __itruediv__(self, other):
         """Divide this `Quantity` by `other`."""
-        self.value /= _other_value(other)
+        self.value /= self._other_value(other)
 
         return self
 
@@ -115,8 +113,37 @@ class Quantity:
 
     def __str__(self):
         """Return a human readable string for this quantity."""
-        return f"{self.value}"
+        ret = str(self.value)
+
+        if isinstance(self.symbol, UnitSymbol):
+            ret += f" {self.symbol.value}"
+
+        return ret
 
     def __repr__(self):
         """Return a string representation of this quantity."""
-        return str(self)
+        return f"{self.__class__.__name__}({self.value})"
+
+    def _other_value(self, other):
+        """Return the value of `other` if it is a Quantity, otherwise return `other`.
+
+        If `other` is a `Quantity`, this method will also check that the objects are
+        compatible.  If they are not, a `TypeError` will be raised.
+        """
+
+        if isinstance(other, Quantity):
+            # in the future, we might want to support conversions between compatible
+            # quantities; but for now, we only support quantities of the same type
+            if not isinstance(other, self.__class__):
+                raise TypeError(
+                    f"Cannot operate on {self.__class__.__name__} and {other.__class__.__name__}"
+                )
+
+            return other.value
+
+        return other
+
+    @property
+    def symbol(self) -> Union[UnitSymbol, None]:
+        """Return the unit symbol of this quantity."""
+        return None

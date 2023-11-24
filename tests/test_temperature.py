@@ -28,6 +28,9 @@ def test_degC_freezing():
     assert int(tempC) == 0
     assert float(tempC) == 0.0
 
+    assert str(tempC) == "0 °C"
+    assert repr(tempC) == "Celsius(0)"
+
     assert_is_freezing(tempC)
 
 
@@ -40,6 +43,9 @@ def test_degF_freezing():
     assert int(tempF) == 32
     assert float(tempF) == 32.0
 
+    assert str(tempF) == "32 °F"
+    assert repr(tempF) == "Fahrenheit(32)"
+
     assert_is_freezing(tempF)
 
 
@@ -51,6 +57,9 @@ def test_degK_freezing():
 
     assert int(tempK) == 273
     assert float(tempK) == 273.15
+
+    assert str(tempK) == "273.15 K"
+    assert repr(tempK) == "Kelvin(273.15)"
 
     assert_is_freezing(tempK)
 

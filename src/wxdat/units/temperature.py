@@ -2,7 +2,26 @@
 
 from abc import ABC, abstractproperty
 
-from .quantity import Quantity
+from .quantity import Quantity, UnitSymbol
+
+
+class TemperatureUnit(UnitSymbol):
+    """Symbols for temperature units."""
+
+    CELCIUS = "°C"
+    DEGREES_CELCIUS = "°C"
+    C = "°C"
+    DEGREES_C = "°C"
+
+    FAHRENHEIT = "°F"
+    DEGREES_FAHRENHEIT = "°F"
+    F = "°F"
+    DEGREES_F = "°F"
+
+    KELVIN = "K"
+    DEGREES_KELVIN = "K"
+    K = "K"
+    DEGREES_K = "K"
 
 
 class Temperature(Quantity, ABC):
@@ -26,6 +45,11 @@ class Celsius(Temperature):
     """A representation of Celsius quantities."""
 
     @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return TemperatureUnit.CELCIUS
+
+    @property
     def degC(self):
         """Return the value of this quantity as Celsius."""
         return self.value
@@ -38,6 +62,11 @@ class Celsius(Temperature):
 
 class Fahrenheit(Temperature):
     """A representation of Fahrenheit quantities."""
+
+    @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return TemperatureUnit.FAHRENHEIT
 
     @property
     def degC(self):
@@ -53,7 +82,10 @@ class Fahrenheit(Temperature):
 class Kelvin(Celsius):
     """A representation of Kelvin quantities."""
 
-    # this class inherits conversions from the Celsius class
+    @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return TemperatureUnit.KELVIN
 
     @property
     def degC(self):

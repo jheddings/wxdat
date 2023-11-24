@@ -2,7 +2,34 @@
 
 from abc import ABC, abstractproperty
 
-from .quantity import Quantity
+from .quantity import Quantity, UnitSymbol
+
+
+class WeightUnit(UnitSymbol):
+    """Symbols for weight units."""
+
+    KILOGRAM = "kg"
+    KILOGRAMS = "kg"
+    KG = "kg"
+
+    GRAM = "g"
+    GRAMS = "g"
+    G = "g"
+
+    MILLIGRAM = "mg"
+    MILLIGRAMS = "mg"
+    MG = "mg"
+
+    POUND = "lb"
+    POUNDS = "lb"
+    LB = "lb"
+
+    OUNCE = "oz"
+    OUNCES = "oz"
+    OZ = "oz"
+
+    TON = "ton"
+    TONS = "tons"
 
 
 class Weight(Quantity, ABC):
@@ -41,6 +68,11 @@ class Kilogram(Weight):
     """A quantity of weight in kilograms."""
 
     @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return WeightUnit.KILOGRAM
+
+    @property
     def kg(self):
         """Return the value of this quantity in kilograms."""
         return self.value
@@ -55,6 +87,11 @@ class Gram(Kilogram):
     """A quantity of weight in grams."""
 
     @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return WeightUnit.GRAM
+
+    @property
     def kg(self):
         """Return the value of this quantity in kilograms."""
         return self.value / 1000
@@ -64,6 +101,11 @@ class Milligram(Kilogram):
     """A quantity of weight in milligrams."""
 
     @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return WeightUnit.MILLIGRAM
+
+    @property
     def kg(self):
         """Return the value of this quantity in kilograms."""
         return self.value / 1000000
@@ -71,6 +113,11 @@ class Milligram(Kilogram):
 
 class Pound(Weight):
     """A quantity of weight in pounds."""
+
+    @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return WeightUnit.POUND
 
     @property
     def kg(self):
@@ -87,6 +134,11 @@ class Ounce(Pound):
     """A quantity of weight in ounces."""
 
     @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return WeightUnit.OUNCE
+
+    @property
     def lbs(self):
         """Return the value of this quantity in pounds."""
         return self.value / 16.0
@@ -94,6 +146,11 @@ class Ounce(Pound):
 
 class Ton(Pound):
     """A quantity of weight in standard (short) tons."""
+
+    @property
+    def symbol(self):
+        """Return the unit symbol for this quantity."""
+        return WeightUnit.TON
 
     @property
     def lbs(self):

@@ -17,6 +17,9 @@ def test_one_pascal():
     assert pa.bar == 1e-5
     assert isclose(pa.psi, 0.0001450377)
 
+    assert str(pa) == "1 Pa"
+    assert repr(pa) == "Pascal(1)"
+
 
 def test_one_hPa():
     """Confirm simple Hectopascal conversions."""
@@ -31,6 +34,9 @@ def test_one_hPa():
 
     assert isclose(hPa.inHg, 0.02953)
 
+    assert str(hPa) == "1 hPa"
+    assert repr(hPa) == "Hectopascal(1)"
+
 
 def test_one_inHg():
     """Confirm simple InchesMercury conversions."""
@@ -43,3 +49,6 @@ def test_one_inHg():
 
     assert isclose(inHg.bar, 0.033864)
     assert isclose(inHg.psi, 0.4911542)
+
+    assert str(inHg) == "1 inHg"
+    assert repr(inHg) == "InchesMercury(1)"
