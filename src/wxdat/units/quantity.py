@@ -95,7 +95,7 @@ class Quantity:
 
     def __ne__(self, other):
         """Determine if this property is not equal to the given object."""
-        return not self.__eq__(other)
+        return other != self.value
 
     def __le__(self, other):
         """Return `True` if this `Quantity` value is less-than-or-equal-to `other`."""
