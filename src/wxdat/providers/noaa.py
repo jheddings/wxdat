@@ -8,8 +8,8 @@ from datetime import datetime
 from typing import Any, List, Optional
 
 from pydantic import BaseModel
+from wamu import Celsius, Meter, MetersPerSecond, Millimeter, Pascal
 
-from .. import units
 from ..database import CurrentConditions, HourlyForecast
 from . import BaseStation, WeatherProvider
 
@@ -104,17 +104,17 @@ class Station(BaseStation):
             timestamp=props.timestamp,
             provider=self.provider,
             station_id=self.station,
-            temperature=units.degC(props.temperature.value).degF,
-            feels_like=units.degC(props.feels_like).degF,
-            dew_point=units.degC(props.dewpoint.value).degF,
-            wind_speed=units.mps(props.windSpeed.value).mph,
-            wind_gusts=units.mps(props.windGust.value).mph,
+            temperature=Celsius(props.temperature.value).degrees_fahrenheit,
+            feels_like=Celsius(props.feels_like).degrees_fahrenheit,
+            dew_point=Celsius(props.dewpoint.value).degrees_fahrenheit,
+            wind_speed=MetersPerSecond(props.windSpeed.value).miles_per_hr,
+            wind_gusts=MetersPerSecond(props.windGust.value).miles_per_hr,
             wind_bearing=props.windDirection.value,
             humidity=props.relativeHumidity.value,
-            precip_hour=units.mm(props.precipitationLastHour.value).inches,
-            abs_pressure=units.Pa(props.barometricPressure.value).inHg,
-            rel_pressure=units.Pa(props.seaLevelPressure.value).inHg,
-            visibility=units.meter(props.visibility.value).miles,
+            precip_hour=Millimeter(props.precipitationLastHour.value).inches,
+            abs_pressure=Pascal(props.barometricPressure.value).inches_mercury,
+            rel_pressure=Pascal(props.seaLevelPressure.value).inches_mercury,
+            visibility=Meter(props.visibility.value).miles,
             remarks=props.rawMessage,
         )
 

@@ -12,8 +12,8 @@ from datetime import datetime, timezone
 from typing import List, Optional, Union
 
 from pydantic import BaseModel, Field
+from wamu import Hectopascal, Meter
 
-from .. import units
 from ..database import CurrentConditions, HourlyForecast
 from . import BaseStation, WeatherProvider
 
@@ -207,10 +207,10 @@ class Station(BaseStation):
             wind_gusts=wind.gust,
             wind_bearing=wind.deg,
             humidity=main.humidity,
-            abs_pressure=units.hPa(main.grnd_level).inHg,
-            rel_pressure=units.hPa(main.sea_level).inHg,
+            abs_pressure=Hectopascal(main.grnd_level).inches_mercury,
+            rel_pressure=Hectopascal(main.sea_level).inches_mercury,
             cloud_cover=conditions.clouds.all,
-            visibility=units.meter(conditions.visibility).miles,
+            visibility=Meter(conditions.visibility).miles,
             remarks=conditions.remarks,
         )
 
@@ -235,10 +235,10 @@ class Station(BaseStation):
                 wind_gusts=hour.wind.gust,
                 wind_bearing=hour.wind.deg,
                 humidity=hour.main.humidity,
-                abs_pressure=units.hPa(hour.main.grnd_level).inHg,
-                rel_pressure=units.hPa(hour.main.sea_level).inHg,
+                abs_pressure=Hectopascal(hour.main.grnd_level).inches_mercury,
+                rel_pressure=Hectopascal(hour.main.sea_level).inches_mercury,
                 cloud_cover=hour.clouds.all,
-                visibility=units.meter(hour.visibility).miles,
+                visibility=Meter(hour.visibility).miles,
                 remarks=hour.remarks,
             )
             for hour in forecast.list
