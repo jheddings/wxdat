@@ -41,14 +41,14 @@ def test_wunderground_bad_api_key():
         station_id="KCODENVE549",
     )
 
-    assert station.current_conditions is None
+    assert station.observe is None
 
 
 @pytest.mark.vcr()
 def test_wunderground_conditions(station: wunderground.Station):
     """Test current conditions from Weather Underground."""
 
-    conditions = station.current_conditions
+    conditions = station.observe
 
     assert conditions is not None
     assert conditions.timestamp is not None

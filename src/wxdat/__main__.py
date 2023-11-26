@@ -9,7 +9,7 @@ from prometheus_client import start_http_server
 
 from . import version
 from .config import AppConfig
-from .providers import DataRecorder
+from .recorder import DataRecorder
 
 logger = logging.getLogger(__name__)
 

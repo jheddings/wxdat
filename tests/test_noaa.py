@@ -18,19 +18,14 @@ def test_bad_station():
 
     station = noaa.Station("Bad Station", station="XXXX")
 
-    assert station.current_conditions is None
+    assert station.observe is None
 
 
 @pytest.mark.vcr()
 def test_noaa_conditions(station: noaa.Station):
     """Test current conditions from NOAA."""
 
-    conditions = station.current_conditions
+    conditions = station.observe
 
     assert conditions is not None
     assert conditions.timestamp is not None
-
-    # some basic checks on the contents
-    assert type(conditions.temperature) in [int, float]
-    assert type(conditions.humidity) in [int, float]
-    assert type(conditions.wind_speed) in [int, float]

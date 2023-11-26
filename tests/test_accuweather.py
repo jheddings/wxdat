@@ -37,14 +37,14 @@ def test_accuweather_bad_api_key():
 
     station = accuweather.Station("Invalid Key", api_key="12345", location=2626674)
 
-    assert station.current_conditions is None
+    assert station.observe is None
 
 
 @pytest.mark.vcr()
 def test_accuweather_conditions(station: accuweather.Station):
     """Test current conditions from AccuWeather."""
 
-    conditions = station.current_conditions
+    conditions = station.observe
 
     assert conditions is not None
     assert conditions.timestamp is not None

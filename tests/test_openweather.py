@@ -42,14 +42,14 @@ def test_openweather_bad_api_key():
         longitude=-104.98672,
     )
 
-    assert station.current_conditions is None
+    assert station.observe is None
 
 
 @pytest.mark.vcr()
 def test_openweather_conditions(station: openweather.Station):
     """Test current conditions from OpenWeatherMap."""
 
-    conditions = station.current_conditions
+    conditions = station.observe
 
     assert conditions is not None
     assert conditions.timestamp is not None

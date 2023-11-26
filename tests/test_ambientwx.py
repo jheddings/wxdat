@@ -50,14 +50,14 @@ def test_ambientwx_bad_api_key():
         device_id="eb:8d:60:8a:33:e7",
     )
 
-    assert station.current_conditions is None
+    assert station.observe is None
 
 
 @pytest.mark.vcr()
 def test_ambientwx_conditions(station: ambientwx.Station):
     """Test current conditions from Ambient Weather."""
 
-    conditions = station.current_conditions
+    conditions = station.observe
 
     assert conditions is not None
     assert conditions.timestamp is not None

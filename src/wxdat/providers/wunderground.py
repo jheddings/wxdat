@@ -9,7 +9,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
-from ..database import CurrentConditions, HourlyForecast
+from ..database import CurrentConditions
 from . import BaseStation, WeatherProvider
 
 logger = logging.getLogger(__name__)
@@ -86,8 +86,8 @@ class Station(BaseStation):
         return WeatherProvider.WUNDERGROUND
 
     @property
-    def current_conditions(self) -> CurrentConditions:
-        weather = self.get_current_weather()
+    def observe(self) -> CurrentConditions:
+        weather = self._api_get_current_weather()
 
         if weather is None:
             return None
@@ -112,12 +112,7 @@ class Station(BaseStation):
             precip_hour=conditions.precipRate,
         )
 
-    @property
-    def hourly_forecast(self) -> List[HourlyForecast]:
-        """Return the hourly forecast for this WeatherStation."""
-        return None
-
-    def get_current_weather(self) -> API_Observation:
+    def _api_get_current_weather(self) -> API_Observation:
         self.logger.debug("getting current weather")
 
         params = {

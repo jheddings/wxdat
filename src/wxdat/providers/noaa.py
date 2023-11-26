@@ -8,10 +8,10 @@ from datetime import datetime
 from typing import Any, List, Optional
 
 from pydantic import BaseModel
-from wamu import Celsius, Meter, MetersPerSecond, Millimeter, Pascal
+from wamu import Celsius, Meter, MetersPerSecond, MillimetersPerHour, Pascal
 
-from ..database import CurrentConditions, HourlyForecast
-from . import BaseStation, WeatherProvider
+from ..database import CurrentConditions
+from . import BaseStation, WeatherObservation, WeatherProvider
 
 logger = logging.getLogger(__name__)
 
@@ -56,16 +56,18 @@ class API_Properties(BaseModel):
     rawMessage: Optional[str] = None
 
     @property
-    def feels_like(self):
+    def feelsLike(self):
         if self.temperature is None or self.temperature.value is None:
             return None
 
+        temp = Celsius(self.temperature.value)
+
         # use heat index if temp is over 70 F
-        if self.temperature.value >= 21:
+        if temp.degrees_fahrenheit >= 70:
             return self.heatIndex.value
 
         # use wind chill if temp is below 61 F
-        if self.temperature.value <= 16:
+        if temp.degrees_fahrenheit <= 61:
             return self.windChill.value
 
         return self.temperature.value
@@ -92,38 +94,44 @@ class Station(BaseStation):
         return WeatherProvider.NOAA
 
     @property
-    def current_conditions(self) -> CurrentConditions:
-        weather = self.get_current_weather()
+    def observe(self) -> WeatherObservation:
+        weather = self._api_get_current_weather()
 
         if weather is None:
             return None
 
         props = weather.properties
 
+        # set up fields for conversion
+        temperature = Celsius(props.temperature.value)
+        feels_like = Celsius(props.feelsLike)
+        dew_point = Celsius(props.dewpoint.value)
+        wind_speed = MetersPerSecond(props.windSpeed.value)
+        wind_gusts = MetersPerSecond(props.windGust.value)
+        precip_hour = MillimetersPerHour(props.precipitationLastHour.value)
+        abs_pressure = Pascal(props.barometricPressure.value)
+        rel_pressure = Pascal(props.seaLevelPressure.value)
+        visibility = Meter(props.visibility.value)
+
         return CurrentConditions(
             timestamp=props.timestamp,
             provider=self.provider,
             station_id=self.station,
-            temperature=Celsius(props.temperature.value).degrees_fahrenheit,
-            feels_like=Celsius(props.feels_like).degrees_fahrenheit,
-            dew_point=Celsius(props.dewpoint.value).degrees_fahrenheit,
-            wind_speed=MetersPerSecond(props.windSpeed.value).miles_per_hr,
-            wind_gusts=MetersPerSecond(props.windGust.value).miles_per_hr,
+            temperature=temperature.degrees_fahrenheit,
+            feels_like=feels_like.degrees_fahrenheit,
+            dew_point=dew_point.degrees_fahrenheit,
+            wind_speed=wind_speed.miles_per_hr,
+            wind_gusts=wind_gusts.miles_per_hr,
             wind_bearing=props.windDirection.value,
             humidity=props.relativeHumidity.value,
-            precip_hour=Millimeter(props.precipitationLastHour.value).inches,
-            abs_pressure=Pascal(props.barometricPressure.value).inches_mercury,
-            rel_pressure=Pascal(props.seaLevelPressure.value).inches_mercury,
-            visibility=Meter(props.visibility.value).miles,
+            precip_hour=precip_hour.inches_per_hour,
+            abs_pressure=abs_pressure.inches_mercury,
+            rel_pressure=rel_pressure.inches_mercury,
+            visibility=visibility.miles,
             remarks=props.rawMessage,
         )
 
-    @property
-    def hourly_forecast(self) -> List[HourlyForecast]:
-        """Return the hourly forecast for this WeatherStation."""
-        return None
-
-    def get_current_weather(self) -> API_Observation:
+    def _api_get_current_weather(self) -> API_Observation:
         self.logger.debug("getting current weather")
 
         url = f"{API_BASE}/{self.station}/observations/latest"
