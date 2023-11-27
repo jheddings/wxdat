@@ -12,7 +12,7 @@ from datetime import datetime
 from typing import List, Optional, Union
 
 from pydantic import BaseModel, Field
-from wamu import Hectopascal, Meter
+from wamu import Fahrenheit, Hectopascal, Meter, MilesPerHour
 
 from ..database import CurrentConditions
 from . import BaseStation, WeatherProvider
@@ -133,6 +133,10 @@ class Station(BaseStation):
         wind = conditions.wind
 
         # read fields using correct units
+        temperature = Fahrenheit(main.temp)
+        feels_like = Fahrenheit(main.feels_like)
+        wind_speed = MilesPerHour(wind.speed)
+        wind_gust = MilesPerHour(wind.gust)
         abs_pressure = Hectopascal(main.grnd_level)
         rel_pressure = Hectopascal(main.sea_level)
         visibility = Meter(conditions.visibility)
@@ -141,10 +145,10 @@ class Station(BaseStation):
             timestamp=conditions.dt,
             provider=self.provider,
             station_id=self.station_id,
-            temperature=main.temp,
-            feels_like=main.feels_like,
-            wind_speed=wind.speed,
-            wind_gusts=wind.gust,
+            temperature=temperature.fahrenheit,
+            feels_like=feels_like.fahrenheit,
+            wind_speed=wind_speed.miles_per_hr,
+            wind_gusts=wind_gust.miles_per_hr,
             wind_bearing=wind.deg,
             humidity=main.humidity,
             abs_pressure=abs_pressure.inches_mercury,

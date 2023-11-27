@@ -9,6 +9,7 @@ from enum import Enum
 from typing import List, Optional
 
 from pydantic import BaseModel, TypeAdapter
+from wamu import Fahrenheit, Inch, InchesMercury, Mile, MilesPerHour
 
 from ..database import CurrentConditions
 from . import BaseStation, WeatherProvider
@@ -109,21 +110,31 @@ class Station(BaseStation):
         if weather is None:
             return None
 
+        # read fields using correct units
+        temperature = Fahrenheit(weather.Temperature.Imperial.Value)
+        feels_like = Fahrenheit(weather.RealFeelTemperature.Imperial.Value)
+        dew_point = Fahrenheit(weather.DewPoint.Imperial.Value)
+        wind_speed = MilesPerHour(weather.Wind.Speed.Imperial.Value)
+        wind_gust = MilesPerHour(weather.WindGust.Speed.Imperial.Value)
+        precip_hr = Inch(weather.Precip1hr.Imperial.Value)
+        pressure = InchesMercury(weather.Pressure.Imperial.Value)
+        visibility = Mile(weather.Visibility.Imperial.Value)
+
         return CurrentConditions(
             timestamp=weather.LocalObservationDateTime,
             provider=self.provider,
             station_id=self.location,
-            temperature=weather.Temperature.Imperial.Value,
-            feels_like=weather.RealFeelTemperature.Imperial.Value,
-            dew_point=weather.DewPoint.Imperial.Value,
-            wind_speed=weather.Wind.Speed.Imperial.Value,
-            wind_gusts=weather.WindGust.Speed.Imperial.Value,
+            temperature=temperature.fahrenheit,
+            feels_like=feels_like.fahrenheit,
+            dew_point=dew_point.fahrenheit,
+            wind_speed=wind_speed.miles_per_hr,
+            wind_gusts=wind_gust.miles_per_hr,
             wind_bearing=weather.Wind.Direction.Degrees,
             humidity=weather.RelativeHumidity,
-            precip_hour=weather.Precip1hr.Imperial.Value,
-            abs_pressure=weather.Pressure.Imperial.Value,
+            precip_hour=precip_hr.inches,
+            abs_pressure=pressure.inches_mercury,
             cloud_cover=weather.CloudCover,
-            visibility=weather.Visibility.Imperial.Value,
+            visibility=visibility.miles,
             uv_index=weather.UVIndex,
             remarks=weather.WeatherText,
         )

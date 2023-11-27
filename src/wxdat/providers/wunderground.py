@@ -8,6 +8,7 @@ from datetime import datetime
 from typing import List, Optional
 
 from pydantic import BaseModel
+from wamu import Fahrenheit, Inch, InchesMercury, InchesPerHour, MilesPerHour
 
 from ..database import CurrentConditions
 from . import BaseStation, WeatherProvider
@@ -94,22 +95,32 @@ class Station(BaseStation):
 
         conditions = weather.imperial
 
+        # read fields using the correct units
+        temperature = Fahrenheit(conditions.temp)
+        feels_like = Fahrenheit(conditions.feels_like)
+        dew_point = Fahrenheit(conditions.dewpt)
+        wind_speed = MilesPerHour(conditions.windSpeed)
+        wind_gust = MilesPerHour(conditions.windGust)
+        pressure = InchesMercury(conditions.pressure)
+        precip_rate = InchesPerHour(conditions.precipRate)
+        precip_day = Inch(conditions.precipTotal)
+
         return CurrentConditions(
             timestamp=weather.obsTimeUtc,
             provider=self.provider,
             station_id=self.station_id,
-            temperature=conditions.temp,
-            feels_like=conditions.feels_like,
-            wind_speed=conditions.windSpeed,
-            wind_gusts=conditions.windGust,
+            temperature=temperature.fahrenheit,
+            feels_like=feels_like.fahrenheit,
+            dew_point=dew_point.fahrenheit,
+            wind_speed=wind_speed.miles_per_hr,
+            wind_gusts=wind_gust.miles_per_hr,
             wind_bearing=weather.winddir,
             humidity=weather.humidity,
-            dew_point=conditions.dewpt,
-            abs_pressure=conditions.pressure,
+            abs_pressure=pressure.inches_mercury,
             uv_index=weather.uv,
             solar_rad=weather.solarRadation,
-            precip_day=conditions.precipTotal,
-            precip_hour=conditions.precipRate,
+            precip_day=precip_day.inches,
+            precip_hour=precip_rate.inches_per_hour,
         )
 
     def _api_get_current_weather(self) -> API_Observation:

@@ -8,6 +8,7 @@ from datetime import datetime
 from typing import List, Optional
 
 from pydantic import BaseModel, TypeAdapter
+from wamu import Fahrenheit, Inch, InchesMercury, InchesPerHour, MilesPerHour
 
 from ..database import CurrentConditions
 from . import BaseStation, WeatherProvider
@@ -87,25 +88,40 @@ class Station(BaseStation):
         if conditions is None:
             return None
 
+        # read fields using correct units
+        temperature = Fahrenheit(conditions.tempf)
+        feels_like = Fahrenheit(conditions.feelsLike)
+        dew_point = Fahrenheit(conditions.dewPoint)
+        wind_speed = MilesPerHour(conditions.windspeedmph)
+        wind_gust = MilesPerHour(conditions.windgustmph)
+        precip_rate = InchesPerHour(conditions.hourlyrainin)
+        precip_day = Inch(conditions.dailyrainin)
+        precip_week = Inch(conditions.weeklyrainin)
+        precip_month = Inch(conditions.monthlyrainin)
+        precip_year = Inch(conditions.yearlyrainin)
+        precip_total = Inch(conditions.totalrainin)
+        rel_pressure = InchesMercury(conditions.baromrelin)
+        abs_pressure = InchesMercury(conditions.baromabsin)
+
         return CurrentConditions(
             timestamp=conditions.date,
             provider=self.provider,
             station_id=self.device_id,
-            temperature=conditions.tempf,
-            feels_like=conditions.feelsLike,
-            wind_speed=conditions.windspeedmph,
-            wind_gusts=conditions.windgustmph,
+            temperature=temperature.fahrenheit,
+            feels_like=feels_like.fahrenheit,
+            dew_point=dew_point.fahrenheit,
+            wind_speed=wind_speed.miles_per_hr,
+            wind_gusts=wind_gust.miles_per_hr,
             wind_bearing=conditions.winddir,
             humidity=conditions.humidity,
-            dew_point=conditions.dewPoint,
-            precip_hour=conditions.hourlyrainin,
-            precip_day=conditions.dailyrainin,
-            precip_week=conditions.weeklyrainin,
-            precip_month=conditions.monthlyrainin,
-            precip_year=conditions.yearlyrainin,
-            precip_total=conditions.totalrainin,
-            rel_pressure=conditions.baromrelin,
-            abs_pressure=conditions.baromabsin,
+            precip_hour=precip_rate.inches_per_hour,
+            precip_day=precip_day.inches,
+            precip_week=precip_week.inches,
+            precip_month=precip_month.inches,
+            precip_year=precip_year.inches,
+            precip_total=precip_total.inches,
+            rel_pressure=rel_pressure.inches_mercury,
+            abs_pressure=abs_pressure.inches_mercury,
             solar_rad=conditions.solarradiation,
             uv_index=conditions.uv,
         )
