@@ -29,13 +29,18 @@ gitpython = "^3.1.43"
 [tool.poetry.scripts]
 wxdat = "wxdat.__main__:main"
 
+[tool.black]
+line_length = 88
+
+[tool.isort]
+profile = "black"
+
 [tool.ruff]
 line-length = 88
 indent-width = 4
 
 [tool.ruff.lint]
 select = [
-    "I",   # isort
     "E",   # pycodestyle errors
     "W",   # pycodestyle warnings
     "F",   # pyflakes
@@ -49,15 +54,6 @@ select = [
 ignore = [
     "E501", # line-too-long
 ]
-
-[tool.ruff.format]
-quote-style = "double"
-indent-style = "space"
-skip-magic-trailing-comma = false
-line-ending = "auto"
-
-[tool.ruff.isort]
-known-first-party = ["wxdat"]
 
 [build-system]
 requires = ["poetry-core"]
