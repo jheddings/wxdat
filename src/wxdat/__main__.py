@@ -2,7 +2,6 @@
 
 import logging
 import signal
-import threading
 
 import click
 from prometheus_client import start_http_server
@@ -21,7 +20,6 @@ class MainApp:
         self.logger = logger.getChild("MainApp")
 
         self.config = config
-        self.run_lock = threading.Event()
 
         self._initialize_database(config.database)
         self._initialize_observers(config)
