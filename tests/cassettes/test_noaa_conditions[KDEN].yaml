@@ -9,100 +9,52 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - wxdat/1.4.1-04bd5a1+ (+https://github.com/jheddings/wxdat)
+      - wxdat/1.5.0-d5f119b-static-checks+ (+https://github.com/jheddings/wxdat)
     method: GET
     uri: https://api.weather.gov/stations//KDEN/observations/latest
   response:
     body:
-      string: "{\n    \"@context\": [\n        \"https://geojson.org/geojson-ld/geojson-context.jsonld\"\
-        ,\n        {\n            \"@version\": \"1.1\",\n            \"wx\": \"https://api.weather.gov/ontology#\"\
-        ,\n            \"s\": \"https://schema.org/\",\n            \"geo\": \"http://www.opengis.net/ont/geosparql#\"\
-        ,\n            \"unit\": \"http://codes.wmo.int/common/unit/\",\n        \
-        \    \"@vocab\": \"https://api.weather.gov/ontology#\",\n            \"geometry\"\
-        : {\n                \"@id\": \"s:GeoCoordinates\",\n                \"@type\"\
-        : \"geo:wktLiteral\"\n            },\n            \"city\": \"s:addressLocality\"\
-        ,\n            \"state\": \"s:addressRegion\",\n            \"distance\":\
-        \ {\n                \"@id\": \"s:Distance\",\n                \"@type\":\
-        \ \"s:QuantitativeValue\"\n            },\n            \"bearing\": {\n  \
-        \              \"@type\": \"s:QuantitativeValue\"\n            },\n      \
-        \      \"value\": {\n                \"@id\": \"s:value\"\n            },\n\
-        \            \"unitCode\": {\n                \"@id\": \"s:unitCode\",\n \
-        \               \"@type\": \"@id\"\n            },\n            \"forecastOffice\"\
-        : {\n                \"@type\": \"@id\"\n            },\n            \"forecastGridData\"\
-        : {\n                \"@type\": \"@id\"\n            },\n            \"publicZone\"\
-        : {\n                \"@type\": \"@id\"\n            },\n            \"county\"\
-        : {\n                \"@type\": \"@id\"\n            }\n        }\n    ],\n\
-        \    \"id\": \"https://api.weather.gov/stations/KDEN/observations/2023-11-23T00:53:00+00:00\"\
-        ,\n    \"type\": \"Feature\",\n    \"geometry\": {\n        \"type\": \"Point\"\
-        ,\n        \"coordinates\": [\n            -104.67,\n            39.859999999999999\n\
-        \        ]\n    },\n    \"properties\": {\n        \"@id\": \"https://api.weather.gov/stations/KDEN/observations/2023-11-23T00:53:00+00:00\"\
-        ,\n        \"@type\": \"wx:ObservationStation\",\n        \"elevation\": {\n\
-        \            \"unitCode\": \"wmoUnit:m\",\n            \"value\": 1656\n \
-        \       },\n        \"station\": \"https://api.weather.gov/stations/KDEN\"\
-        ,\n        \"timestamp\": \"2023-11-23T00:53:00+00:00\",\n        \"rawMessage\"\
-        : \"KDEN 230053Z 03005KT 10SM FEW160 SCT220 13/M08 A2999 RMK AO2 SLP121 T01331078\"\
-        ,\n        \"textDescription\": \"Partly Cloudy\",\n        \"icon\": \"https://api.weather.gov/icons/land/night/sct?size=medium\"\
-        ,\n        \"presentWeather\": [],\n        \"temperature\": {\n         \
-        \   \"unitCode\": \"wmoUnit:degC\",\n            \"value\": 13.300000000000001,\n\
-        \            \"qualityControl\": \"V\"\n        },\n        \"dewpoint\":\
-        \ {\n            \"unitCode\": \"wmoUnit:degC\",\n            \"value\": -7.7999999999999998,\n\
-        \            \"qualityControl\": \"V\"\n        },\n        \"windDirection\"\
-        : {\n            \"unitCode\": \"wmoUnit:degree_(angle)\",\n            \"\
-        value\": 30,\n            \"qualityControl\": \"V\"\n        },\n        \"\
-        windSpeed\": {\n            \"unitCode\": \"wmoUnit:km_h-1\",\n          \
-        \  \"value\": 9.3599999999999994,\n            \"qualityControl\": \"V\"\n\
-        \        },\n        \"windGust\": {\n            \"unitCode\": \"wmoUnit:km_h-1\"\
-        ,\n            \"value\": null,\n            \"qualityControl\": \"Z\"\n \
-        \       },\n        \"barometricPressure\": {\n            \"unitCode\": \"\
-        wmoUnit:Pa\",\n            \"value\": 101560,\n            \"qualityControl\"\
-        : \"V\"\n        },\n        \"seaLevelPressure\": {\n            \"unitCode\"\
-        : \"wmoUnit:Pa\",\n            \"value\": null,\n            \"qualityControl\"\
-        : \"Z\"\n        },\n        \"visibility\": {\n            \"unitCode\":\
-        \ \"wmoUnit:m\",\n            \"value\": 16090,\n            \"qualityControl\"\
-        : \"C\"\n        },\n        \"maxTemperatureLast24Hours\": {\n          \
-        \  \"unitCode\": \"wmoUnit:degC\",\n            \"value\": null\n        },\n\
-        \        \"minTemperatureLast24Hours\": {\n            \"unitCode\": \"wmoUnit:degC\"\
-        ,\n            \"value\": null\n        },\n        \"precipitationLastHour\"\
-        : {\n            \"unitCode\": \"wmoUnit:mm\",\n            \"value\": null,\n\
-        \            \"qualityControl\": \"Z\"\n        },\n        \"precipitationLast3Hours\"\
-        : {\n            \"unitCode\": \"wmoUnit:mm\",\n            \"value\": null,\n\
-        \            \"qualityControl\": \"Z\"\n        },\n        \"precipitationLast6Hours\"\
-        : {\n            \"unitCode\": \"wmoUnit:mm\",\n            \"value\": null,\n\
-        \            \"qualityControl\": \"Z\"\n        },\n        \"relativeHumidity\"\
-        : {\n            \"unitCode\": \"wmoUnit:percent\",\n            \"value\"\
-        : 22.338412079377999,\n            \"qualityControl\": \"V\"\n        },\n\
-        \        \"windChill\": {\n            \"unitCode\": \"wmoUnit:degC\",\n \
-        \           \"value\": null,\n            \"qualityControl\": \"V\"\n    \
-        \    },\n        \"heatIndex\": {\n            \"unitCode\": \"wmoUnit:degC\"\
-        ,\n            \"value\": null,\n            \"qualityControl\": \"V\"\n \
-        \       },\n        \"cloudLayers\": [\n            {\n                \"\
-        base\": {\n                    \"unitCode\": \"wmoUnit:m\",\n            \
-        \        \"value\": 4880\n                },\n                \"amount\":\
-        \ \"FEW\"\n            },\n            {\n                \"base\": {\n  \
-        \                  \"unitCode\": \"wmoUnit:m\",\n                    \"value\"\
-        : 6710\n                },\n                \"amount\": \"SCT\"\n        \
-        \    }\n        ]\n    }\n}"
+      string: !!binary |
+        H4sIAAAAAAAAA8VXbW/bNhD+nl8haF82bJYpKXZqA8PSOVs6xGnSJuuADEFBSxebC0WqJGXFK/Lf
+        e5RiR/JbHLtN9SGRxefunnsl+XnPwcc9jKQwcGfcrvNv8aX4OjIm1d1mcwjyPy2FJ9Vw+t7g8ez1
+        QdazP3js/jJT8Hn2VhoZg9JMCjTi+p5fARbL+Z1dmNqkKfNyoGYEyhvKcRNtSC6Hkx/mxXRVSkcj
+        SGhBdB6HbKdIBOZ57skUxJBpT4Cx6q0/OqXqE1+wkQlmKsKRjEF7eSI9hmKRTBIpmhazYPRwLCM6
+        2MovZJOAURMUrsexVMxiq1V3j0H2pFQxE9SAnlNSQs0kBQtGjd381vSZAUW5W0Pez1mPmJmUBmgc
+        K9C6j45w+3E+/Abt1pDvYWiTPIeLGSJFBE+4czSFrXNEd99lVBiGptkYPlCewXpvBkAVE8MVtrdW
+        Oy4g6x0aP63GVk4PS+oJTTPYutBY9FpjN1JBRLU5u7lhK7PxbG3HisVH1NBd9aXZgLPoSoqdmUUy
+        E2ZV86zWsld/uy61umUOVvWw7QEsed08OfrjbVMONKjxw5eABPsN0mkEwaXf6bbCLiE/E4J/H7Lo
+        Tqn8ifoyNU3u8u6fgc8lDp5KHaC3jyOgOsLt0/DJvtc+qMcn7HivWp3qM1u+3qvE000VjkllWKG4
+        QuXwm4WknqL8rnv2KH1Rqq0igUO5tpDramO5OK3/xp/dZH4wTZvYb7faj9mvGHhwZWNvq+QMSwAX
+        k9RKb+S4ovkpDlE6LFhbfU4Q+J1WeOX4PiHtk0vHJxenzu8nb0kY2n/42fHDJmk7r0MSBM770xPn
+        9VngXPTPUc65JH4YEtJq13jhfn0EOlIsnfp2KrXhE6fHZRZXp7zLovXO23Xd5FTEzZhOmoNb8Ztm
+        /8OvCcQsq4Ybawk0CPNPKWwL9brGKcFKK7tgo1TGMOytzGboodOVx58DfsqK7ayH+6+S3Kr94C5N
+        fwx5WrTbzpxaXr3jOu1tOeVMxEcMR+/mdY/EFMDHH6kYcvhpZdh8sgunixQg3ozPbfJx1Fg4Az7y
+        8PydonOc6Q0ztp6IyDh/ksfVch4DqoohzqJzey7auK7P6bdgo4H2YQz8a3HxCU6XratlzDQbMM6W
+        bNHPHduk8zSL3nIWCb27fJw6fTzIBPtvZKb07s1uU7XcJhMvbhMHb8RSVu5S1qQ1uGHgV0Z+l2Jc
+        IBQ+IwQvRKn93Skp4MVV5E2WsHjjVsHSiqB2PKwRanW8NiGvDjrtg33/AHfGYJc52xsxzr9O5W5L
+        Y4THib9EDHffl0ZkD059OgG1eARfcgcZUL38jrOS+HyJLbDHiUwWEPeLQi5N7OXI6sbj49pr1MsQ
+        D8PW7sTn7y97918AxP/2rNwSAAA=
     headers:
       Access-Control-Allow-Origin:
       - '*'
       Access-Control-Expose-Headers:
       - X-Correlation-Id, X-Request-Id, X-Server-Id
       Cache-Control:
-      - public, max-age=90, s-maxage=300
+      - public, max-age=106, s-maxage=300
       Connection:
       - keep-alive
       Content-Encoding:
       - gzip
       Content-Length:
-      - '1061'
+      - '1046'
       Content-Type:
       - application/geo+json
       Date:
-      - Thu, 23 Nov 2023 01:57:24 GMT
+      - Sun, 22 Sep 2024 21:12:36 GMT
       Expires:
-      - Thu, 23 Nov 2023 01:58:54 GMT
+      - Sun, 22 Sep 2024 21:14:22 GMT
       Last-Modified:
-      - Thu, 23 Nov 2023 00:53:00 GMT
+      - Sun, 22 Sep 2024 19:53:00 GMT
       Server:
       - nginx/1.20.1
       Strict-Transport-Security:
@@ -111,13 +63,13 @@ interactions:
       - Accept-Encoding
       - Accept,Feature-Flags,Accept-Language
       X-Correlation-ID:
-      - 1bd7f22b
+      - d10c0c7
       X-Edge-Request-ID:
-      - 2fee1ac1
+      - 40fae2d0
       X-Request-ID:
-      - a968656f-1384-480f-b56e-027da24c3064
+      - abc81010-2cdb-465b-8f08-28403a1900cf
       X-Server-ID:
-      - vm-bldr-nids-apiapp6.ncep.noaa.gov
+      - vm-lnx-nids-apiapp13.ncep.noaa.gov
     status:
       code: 200
       message: OK

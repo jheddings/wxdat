@@ -9,7 +9,7 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - wxdat/1.4.1-04bd5a1+ (+https://github.com/jheddings/wxdat)
+      - wxdat/1.5.0-d5f119b-static-checks+ (+https://github.com/jheddings/wxdat)
     method: GET
     uri: https://api.weather.com/v2/pws/observations/current?format=json&numericPrecision=decimal&stationId=KCODENVE549&units=e
   response:
@@ -28,9 +28,9 @@ interactions:
       Content-Type:
       - text/html
       Date:
-      - Thu, 23 Nov 2023 01:57:28 GMT
+      - Sun, 22 Sep 2024 21:12:40 GMT
       Expires:
-      - Thu, 23 Nov 2023 01:57:28 GMT
+      - Sun, 22 Sep 2024 21:12:40 GMT
       Pragma:
       - no-cache
       Strict-Transport-Security:
