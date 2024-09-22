@@ -9,19 +9,25 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - wxdat/1.4.1-04bd5a1+ (+https://github.com/jheddings/wxdat)
+      - wxdat/1.5.0-d5f119b-static-checks+ (+https://github.com/jheddings/wxdat)
     method: GET
     uri: https://rt.ambientweather.net/v1/devices/98:CD:AC:22:F4:07?limit=1
   response:
     body:
-      string: '[{"dateutc":1700704500000,"tempinf":76.1,"humidityin":26,"baromrelin":30.186,"baromabsin":24.835,"tempf":48.7,"humidity":29,"winddir":74,"winddir_avg10m":65,"windspeedmph":0,"windspdmph_avg10m":1.3,"windgustmph":2.5,"maxdailygust":12.8,"hourlyrainin":0,"eventrainin":0,"dailyrainin":0,"weeklyrainin":0.012,"monthlyrainin":0.016,"yearlyrainin":18.516,"solarradiation":0,"uv":0,"feelsLike":48.7,"dewPoint":17.89,"feelsLikein":74.6,"dewPointin":38.7,"lastRain":"2023-11-20T17:07:00.000Z","date":"2023-11-23T01:55:00.000Z"}]'
+      string: !!binary |
+        H4sIAAAAAAAAA2SRQW7DIBBF7zJrgmYwxDFn6KKqumpVVaSQGMXgCOOkVtW7VziNk6rs/tPjMxpe
+        v8Ca7Mb8AZpqUWPVSCyHQXbh6OMOdC0YtGPw1ufJR9DVhsHWpD4k180ZeaXELzPboTChOCJdSnag
+        18TrWwlopRicfbTWJ9BUiSW9m9OeMBS4vsDh6JwNxxa0vIISF1Hy6sL345Bnb1NIMJ/W+G4qtLTx
+        hkHbj6mbkvGxjIgM3MnFvGS+UQzmSzdUN2VS5w7/YOhjbm+UOK2JweTM3ROEHBUxGPrOpGSsN9n3
+        sawDuRQMxhNoxWDnXDc8+IO7Lsq682PvYwYtFa/qO6O01njvFCIVg84M+cmUBAKFXGGzEuKZlCap
+        ETkivgCbP/uvIUgTLsb32w8AAAD//wMADiZF3xICAAA=
     headers:
       Access-Control-Allow-Origin:
       - '*'
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 82a5cd0cb9151f38-DEN
+      - 8c754b3d2b1c5202-DEN
       Connection:
       - keep-alive
       Content-Encoding:
@@ -29,13 +35,13 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Thu, 23 Nov 2023 01:57:22 GMT
+      - Sun, 22 Sep 2024 21:12:34 GMT
       ETag:
-      - W/"208-AfpzQrhgrrJmoBLYtupr6A"
+      - W/"212-p9lpV6Aj+BJJYh9PFa+Wgw"
       NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=2wQClTswQfDt2zi10tBKSPa0Iu9Q1k5ofeDm09ToNqV3a3SGqu5sFMaOU05f4UEWVDL%2BdK8qOahpvRN1iZ0pEUtFD9UbPdJ9rpNUkhpdZdMuWoV%2F7N%2BFeA9Ol%2BZlLDSyN90Q2OEUeg%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=wjmOQ0edriKYHfUrLd4vZEJFzzoF3uoGyIBoIsS2UjTRBpOigRUoE9GoJ4Y%2BQ6WBRzwgqIqrFfT1yBmMFRqBdf3HiC%2F%2Fu8vhA41bFbR4ecwyImyFxNZISJExH2Ra8nEpWDm%2F8ZP6OQ%3D%3D"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Strict-Transport-Security:

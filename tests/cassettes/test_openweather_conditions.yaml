@@ -9,13 +9,13 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - wxdat/1.4.1-04bd5a1+ (+https://github.com/jheddings/wxdat)
+      - wxdat/1.5.0-d5f119b-static-checks+ (+https://github.com/jheddings/wxdat)
     method: GET
     uri: https://api.openweathermap.org/data/2.5/weather?lat=39.73465&lon=-104.98672&units=imperial
   response:
     body:
-      string: '{"coord":{"lon":-104.9867,"lat":39.7347},"weather":[{"id":800,"main":"Clear","description":"clear
-        sky","icon":"01n"}],"base":"stations","main":{"temp":49.3,"feels_like":49.3,"temp_min":42.28,"temp_max":55.81,"pressure":1013,"humidity":36},"visibility":10000,"wind":{"speed":1.01,"deg":246},"clouds":{"all":7},"dt":1700704199,"sys":{"type":2,"id":2004334,"country":"US","sunrise":1700661141,"sunset":1700696406},"timezone":-25200,"id":5419384,"name":"Denver","cod":200}'
+      string: '{"coord":{"lon":-104.9867,"lat":39.7347},"weather":[{"id":804,"main":"Clouds","description":"overcast
+        clouds","icon":"04d"}],"base":"stations","main":{"temp":60.75,"feels_like":59.14,"temp_min":58.19,"temp_max":63.54,"pressure":1018,"humidity":56,"sea_level":1018,"grnd_level":837},"visibility":10000,"wind":{"speed":3,"deg":0,"gust":5.99},"clouds":{"all":100},"dt":1727039559,"sys":{"type":2,"id":2002746,"country":"US","sunrise":1727009283,"sunset":1727053015},"timezone":-21600,"id":5419384,"name":"Denver","cod":200}'
     headers:
       Access-Control-Allow-Credentials:
       - 'true'
@@ -26,11 +26,11 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '468'
+      - '520'
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Thu, 23 Nov 2023 01:57:27 GMT
+      - Sun, 22 Sep 2024 21:12:39 GMT
       Server:
       - openresty
       X-Cache-Key:

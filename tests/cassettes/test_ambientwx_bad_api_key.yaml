@@ -9,7 +9,7 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - wxdat/1.4.1-04bd5a1+ (+https://github.com/jheddings/wxdat)
+      - wxdat/1.5.0-d5f119b-static-checks+ (+https://github.com/jheddings/wxdat)
     method: GET
     uri: https://rt.ambientweather.net/v1/devices/eb:8d:60:8a:33:e7?limit=1
   response:
@@ -21,7 +21,7 @@ interactions:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 82a5cd068d4e5209-DEN
+      - 8c754b39d86251f4-DEN
       Connection:
       - keep-alive
       Content-Length:
@@ -29,13 +29,13 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Thu, 23 Nov 2023 01:57:21 GMT
+      - Sun, 22 Sep 2024 21:12:33 GMT
       ETag:
       - W/"22-vHMvCrpjdAeQKnCuNYODXQ"
       NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=yHE1LHIEApzEXH3r6pjbA9rBX7uHsMv218K9PIOiZcfgpVGWOmA%2Fe4esRpbVstY3fhNoMCu%2FT81G3UNIX2OwXFcscJhnikolFDEcIJPWShW%2BunHLtQcdWta7qM3VKcTq9TheebMDZQ%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=1PnddJyT6GrEBFyacy3xdESVmFIll33Ge2PM6ZVf%2FW4umQ0KGzc2US4Ov0ClbwwU9dDFvTMGlTx2GlVz0h1cKjOYwnRKu2UnaS2MjpmAx4xTtZaU%2F75g3gRZDnuGPAmBypsp12m7Fg%3D%3D"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Strict-Transport-Security:
