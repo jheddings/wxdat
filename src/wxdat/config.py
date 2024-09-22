@@ -155,10 +155,6 @@ class AppConfig(BaseModel):
         env = os.getenv("WXDAT_DATABASE_URL", None)
         return val if env is None else env
 
-    @property
-    def DATABASE_CONN_STRING(self):
-        return self.database
-
     @classmethod
     def load(cls, config_file):
         if not os.path.exists(config_file):
