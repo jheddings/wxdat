@@ -9,30 +9,32 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - wxdat/1.5.0-d5f119b-static-checks+ (+https://github.com/jheddings/wxdat)
+      - wxdat/1.5.1-2637f42-renovate/python-3.x+ (+https://github.com/jheddings/wxdat)
     method: GET
     uri: https://api.weather.com/v2/pws/observations/current?format=json&numericPrecision=decimal&stationId=KCODENVE549&units=e
   response:
     body:
-      string: '{"observations":[{"stationID":"KCODENVE549","obsTimeUtc":"2024-09-22T21:12:27Z","obsTimeLocal":"2024-09-22
-        15:12:27","neighborhood":"Congress Park","softwareType":"myAcuRite","country":"US","solarRadiation":null,"lon":-104.952347,"realtimeFrequency":null,"epoch":1727039547,"lat":39.737583,"uv":null,"winddir":90,"humidity":56.0,"qcStatus":1,"imperial":{"temp":64.2,"heatIndex":64.2,"dewpt":48.2,"windChill":64.2,"windSpeed":0.0,"windGust":0.0,"pressure":30.20,"precipRate":0.00,"precipTotal":0.59,"elev":5358.0}}]}
+      string: '{"observations":[{"stationID":"KCODENVE549","obsTimeUtc":"2025-01-08T18:13:24Z","obsTimeLocal":"2025-01-08
+        11:13:24","neighborhood":"Congress Park","softwareType":"myAcuRite","country":"US","solarRadiation":null,"lon":-104.952347,"realtimeFrequency":null,"epoch":1736360004,"lat":39.737583,"uv":null,"winddir":180,"humidity":48.0,"qcStatus":1,"imperial":{"temp":34.5,"heatIndex":34.5,"dewpt":16.9,"windChill":34.5,"windSpeed":0.0,"windGust":0.0,"pressure":30.23,"precipRate":0.00,"precipTotal":0.00,"elev":5358.0}}]}
 
         '
     headers:
       Access-Control-Allow-Origin:
       - '*'
+      Akamai-GRN:
+      - 0.f4592117.1736360019.a25b483
       Cache-Control:
       - max-age=5
       Connection:
       - keep-alive
       Content-Length:
-      - '516'
+      - '517'
       Content-Security-Policy:
       - default-src 'none'
       Content-Type:
       - application/json; charset=UTF-8
       Date:
-      - Sun, 22 Sep 2024 21:12:41 GMT
+      - Wed, 08 Jan 2025 18:13:40 GMT
       Strict-Transport-Security:
       - max-age=86400
       Surrogate-Control:
@@ -42,7 +44,7 @@ interactions:
       X-Region:
       - us-east-1
       X-Trace-Token:
-      - f8da89eb-86fb-42c1-9a89-eb86fb22c1f6
+      - 8a9022b2-9edf-4e1a-9022-b29edfde1a16
       trace-name:
       - v2includerouter-include-get
     status:

@@ -9,7 +9,7 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - wxdat/1.5.0-d5f119b-static-checks+ (+https://github.com/jheddings/wxdat)
+      - wxdat/1.5.1-2637f42-renovate/python-3.x+ (+https://github.com/jheddings/wxdat)
     method: GET
     uri: http://dataservice.accuweather.com/currentconditions/v1/2626674?details=True&language=en-US
   response:
@@ -23,7 +23,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Sun, 22 Sep 2024 21:12:31 GMT
+      - Wed, 08 Jan 2025 18:13:29 GMT
     status:
       code: 401
       message: Unauthorized
