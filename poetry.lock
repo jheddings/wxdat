@@ -645,6 +645,7 @@ files = [
     {file = "psycopg2-2.9.10-cp311-cp311-win_amd64.whl", hash = "sha256:0435034157049f6846e95103bd8f5a668788dd913a7c30162ca9503fdf542cb4"},
     {file = "psycopg2-2.9.10-cp312-cp312-win32.whl", hash = "sha256:65a63d7ab0e067e2cdb3cf266de39663203d38d6a8ed97f5ca0cb315c73fe067"},
     {file = "psycopg2-2.9.10-cp312-cp312-win_amd64.whl", hash = "sha256:4a579d6243da40a7b3182e0430493dbd55950c493d8c68f4eec0b302f6bbf20e"},
+    {file = "psycopg2-2.9.10-cp313-cp313-win_amd64.whl", hash = "sha256:91fd603a2155da8d0cfcdbf8ab24a2d54bca72795b90d2a3ed2b6da8d979dee2"},
     {file = "psycopg2-2.9.10-cp39-cp39-win32.whl", hash = "sha256:9d5b3b94b79a844a986d029eee38998232451119ad653aea42bb9220a8c5066b"},
     {file = "psycopg2-2.9.10-cp39-cp39-win_amd64.whl", hash = "sha256:88138c8dedcbfa96408023ea2b0c369eda40fe5d75002c0964c78f46f11fa442"},
     {file = "psycopg2-2.9.10.tar.gz", hash = "sha256:12ec0b40b0273f95296233e8750441339298e6a572f7039da5b260e3c8b60e11"},
@@ -1125,13 +1126,13 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 
 [[package]]
 name = "wamu"
-version = "0.2.1"
+version = "0.3.1"
 description = "Utilities for working with Weights & Measures in Python"
 optional = false
-python-versions = ">=3.8,<4.0"
+python-versions = "<4.0,>=3.9"
 files = [
-    {file = "wamu-0.2.1-py3-none-any.whl", hash = "sha256:6db7a8d961aecd10aded155d4789121d8d21f195c0b43071bc5df788935e3610"},
-    {file = "wamu-0.2.1.tar.gz", hash = "sha256:ae34602b45ebe60b817afe4adf70d6a135e1e95273e8d444d32a7d61feeaaf4f"},
+    {file = "wamu-0.3.1-py3-none-any.whl", hash = "sha256:36b399dbf6db1d3630a4346198c85e4abd52223901033d67b93407feb0e859df"},
+    {file = "wamu-0.3.1.tar.gz", hash = "sha256:d7eb3af6f9b9b108a208435f5c2213e54374d2d3d6827853387cfb56557d94ea"},
 ]
 
 [package.dependencies]
@@ -1324,4 +1325,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "1260a9325e5750cb3a2d33c1dac167a07d5febbb0c4c973b5327ced8b9f8707f"
+content-hash = "dd8818487d7be692682648e50b5e27d44529a9ae2d99cc107a9b38a0e5c9a05a"
