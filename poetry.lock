@@ -1318,14 +1318,14 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 
 [[package]]
 name = "wamu"
-version = "0.2.1"
+version = "0.3.1"
 description = "Utilities for working with Weights & Measures in Python"
 optional = false
-python-versions = ">=3.8,<4.0"
+python-versions = "<4.0,>=3.9"
 groups = ["main"]
 files = [
-    {file = "wamu-0.2.1-py3-none-any.whl", hash = "sha256:6db7a8d961aecd10aded155d4789121d8d21f195c0b43071bc5df788935e3610"},
-    {file = "wamu-0.2.1.tar.gz", hash = "sha256:ae34602b45ebe60b817afe4adf70d6a135e1e95273e8d444d32a7d61feeaaf4f"},
+    {file = "wamu-0.3.1-py3-none-any.whl", hash = "sha256:36b399dbf6db1d3630a4346198c85e4abd52223901033d67b93407feb0e859df"},
+    {file = "wamu-0.3.1.tar.gz", hash = "sha256:d7eb3af6f9b9b108a208435f5c2213e54374d2d3d6827853387cfb56557d94ea"},
 ]
 
 [package.dependencies]
@@ -1506,4 +1506,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "1260a9325e5750cb3a2d33c1dac167a07d5febbb0c4c973b5327ced8b9f8707f"
+content-hash = "dd8818487d7be692682648e50b5e27d44529a9ae2d99cc107a9b38a0e5c9a05a"
