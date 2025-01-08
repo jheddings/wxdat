@@ -9,7 +9,7 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - wxdat/1.5.0-d5f119b-static-checks+ (+https://github.com/jheddings/wxdat)
+      - wxdat/1.5.1-2637f42-renovate/python-3.x+ (+https://github.com/jheddings/wxdat)
     method: GET
     uri: https://rt.ambientweather.net/v1/devices/eb:8d:60:8a:33:e7?limit=1
   response:
@@ -21,7 +21,7 @@ interactions:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 8c754b39d86251f4-DEN
+      - 8fee29788c1479a1-DEN
       Connection:
       - keep-alive
       Content-Length:
@@ -29,13 +29,13 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 22 Sep 2024 21:12:33 GMT
+      - Wed, 08 Jan 2025 18:13:31 GMT
       ETag:
       - W/"22-vHMvCrpjdAeQKnCuNYODXQ"
       NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=1PnddJyT6GrEBFyacy3xdESVmFIll33Ge2PM6ZVf%2FW4umQ0KGzc2US4Ov0ClbwwU9dDFvTMGlTx2GlVz0h1cKjOYwnRKu2UnaS2MjpmAx4xTtZaU%2F75g3gRZDnuGPAmBypsp12m7Fg%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=IxwlV4uEr58sGWfAhOE48mi7nv%2FT0ZsG30vSkmAZZhJrkgGh0HAC9M9a1YephZaSAFlZ6Bl7YDBlbxPiaJWZPANB6JX5LuHBj0uuDAPZGgxfEbXEWLxyCcRaLHqKwMptQb3VWJzaRg%3D%3D"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Strict-Transport-Security:
@@ -44,6 +44,8 @@ interactions:
       - Accept-Encoding
       X-Powered-By:
       - Express
+      server-timing:
+      - cfL4;desc="?proto=TCP&rtt=18650&min_rtt=17913&rtt_var=8192&sent=4&recv=5&lost=0&retrans=0&sent_bytes=2858&recv_bytes=899&delivery_rate=121624&cwnd=251&unsent_bytes=0&cid=429ef19f36a7a329&ts=85&x=0"
     status:
       code: 401
       message: Unauthorized

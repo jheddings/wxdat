@@ -9,7 +9,7 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - wxdat/1.5.0-d5f119b-static-checks+ (+https://github.com/jheddings/wxdat)
+      - wxdat/1.5.1-2637f42-renovate/python-3.x+ (+https://github.com/jheddings/wxdat)
     method: GET
     uri: https://api.weather.com/v2/pws/observations/current?format=json&numericPrecision=decimal&stationId=KCODENVE549&units=e
   response:
@@ -17,6 +17,8 @@ interactions:
       string: '{"metadata":{"transaction_id":"##############"},"success":false,"errors":[{"error":{"code":"CDN-0001","message":"Invalid
         apiKey."}}]}'
     headers:
+      Akamai-GRN:
+      - 0.f2592117.1736360018.9908ada
       Cache-Control:
       - max-age=0, no-cache, no-store
       Connection:
@@ -28,9 +30,9 @@ interactions:
       Content-Type:
       - text/html
       Date:
-      - Sun, 22 Sep 2024 21:12:40 GMT
+      - Wed, 08 Jan 2025 18:13:38 GMT
       Expires:
-      - Sun, 22 Sep 2024 21:12:40 GMT
+      - Wed, 08 Jan 2025 18:13:38 GMT
       Pragma:
       - no-cache
       Strict-Transport-Security:

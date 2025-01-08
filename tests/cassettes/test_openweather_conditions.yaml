@@ -9,13 +9,12 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - wxdat/1.5.0-d5f119b-static-checks+ (+https://github.com/jheddings/wxdat)
+      - wxdat/1.5.1-2637f42-renovate/python-3.x+ (+https://github.com/jheddings/wxdat)
     method: GET
     uri: https://api.openweathermap.org/data/2.5/weather?lat=39.73465&lon=-104.98672&units=imperial
   response:
     body:
-      string: '{"coord":{"lon":-104.9867,"lat":39.7347},"weather":[{"id":804,"main":"Clouds","description":"overcast
-        clouds","icon":"04d"}],"base":"stations","main":{"temp":60.75,"feels_like":59.14,"temp_min":58.19,"temp_max":63.54,"pressure":1018,"humidity":56,"sea_level":1018,"grnd_level":837},"visibility":10000,"wind":{"speed":3,"deg":0,"gust":5.99},"clouds":{"all":100},"dt":1727039559,"sys":{"type":2,"id":2002746,"country":"US","sunrise":1727009283,"sunset":1727053015},"timezone":-21600,"id":5419384,"name":"Denver","cod":200}'
+      string: '{"coord":{"lon":-104.9906,"lat":39.7323},"weather":[{"id":601,"main":"Snow","description":"snow","icon":"13d"}],"base":"stations","main":{"temp":32.13,"feels_like":27.21,"temp_min":29.62,"temp_max":36.18,"pressure":1025,"humidity":48,"sea_level":1025,"grnd_level":837},"visibility":10000,"wind":{"speed":5.01,"deg":179},"snow":{"1h":0.51},"clouds":{"all":2},"dt":1736359771,"sys":{"type":2,"id":2004334,"country":"US","sunrise":1736346052,"sunset":1736380340},"timezone":-25200,"id":5419384,"name":"Denver","cod":200}'
     headers:
       Access-Control-Allow-Credentials:
       - 'true'
@@ -26,11 +25,11 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '520'
+      - '517'
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 22 Sep 2024 21:12:39 GMT
+      - Wed, 08 Jan 2025 18:13:38 GMT
       Server:
       - openresty
       X-Cache-Key:
