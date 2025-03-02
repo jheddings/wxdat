@@ -20,7 +20,7 @@ wamu = "^0.3.1"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^4.1.0"
-pytest = "^8.3.4"
+pytest = "^8.3.5"
 pytest-vcr = "^1.0.2"
 coverage = "^7.6.12"
 ruff = "^0.9.9"
