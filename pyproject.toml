@@ -24,7 +24,7 @@ pytest = "^8.4.1"
 pytest-vcr = "^1.0.2"
 coverage = "^7.9.2"
 ruff = "^0.12.4"
-gitpython = "^3.1.44"
+gitpython = "^3.1.45"
 
 [tool.poetry.scripts]
 wxdat = "wxdat.__main__:main"
