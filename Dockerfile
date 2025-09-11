@@ -1,6 +1,6 @@
 FROM python:3.13
 
-COPY src poetry.lock pyproject.toml README.md /tmp/wxdat/
+COPY src uv.lock pyproject.toml README.md /tmp/wxdat/
 RUN pip3 install /tmp/wxdat/ && rm -Rf /tmp/wxdat
 
 # commands must be presented as an array, otherwise it will be launched
