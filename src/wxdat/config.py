@@ -5,7 +5,7 @@ import os
 import os.path
 from abc import abstractmethod
 from enum import Enum
-from typing import Annotated, Dict, List, Literal, Optional, Union
+from typing import Annotated, Literal
 
 import yaml
 from pydantic import BaseModel, Field, validator
@@ -34,7 +34,7 @@ class StationConfigBase(BaseModel):
 
     name: str
     provider: WeatherProvider
-    update_interval: Optional[int] = None
+    update_interval: int | None = None
 
     @abstractmethod
     def initialize(self):
@@ -45,7 +45,7 @@ class AccuWeatherConfig(StationConfigBase):
     """Station configuration for AccuWeather."""
 
     api_key: str
-    location: Union[str, int]
+    location: str | int
     provider: Literal[WeatherProvider.ACCUWEATHER]
 
     def initialize(self):
@@ -129,13 +129,11 @@ class WeatherUndergroundConfig(StationConfigBase):
 
 
 StationConfig = Annotated[
-    Union[
-        AccuWeatherConfig,
-        AmbientWeatherConfig,
-        NOAA_Config,
-        OpenWeatherMapConfig,
-        WeatherUndergroundConfig,
-    ],
+    AccuWeatherConfig
+    | AmbientWeatherConfig
+    | NOAA_Config
+    | OpenWeatherMapConfig
+    | WeatherUndergroundConfig,
     Field(discriminator="provider"),
 ]
 
@@ -145,10 +143,10 @@ class AppConfig(BaseModel):
 
     database: str = "sqlite:///wxdat.db"
     update_interval: int = 300
-    stations: List[StationConfig] = []
+    stations: list[StationConfig] = []
     units: Units = Units.METRIC
-    logging: Optional[Dict] = None
-    metrics: Optional[int] = None
+    logging: dict | None = None
+    metrics: int | None = None
 
     @validator("database", pre=True, always=True)
     def _check_env_for_database_str(cls, val):

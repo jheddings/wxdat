@@ -6,7 +6,6 @@ https://developer.accuweather.com/apis
 import logging
 from datetime import datetime
 from enum import Enum
-from typing import List, Optional
 
 from pydantic import BaseModel, TypeAdapter
 from wamu import Fahrenheit, Inch, InchesMercury, Mile, MilesPerHour
@@ -29,7 +28,7 @@ class Precipitation(str, Enum):
 class API_Measurement(BaseModel):
     Value: float
     Unit: str
-    Phrase: Optional[str] = None
+    Phrase: str | None = None
 
 
 class API_Measurements(BaseModel):
@@ -39,53 +38,53 @@ class API_Measurements(BaseModel):
 
 class API_WindDirection(BaseModel):
     Degrees: float
-    English: Optional[str] = None
+    English: str | None = None
 
 
 class API_Wind(BaseModel):
     Speed: API_Measurements
-    Direction: Optional[API_WindDirection] = None
+    Direction: API_WindDirection | None = None
 
 
 class API_Precipitation(BaseModel):
-    Precipitation: Optional[API_Measurements] = None
-    PastHour: Optional[API_Measurements] = None
-    Past3Hours: Optional[API_Measurements] = None
-    Past6Hours: Optional[API_Measurements] = None
-    Past9Hours: Optional[API_Measurements] = None
-    Past12Hours: Optional[API_Measurements] = None
-    Past18Hours: Optional[API_Measurements] = None
-    Past24Hours: Optional[API_Measurements] = None
+    Precipitation: API_Measurements | None = None
+    PastHour: API_Measurements | None = None
+    Past3Hours: API_Measurements | None = None
+    Past6Hours: API_Measurements | None = None
+    Past9Hours: API_Measurements | None = None
+    Past12Hours: API_Measurements | None = None
+    Past18Hours: API_Measurements | None = None
+    Past24Hours: API_Measurements | None = None
 
 
 class API_Observation(BaseModel):
     EpochTime: int
     LocalObservationDateTime: datetime
-    IsDayTime: Optional[bool] = None
-    WeatherText: Optional[str] = None
+    IsDayTime: bool | None = None
+    WeatherText: str | None = None
 
-    HasPrecipitation: Optional[bool] = None
-    PrecipitationType: Optional[Precipitation] = None
+    HasPrecipitation: bool | None = None
+    PrecipitationType: Precipitation | None = None
 
-    Temperature: Optional[API_Measurements] = None
-    RealFeelTemperature: Optional[API_Measurements] = None
-    ApparentTemperature: Optional[API_Measurements] = None
-    DewPoint: Optional[API_Measurements] = None
+    Temperature: API_Measurements | None = None
+    RealFeelTemperature: API_Measurements | None = None
+    ApparentTemperature: API_Measurements | None = None
+    DewPoint: API_Measurements | None = None
 
-    Wind: Optional[API_Wind] = None
-    WindGust: Optional[API_Wind] = None
+    Wind: API_Wind | None = None
+    WindGust: API_Wind | None = None
 
-    UVIndex: Optional[float] = None
-    RelativeHumidity: Optional[float] = None
-    Pressure: Optional[API_Measurements] = None
-    Visibility: Optional[API_Measurements] = None
-    CloudCover: Optional[float] = None
+    UVIndex: float | None = None
+    RelativeHumidity: float | None = None
+    Pressure: API_Measurements | None = None
+    Visibility: API_Measurements | None = None
+    CloudCover: float | None = None
 
-    Precip1hr: Optional[API_Measurements] = None
-    PrecipitationSummary: Optional[API_Precipitation] = None
+    Precip1hr: API_Measurements | None = None
+    PrecipitationSummary: API_Precipitation | None = None
 
 
-API_Observations = TypeAdapter(List[API_Observation])
+API_Observations = TypeAdapter(list[API_Observation])
 
 
 class Station(BaseStation):

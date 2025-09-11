@@ -5,7 +5,7 @@ https://www.weather.gov/documentation/services-web-api
 
 import logging
 from datetime import datetime
-from typing import Any, List, Optional
+from typing import Any
 
 from pydantic import BaseModel
 from wamu import Celsius, Meter, MetersPerSecond, MillimetersPerHour, Pascal
@@ -20,40 +20,40 @@ API_BASE = "https://api.weather.gov/stations/"
 
 class API_Geometry(BaseModel):
     type: str
-    coordinates: List[float]
+    coordinates: list[float]
 
 
 class API_Measurement(BaseModel):
     unitCode: str
     qualityControl: str
-    value: Optional[float] = None
+    value: float | None = None
 
 
 class API_Properties(BaseModel):
     station: str
     timestamp: datetime
 
-    temperature: Optional[API_Measurement] = None
-    dewpoint: Optional[API_Measurement] = None
+    temperature: API_Measurement | None = None
+    dewpoint: API_Measurement | None = None
 
-    windDirection: Optional[API_Measurement] = None
-    windSpeed: Optional[API_Measurement] = None
-    windGust: Optional[API_Measurement] = None
+    windDirection: API_Measurement | None = None
+    windSpeed: API_Measurement | None = None
+    windGust: API_Measurement | None = None
 
-    barometricPressure: Optional[API_Measurement] = None
-    seaLevelPressure: Optional[API_Measurement] = None
-    visibility: Optional[API_Measurement] = None
+    barometricPressure: API_Measurement | None = None
+    seaLevelPressure: API_Measurement | None = None
+    visibility: API_Measurement | None = None
 
-    precipitationLastHour: Optional[API_Measurement] = None
-    relativeHumidity: Optional[API_Measurement] = None
-    windChill: Optional[API_Measurement] = None
-    heatIndex: Optional[API_Measurement] = None
+    precipitationLastHour: API_Measurement | None = None
+    relativeHumidity: API_Measurement | None = None
+    windChill: API_Measurement | None = None
+    heatIndex: API_Measurement | None = None
 
-    cloudLayers: Optional[List[Any]] = None
-    presentWeather: Optional[List[Any]] = None
+    cloudLayers: list[Any] | None = None
+    presentWeather: list[Any] | None = None
 
-    textDescription: Optional[str] = None
-    rawMessage: Optional[str] = None
+    textDescription: str | None = None
+    rawMessage: str | None = None
 
     @property
     def feelsLike(self):

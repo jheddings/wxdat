@@ -1,7 +1,5 @@
 """Metrics provider for wxdat."""
 
-from typing import Optional
-
 from prometheus_client import Counter, Gauge
 
 PROVIDER_REQUESTS = Counter(
@@ -174,7 +172,7 @@ class WeatherConditionMetrics:
         self.solar_lux = CURRENT_SOLAR_LUX.labels(station=name)
         self.solar_rad = CURRENT_SOLAR_RAD.labels(station=name)
 
-    def _update_gauge(self, gauge: Gauge, val: Optional[float] = None):
+    def _update_gauge(self, gauge: Gauge, val: float | None = None):
         if val is not None:
             gauge.set(val)
 

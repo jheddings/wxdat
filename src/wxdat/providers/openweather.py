@@ -9,7 +9,6 @@ data from various API endpoints.
 
 import logging
 from datetime import datetime
-from typing import List, Optional, Union
 
 from pydantic import BaseModel, Field
 from wamu import Fahrenheit, Hectopascal, Meter, MilesPerHour
@@ -28,12 +27,12 @@ class API_Main(BaseModel):
     humidity: int
     pressure: int
 
-    feels_like: Optional[float] = None
-    temp_min: Optional[float] = None
-    temp_max: Optional[float] = None
+    feels_like: float | None = None
+    temp_min: float | None = None
+    temp_max: float | None = None
 
-    sea_level: Optional[int] = None
-    grnd_level: Optional[int] = None
+    sea_level: int | None = None
+    grnd_level: int | None = None
 
 
 class API_Coordinates(BaseModel):
@@ -43,13 +42,13 @@ class API_Coordinates(BaseModel):
 
 class API_Wind(BaseModel):
     deg: int
-    speed: Union[int, float]
-    gust: Optional[float] = None
+    speed: int | float
+    gust: float | None = None
 
 
 class API_HourlyPrecip(BaseModel):
-    hour1: Optional[float] = Field(alias="1h", default=None)
-    hour3: Optional[float] = Field(alias="3h", default=None)
+    hour1: float | None = Field(alias="1h", default=None)
+    hour3: float | None = Field(alias="3h", default=None)
 
 
 class API_Clouds(BaseModel):
@@ -63,15 +62,15 @@ class API_City(BaseModel):
     country: str
     coord: API_Coordinates
 
-    sunrise: Optional[int] = None
-    sunset: Optional[int] = None
+    sunrise: int | None = None
+    sunset: int | None = None
 
 
 class API_WeatherNotes(BaseModel):
     id: int
     main: str
     description: str
-    icon: Optional[str] = None
+    icon: str | None = None
 
 
 # https://openweathermap.org/current
@@ -87,11 +86,11 @@ class API_CurrentWeather(BaseModel):
     clouds: API_Clouds
     visibility: int
 
-    rain: Optional[API_HourlyPrecip] = None
-    snow: Optional[API_HourlyPrecip] = None
+    rain: API_HourlyPrecip | None = None
+    snow: API_HourlyPrecip | None = None
 
-    dt_txt: Optional[datetime] = None
-    weather: Optional[List[API_WeatherNotes]] = None
+    dt_txt: datetime | None = None
+    weather: list[API_WeatherNotes] | None = None
 
     @property
     def remarks(self):
