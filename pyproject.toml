@@ -1,32 +1,34 @@
-[tool.poetry]
+[project]
 name = "wxdat"
 version = "1.5.2"
 description = "Weather data explorer."
-authors = ["jheddings <jheddings@gmail.com>"]
-license = "MIT"
+authors = [{ name = "jheddings", email = "jheddings@gmail.com" }]
+requires-python = ">=3.10, <4"
 readme = "README.md"
+license = "MIT"
+dependencies = [
+    "requests>=2.32.5,<3",
+    "click>=8.2.1,<9",
+    "prometheus-client>=0.22.1,<0.23",
+    "pydantic>=2.11.7,<3",
+    "sqlalchemy>=2.0.43,<3",
+    "psycopg2>=2.9.10,<3",
+    "ratelimit>=2.2.1,<3",
+    "pyyaml>=6.0.2,<7",
+    "wamu>=0.3.1,<0.4",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-requests = "^2.32.5"
-click = "^8.2.1"
-prometheus-client = "^0.22.1"
-pydantic = "^2.11.7"
-sqlalchemy = "^2.0.43"
-psycopg2 = "^2.9.10"
-ratelimit = "^2.2.1"
-pyyaml = "^6.0.2"
-wamu = "^0.3.1"
+[dependency-groups]
+dev = [
+    "pre-commit>=4.3.0,<5",
+    "pytest>=8.4.2,<9",
+    "pytest-vcr>=1.0.2,<2",
+    "coverage>=7.10.6,<8",
+    "ruff>=0.13.0,<0.14",
+    "gitpython>=3.1.45,<4",
+]
 
-[tool.poetry.group.dev.dependencies]
-pre-commit = "^4.3.0"
-pytest = "^8.4.2"
-pytest-vcr = "^1.0.2"
-coverage = "^7.10.6"
-ruff = "^0.13.0"
-gitpython = "^3.1.45"
-
-[tool.poetry.scripts]
+[project.scripts]
 wxdat = "wxdat.__main__:main"
 
 [tool.black]
@@ -55,6 +57,8 @@ ignore = [
     "E501", # line-too-long
 ]
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
