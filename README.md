@@ -19,11 +19,11 @@ Install the published package using pip:
 pip3 install wxdat
 ```
 
-This project uses `poetry` to manage dependencies and a local virtual environment.  To
+This project uses `uv` to manage dependencies and a local virtual environment.  To
 get started, clone the repository and install the dependencies with the following:
 
 ```shell
-poetry install
+uv sync
 ```
 
 ## Usage ##
@@ -34,10 +34,10 @@ Run the module and tell it which config file to use.
 python3 -m wxdat --config wxdat.yaml
 ```
 
-If you are using `poetry` to manage the virtual environment, use the following:
+If you are using `uv` to manage the virtual environment, use the following:
 
 ```shell
-poetry run python -m wxdat --config wxdat.yaml
+uv run python -m wxdat --config wxdat.yaml
 ```
 
 ## Configuration ##
