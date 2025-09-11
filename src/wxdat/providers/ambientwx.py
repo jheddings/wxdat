@@ -5,7 +5,6 @@ https://ambientweather.docs.apiary.io/
 
 import logging
 from datetime import datetime
-from typing import List, Optional
 
 from pydantic import BaseModel, TypeAdapter
 from wamu import Fahrenheit, Inch, InchesMercury, InchesPerHour, MilesPerHour
@@ -23,46 +22,46 @@ class API_DeviceData(BaseModel):
     dateutc: int
     date: datetime
 
-    winddir: Optional[float] = None
-    windspeedmph: Optional[float] = None
-    windgustmph: Optional[float] = None
-    windgustdir: Optional[float] = None
+    winddir: float | None = None
+    windspeedmph: float | None = None
+    windgustmph: float | None = None
+    windgustdir: float | None = None
 
-    maxdailygust: Optional[float] = None
+    maxdailygust: float | None = None
 
-    winddir_avg2m: Optional[float] = None
-    windspdmph_avg2m: Optional[float] = None
+    winddir_avg2m: float | None = None
+    windspdmph_avg2m: float | None = None
 
-    winddir_avg10m: Optional[float] = None
-    windspdmph_avg10m: Optional[float] = None
+    winddir_avg10m: float | None = None
+    windspdmph_avg10m: float | None = None
 
-    tempf: Optional[float] = None
-    feelsLike: Optional[float] = None
-    dewPoint: Optional[float] = None
-    humidity: Optional[float] = None
+    tempf: float | None = None
+    feelsLike: float | None = None
+    dewPoint: float | None = None
+    humidity: float | None = None
 
-    baromrelin: Optional[float] = None
-    baromabsin: Optional[float] = None
+    baromrelin: float | None = None
+    baromabsin: float | None = None
 
-    hourlyrainin: Optional[float] = None
-    dailyrainin: Optional[float] = None
-    weeklyrainin: Optional[float] = None
-    monthlyrainin: Optional[float] = None
-    yearlyrainin: Optional[float] = None
-    eventrainin: Optional[float] = None
-    totalrainin: Optional[float] = None
+    hourlyrainin: float | None = None
+    dailyrainin: float | None = None
+    weeklyrainin: float | None = None
+    monthlyrainin: float | None = None
+    yearlyrainin: float | None = None
+    eventrainin: float | None = None
+    totalrainin: float | None = None
 
-    uv: Optional[float] = None
+    uv: float | None = None
 
-    tempinf: Optional[float] = None
-    humidityin: Optional[float] = None
-    feelsLikein: Optional[float] = None
-    dewPointin: Optional[float] = None
+    tempinf: float | None = None
+    humidityin: float | None = None
+    feelsLikein: float | None = None
+    dewPointin: float | None = None
 
-    solarradiation: Optional[float] = None
+    solarradiation: float | None = None
 
 
-API_DeviceDataList = TypeAdapter(List[API_DeviceData])
+API_DeviceDataList = TypeAdapter(list[API_DeviceData])
 
 
 class Station(BaseStation):

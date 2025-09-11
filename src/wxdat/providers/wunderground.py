@@ -5,7 +5,6 @@ https://www.wunderground.com/weather/api
 
 import logging
 from datetime import datetime
-from typing import List, Optional
 
 from pydantic import BaseModel
 from wamu import Fahrenheit, Inch, InchesMercury, InchesPerHour, MilesPerHour
@@ -19,20 +18,20 @@ API_ENDPOINT = "https://api.weather.com/v2/pws/observations/current"
 
 
 class API_ImperialObs(BaseModel):
-    temp: Optional[float] = None
-    dewpt: Optional[float] = None
-    pressure: Optional[float] = None
+    temp: float | None = None
+    dewpt: float | None = None
+    pressure: float | None = None
 
-    heatIndex: Optional[float] = None
-    windChill: Optional[float] = None
+    heatIndex: float | None = None
+    windChill: float | None = None
 
-    windSpeed: Optional[float] = None
-    windGust: Optional[float] = None
+    windSpeed: float | None = None
+    windGust: float | None = None
 
-    precipRate: Optional[float] = None
-    precipTotal: Optional[float] = None
+    precipRate: float | None = None
+    precipTotal: float | None = None
 
-    elev: Optional[float] = None
+    elev: float | None = None
 
     @property
     def feels_like(self):
@@ -48,27 +47,27 @@ class API_ImperialObs(BaseModel):
 class API_Observation(BaseModel):
     stationID: str
 
-    epoch: Optional[datetime] = None
-    obsTimeUtc: Optional[datetime] = None
-    obsTimeLocal: Optional[datetime] = None
+    epoch: datetime | None = None
+    obsTimeUtc: datetime | None = None
+    obsTimeLocal: datetime | None = None
 
-    lon: Optional[float] = None
-    lat: Optional[float] = None
+    lon: float | None = None
+    lat: float | None = None
 
-    country: Optional[str] = None
-    neighborhood: Optional[str] = None
+    country: str | None = None
+    neighborhood: str | None = None
 
-    uv: Optional[float] = None
-    solarRadation: Optional[float] = None
-    humidity: Optional[float] = None
+    uv: float | None = None
+    solarRadation: float | None = None
+    humidity: float | None = None
 
-    winddir: Optional[float] = None
+    winddir: float | None = None
 
-    imperial: Optional[API_ImperialObs] = None
+    imperial: API_ImperialObs | None = None
 
 
 class API_Current(BaseModel):
-    observations: List[API_Observation] = []
+    observations: list[API_Observation] = []
 
 
 class Station(BaseStation):

@@ -5,7 +5,6 @@ from abc import ABC, abstractproperty
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Optional
 
 import requests
 from ratelimit import limits, sleep_and_retry
@@ -45,30 +44,30 @@ class WeatherObservation:
     timestamp: datetime
     station: "BaseStation"
 
-    temperature: Optional[Temperature] = None
-    feels_like: Optional[Temperature] = None
-    dew_point: Optional[Temperature] = None
+    temperature: Temperature | None = None
+    feels_like: Temperature | None = None
+    dew_point: Temperature | None = None
 
-    abs_pressure: Optional[Pressure] = None
-    rel_pressure: Optional[Pressure] = None
+    abs_pressure: Pressure | None = None
+    rel_pressure: Pressure | None = None
 
-    wind_speed: Optional[Velocity] = None
-    wind_gust: Optional[Velocity] = None
-    wind_bearing: Optional[float] = None
+    wind_speed: Velocity | None = None
+    wind_gust: Velocity | None = None
+    wind_bearing: float | None = None
 
-    precip_rate: Optional[Rate] = None
-    precip_type: Optional[Precipitation] = None
-    precip_total: Optional[Distance] = None
+    precip_rate: Rate | None = None
+    precip_type: Precipitation | None = None
+    precip_total: Distance | None = None
 
-    cloud_cover: Optional[float] = None
-    cloud_ceiling: Optional[Distance] = None
-    cloud_base: Optional[Distance] = None
+    cloud_cover: float | None = None
+    cloud_ceiling: Distance | None = None
+    cloud_base: Distance | None = None
 
-    humidity: Optional[float] = None
-    uv_index: Optional[float] = None
-    visibility: Optional[Distance] = None
+    humidity: float | None = None
+    uv_index: float | None = None
+    visibility: Distance | None = None
 
-    remarks: Optional[str] = None
+    remarks: str | None = None
 
 
 class BaseStation(ABC):
