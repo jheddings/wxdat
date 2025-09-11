@@ -1129,7 +1129,7 @@ wheels = [
 [[package]]
 name = "wxdat"
 version = "1.5.2"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "click" },
     { name = "prometheus-client" },
