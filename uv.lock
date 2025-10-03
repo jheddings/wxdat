@@ -784,14 +784,14 @@ wheels = [
 
 [[package]]
 name = "wamu"
-version = "0.3.3"
+version = "0.3.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "deprecation" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/59/76/d2f80073ef861773dc05562b3b0d0c370a74bfeaf561c3f483f2da626ffa/wamu-0.3.3.tar.gz", hash = "sha256:9bff68257bb40d795621adfbf2ce4befa761c108b6d4974be5c4352a88d77c20", size = 28589, upload-time = "2025-09-12T00:18:28.722Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d1/94/398840651f094b203d57454f2dcc49ffec18e8d1aae24ece9da2d087cb3d/wamu-0.3.5.tar.gz", hash = "sha256:79adea0853841a472370651a8a0b4234625dc21f7e9e0cc3f6875e937bf7fd9d", size = 31371, upload-time = "2025-10-03T03:43:12.314Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/77/b5/8636d27788f5aaaac756fd5c4358bf96e459276e7bc3ac36b111cc0a6056/wamu-0.3.3-py3-none-any.whl", hash = "sha256:64b9ea22d1748a7868fb7bc8f341204161cc06253b23befb2bc0dfd8e0800425", size = 1963, upload-time = "2025-09-12T00:18:27.803Z" },
+    { url = "https://files.pythonhosted.org/packages/de/eb/74a5ea3c2f5e5908532833ae48f1791560c0b20baa375afed63084c6d30e/wamu-0.3.5-py3-none-any.whl", hash = "sha256:8dca76e10353a6f96342cd4ab7ea5427ff7302bb78e894bf76409e47dbbab9bd", size = 10942, upload-time = "2025-10-03T03:43:11.285Z" },
 ]
 
 [[package]]
@@ -879,7 +879,7 @@ requires-dist = [
     { name = "ratelimit", specifier = ">=2.2.1,<3" },
     { name = "requests", specifier = ">=2.32.5,<3" },
     { name = "sqlalchemy", specifier = ">=2.0.43,<3" },
-    { name = "wamu", specifier = ">=0.3.3,<0.4" },
+    { name = "wamu", specifier = ">=0.3.5,<0.4" },
 ]
 
 [package.metadata.requires-dev]
