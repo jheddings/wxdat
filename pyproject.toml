@@ -23,7 +23,7 @@ dev = [
     "pre-commit>=4.5.0,<5",
     "pytest>=9.0.2,<10",
     "pytest-vcr>=1.0.2,<2",
-    "coverage>=7.12.0,<8",
+    "coverage>=7.13.0,<8",
     "ruff>=0.14.8,<0.15",
     "gitpython>=3.1.45,<4",
 ]
