@@ -657,24 +657,24 @@ wheels = [
 
 [[package]]
 name = "urllib3"
-version = "2.6.0"
+version = "2.6.2"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/1c/43/554c2569b62f49350597348fc3ac70f786e3c32e7f19d266e19817812dd3/urllib3-2.6.0.tar.gz", hash = "sha256:cb9bcef5a4b345d5da5d145dc3e30834f58e8018828cbc724d30b4cb7d4d49f1", size = 432585, upload-time = "2025-12-05T15:08:47.885Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/1e/24/a2a2ed9addd907787d7aa0355ba36a6cadf1768b934c652ea78acbd59dcd/urllib3-2.6.2.tar.gz", hash = "sha256:016f9c98bb7e98085cb2b4b17b87d2c702975664e4f060c6532e64d1c1a5e797", size = 432930, upload-time = "2025-12-11T15:56:40.252Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/56/1a/9ffe814d317c5224166b23e7c47f606d6e473712a2fad0f704ea9b99f246/urllib3-2.6.0-py3-none-any.whl", hash = "sha256:c90f7a39f716c572c4e3e58509581ebd83f9b59cced005b7db7ad2d22b0db99f", size = 131083, upload-time = "2025-12-05T15:08:45.983Z" },
+    { url = "https://files.pythonhosted.org/packages/6d/b9/4095b668ea3678bf6a0af005527f39de12fb026516fb3df17495a733b7f8/urllib3-2.6.2-py3-none-any.whl", hash = "sha256:ec21cddfe7724fc7cb4ba4bea7aa8e2ef36f607a4bab81aa6ce42a13dc3f03dd", size = 131182, upload-time = "2025-12-11T15:56:38.584Z" },
 ]
 
 [[package]]
 name = "vcrpy"
-version = "8.0.0"
+version = "8.1.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pyyaml" },
     { name = "wrapt" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f4/a5/f041a00e7a0b2de5b348aa6dbd8217bfc60787c06dfe985a4f83dec924d0/vcrpy-8.0.0.tar.gz", hash = "sha256:25622ec65c5c007597d417e6867ccb6e6ab0d5f8826e2a03feb5911b3011f8ad", size = 85884, upload-time = "2025-12-03T18:23:10.879Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/23/74/4200cb68d59e86849992eb6512d969cd561051f034e017428e040b113974/vcrpy-8.1.0.tar.gz", hash = "sha256:e585ca3cd9bb751e402728a00394847561250588eebc047b4d3c8948d5487733", size = 85930, upload-time = "2025-12-08T16:46:13.049Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d9/08/a66c3156a10ab360986a38a7e5c05ec46a654bae5e2df2b2084cb0563701/vcrpy-8.0.0-py2.py3-none-any.whl", hash = "sha256:3e5aae652bb1e2703e9a32869ebf903ff823420f98f80974aa99ceb7a5fdbb17", size = 42576, upload-time = "2025-12-03T18:23:09.95Z" },
+    { url = "https://files.pythonhosted.org/packages/09/77/892bcd82445ac949816205b51ab80deb86a492a315f2e290ed4eab35021c/vcrpy-8.1.0-py3-none-any.whl", hash = "sha256:fc4fb6e954c6d082ba6d329c6f3d1228f5b1b1d2836f9022c301b587cfad7378", size = 42748, upload-time = "2025-12-08T16:46:12.08Z" },
 ]
 
 [[package]]
