@@ -1,21 +1,9 @@
+# Configure pre-commit hooks
 ---
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v6.0.0
     hooks:
       - id: check-case-conflict
       - id: check-merge-conflict
-      - id: check-toml
       - id: trailing-whitespace
-
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.12.11"
-    hooks:
-      - id: ruff-format
-      - id: ruff-check
-        args: ["--fix"]
-
-  - repo: https://github.com/adrienverge/yamllint.git
-    rev: "v1.32.0"
-    hooks:
-      - id: yamllint
