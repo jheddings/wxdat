@@ -32,6 +32,10 @@ uv.lock: venv
 tidy: venv uv.lock
 	$(WITH_VENV) ruff format "$(SRCDIR)" "$(BASEDIR)/tests"
 	$(WITH_VENV) ruff check --fix "$(SRCDIR)" "$(BASEDIR)/tests"
+
+
+.PHONY: typecheck
+typecheck: venv
 	$(WITH_VENV) pyright "$(SRCDIR)" "$(BASEDIR)/tests"
 
 

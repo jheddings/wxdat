@@ -25,6 +25,7 @@ dev = [
     "pytest-vcr>=1.0.2,<2",
     "coverage>=7.13.4,<8",
     "ruff>=0.15.1,<0.16",
+    "pyright>=1.1.408",
     "gitpython>=3.1.46,<4",
 ]
 
@@ -72,3 +73,10 @@ quote-style = "double"
 indent-style = "space"
 skip-magic-trailing-comma = false
 line-ending = "auto"
+
+[tool.pyright]
+pythonVersion = "3.12"
+include = ["src"]
+typeCheckingMode = "basic"
+reportMissingImports = true
+reportMissingTypeStubs = false

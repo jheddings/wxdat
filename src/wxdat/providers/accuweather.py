@@ -5,7 +5,7 @@ https://developer.accuweather.com/apis
 
 import logging
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 
 from pydantic import BaseModel, TypeAdapter
 from wamu import Fahrenheit, Inch, InchesMercury, Mile, MilesPerHour
@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 API_CURRENT_WX = "http://dataservice.accuweather.com/currentconditions/v1"
 
 
-class Precipitation(str, Enum):
+class Precipitation(StrEnum):
     RAIN = "Rain"
     SNOW = "Snow"
     ICE = "Ice"

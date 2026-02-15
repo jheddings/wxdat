@@ -4,7 +4,7 @@ import logging
 import os
 import os.path
 from abc import abstractmethod
-from enum import Enum
+from enum import StrEnum
 from typing import Annotated, Literal
 
 import yaml
@@ -22,7 +22,7 @@ from .providers import (
 logger = logging.getLogger(__name__)
 
 
-class Units(str, Enum):
+class Units(StrEnum):
     IMPERIAL = "imperial"
     METRIC = "metric"
 

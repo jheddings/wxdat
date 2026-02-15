@@ -4,7 +4,7 @@ import logging
 from abc import ABC, abstractproperty
 from dataclasses import dataclass
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 
 import requests
 from ratelimit import limits, sleep_and_retry
@@ -22,7 +22,7 @@ from ..version import __pkgname__, __version__
 logger = logging.getLogger(__name__)
 
 
-class WeatherProvider(str, Enum):
+class WeatherProvider(StrEnum):
     ACCUWEATHER = "AccuWeather"
     AMBIENT = "AmbientWeather"
     NOAA = "NOAA"
@@ -30,7 +30,7 @@ class WeatherProvider(str, Enum):
     WUNDERGROUND = "WUndergroundPWS"
 
 
-class Precipitation(str, Enum):
+class Precipitation(StrEnum):
     RAIN = "rain"
     SNOW = "snow"
     ICE = "ice"
