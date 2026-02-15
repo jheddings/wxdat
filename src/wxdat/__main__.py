@@ -65,9 +65,7 @@ class MainApp:
 
 
 @click.command()
-@click.option(
-    "--config", "-f", default="wxdat.yaml", help="app config file (default: wxdat.yaml)"
-)
+@click.option("--config", "-f", default="wxdat.yaml", help="app config file (default: wxdat.yaml)")
 @click.version_option(
     version=version.__version__,
     package_name=version.__pkgname__,

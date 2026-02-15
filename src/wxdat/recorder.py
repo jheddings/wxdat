@@ -57,9 +57,7 @@ class DataRecorder:
     def run_loop(self):
         """Manage the lifecycle of the thread loop."""
 
-        self.logger.debug(
-            "BEGIN -- %s :: run_loop @ %f sec", self.station.name, self.interval
-        )
+        self.logger.debug("BEGIN -- %s :: run_loop @ %f sec", self.station.name, self.interval)
 
         while not self.thread_ctl.is_set():
             self.loop_last_exec = datetime.now()

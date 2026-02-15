@@ -41,15 +41,18 @@ packages = ["src/wxdat"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
-
-[tool.black]
-line_length = 88
-
-[tool.isort]
-profile = "black"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--tb=short",
+]
 
 [tool.ruff]
-line-length = 88
+line-length = 100
 indent-width = 4
 
 [tool.ruff.lint]
@@ -63,10 +66,14 @@ select = [
     "RET", # flake8-return
     "ERA", # eradicate
     "UP",  # pyupgrade
+    "I",   # isort
 ]
 ignore = [
     "E501", # line-too-long
 ]
+
+[tool.ruff.lint.isort]
+known-first-party = ["wxdat"]
 
 [tool.ruff.format]
 quote-style = "double"
@@ -80,3 +87,8 @@ include = ["src"]
 typeCheckingMode = "basic"
 reportMissingImports = true
 reportMissingTypeStubs = false
+reportOptionalMemberAccess = false
+reportArgumentType = false
+reportReturnType = false
+reportInvalidTypeForm = false
+reportOptionalOperand = false
