@@ -28,6 +28,13 @@ uv.lock: venv
 	uv lock
 
 
+.PHONY: tidy
+tidy: venv uv.lock
+	$(WITH_VENV) ruff format "$(SRCDIR)" "$(BASEDIR)/tests"
+	$(WITH_VENV) ruff check --fix "$(SRCDIR)" "$(BASEDIR)/tests"
+	$(WITH_VENV) pyright "$(SRCDIR)" "$(BASEDIR)/tests"
+
+
 .PHONY: build-dist
 build-dist: preflight
 	uv build
@@ -59,8 +66,8 @@ runc: build-image
 		"$(APPNAME):dev" --config=/opt/wxdat/local.yaml
 
 
-.PHONY: static-checks
-static-checks: venv
+.PHONY: precommit
+precommit: venv
 	$(WITH_VENV) pre-commit run --all-files --verbose
 
 
@@ -68,6 +75,10 @@ static-checks: venv
 unit-tests: venv
 	$(WITH_VENV) coverage run "--source=$(SRCDIR)" -m \
 		pytest "$(BASEDIR)/tests" --vcr-record=once
+
+
+.PHONY: test
+test: unit-tests
 
 
 .PHONY: coverage-report
@@ -85,7 +96,7 @@ coverage: coverage-report coverage-html
 
 
 .PHONY: preflight
-preflight: static-checks unit-tests coverage-report
+preflight: precommit unit-tests coverage-report
 
 
 .PHONY: reset-vcr
@@ -108,5 +119,6 @@ clobber: clean reset-vcr
 	rm -Rf "$(BASEDIR)/htmlcov"
 	rm -Rf "$(BASEDIR)/dist"
 	rm -Rf "$(BASEDIR)/.venv"
+	find "$(BASEDIR)" -name "*.log" -print | xargs rm -f
 	docker image rm "$(APPNAME):latest" 2>/dev/null || true
 	docker image rm "$(APPNAME):$(APPVER)" 2>/dev/null || true
