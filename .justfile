@@ -21,22 +21,23 @@ setup: venv
 venv:
   uv sync --all-extras
 
-# auto-format, lint-fix, and type-check
+# auto-format, lint-fix
 tidy: setup
   uv run ruff format "{{srcdir}}" "{{basedir}}/tests"
   uv run ruff check --fix "{{srcdir}}" "{{basedir}}/tests"
+
+# run all static checks
+check: setup
+  uv run ruff format --check "{{srcdir}}" "{{basedir}}/tests"
+  uv run ruff check "{{srcdir}}" "{{basedir}}/tests"
   uv run pyright "{{srcdir}}" "{{basedir}}/tests"
 
 # run unit tests
 test: setup
   uv run coverage run "--source={{srcdir}}" -m pytest "{{basedir}}/tests" --vcr-record=once
 
-# run pre-commit hooks on all files
-precommit: setup
-  uv run pre-commit run --all-files --verbose
-
-# full pre-commit + unit tests (gate for commits)
-preflight: precommit test
+# full static checks and unit tests
+preflight: check test
 
 # run wxdat from source
 run *args: setup
