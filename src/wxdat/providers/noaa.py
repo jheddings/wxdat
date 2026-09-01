@@ -4,11 +4,19 @@ https://www.weather.gov/documentation/services-web-api
 """
 
 import logging
+from collections.abc import Callable
 from datetime import datetime
 from typing import Any
 
 from pydantic import BaseModel
-from wamu import Celsius, Meter, MetersPerSecond, MillimetersPerHour, Pascal
+from wamu import (
+    Celsius,
+    KilometersPerHour,
+    Meter,
+    MetersPerSecond,
+    MillimetersPerHour,
+    Pascal,
+)
 
 from ..database import CurrentConditions
 from . import BaseStation, WeatherObservation, WeatherProvider
@@ -27,6 +35,52 @@ class API_Measurement(BaseModel):
     unitCode: str
     qualityControl: str
     value: float | None = None
+
+
+# Conversions from the units the API may report to the units we store, keyed by the
+# `unitCode` carried on each measurement.  The API declares its units per-field, so we
+# convert from what it says rather than assuming.
+FAHRENHEIT = {
+    "wmoUnit:degC": lambda value: Celsius(value).fahrenheit,
+}
+
+MILES_PER_HOUR = {
+    "wmoUnit:km_h-1": lambda value: KilometersPerHour(value).miles_per_hr,
+    "wmoUnit:m_s-1": lambda value: MetersPerSecond(value).miles_per_hr,
+}
+
+INCHES_MERCURY = {
+    "wmoUnit:Pa": lambda value: Pascal(value).inches_mercury,
+}
+
+MILES = {
+    "wmoUnit:m": lambda value: Meter(value).miles,
+}
+
+# the API reports accumulation over the preceding hour, which we store as a rate
+INCHES_PER_HOUR = {
+    "wmoUnit:mm": lambda value: MillimetersPerHour(value).inches_per_hour,
+}
+
+
+def convert(
+    measurement: API_Measurement | None,
+    units: dict[str, Callable[[float], float]],
+) -> float | None:
+    """Convert a measurement to our storage units, using the unit the API declared."""
+
+    if measurement is None or measurement.value is None:
+        return None
+
+    convert_from = units.get(measurement.unitCode)
+
+    # an unrecognized unit means the API is reporting something we have not been told
+    # how to read -- drop the field rather than record a value scaled by the wrong factor
+    if convert_from is None:
+        logger.warning("unsupported unitCode '%s'; dropping value", measurement.unitCode)
+        return None
+
+    return convert_from(measurement.value)
 
 
 class API_Properties(BaseModel):
@@ -56,21 +110,23 @@ class API_Properties(BaseModel):
     rawMessage: str | None = None
 
     @property
-    def feelsLike(self):
-        if self.temperature is None or self.temperature.value is None:
+    def feelsLike(self) -> API_Measurement | None:
+        """Return the measurement that best represents the apparent temperature."""
+
+        temp = convert(self.temperature, FAHRENHEIT)
+
+        if temp is None:
             return None
 
-        temp = Celsius(self.temperature.value)
-
         # use heat index if temp is over 70 F
-        if temp.fahrenheit >= 70:
-            return self.heatIndex.value
+        if temp >= 70:
+            return self.heatIndex
 
         # use wind chill if temp is below 61 F
-        if temp.fahrenheit <= 61:
-            return self.windChill.value
+        if temp <= 61:
+            return self.windChill
 
-        return self.temperature.value
+        return self.temperature
 
 
 class API_Observation(BaseModel):
@@ -102,32 +158,21 @@ class Station(BaseStation):
 
         props = weather.properties
 
-        # set up fields for conversion
-        temperature = Celsius(props.temperature.value)
-        feels_like = Celsius(props.feelsLike)
-        dew_point = Celsius(props.dewpoint.value)
-        wind_speed = MetersPerSecond(props.windSpeed.value)
-        wind_gusts = MetersPerSecond(props.windGust.value)
-        precip_hour = MillimetersPerHour(props.precipitationLastHour.value)
-        abs_pressure = Pascal(props.barometricPressure.value)
-        rel_pressure = Pascal(props.seaLevelPressure.value)
-        visibility = Meter(props.visibility.value)
-
         return CurrentConditions(
             timestamp=props.timestamp,
             provider=self.provider,
             station_id=self.station,
-            temperature=temperature.fahrenheit,
-            feels_like=feels_like.fahrenheit,
-            dew_point=dew_point.fahrenheit,
-            wind_speed=wind_speed.miles_per_hr,
-            wind_gusts=wind_gusts.miles_per_hr,
+            temperature=convert(props.temperature, FAHRENHEIT),
+            feels_like=convert(props.feelsLike, FAHRENHEIT),
+            dew_point=convert(props.dewpoint, FAHRENHEIT),
+            wind_speed=convert(props.windSpeed, MILES_PER_HOUR),
+            wind_gusts=convert(props.windGust, MILES_PER_HOUR),
             wind_bearing=props.windDirection.value,
             humidity=props.relativeHumidity.value,
-            precip_hour=precip_hour.inches_per_hour,
-            abs_pressure=abs_pressure.inches_mercury,
-            rel_pressure=rel_pressure.inches_mercury,
-            visibility=visibility.miles,
+            precip_hour=convert(props.precipitationLastHour, INCHES_PER_HOUR),
+            abs_pressure=convert(props.barometricPressure, INCHES_MERCURY),
+            rel_pressure=convert(props.seaLevelPressure, INCHES_MERCURY),
+            visibility=convert(props.visibility, MILES),
             remarks=props.rawMessage,
         )
 
