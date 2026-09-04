@@ -52,3 +52,16 @@ def test_wunderground_conditions(station: wunderground.Station):
 
     assert conditions is not None
     assert conditions.timestamp is not None
+
+
+def test_wunderground_solar_radiation_field():
+    """Verify the solar radiation field matches the API spelling."""
+
+    observation = wunderground.API_Observation.model_validate(
+        {
+            "stationID": "KCODENVE549",
+            "solarRadiation": 512.3,
+        }
+    )
+
+    assert observation.solarRadiation == 512.3

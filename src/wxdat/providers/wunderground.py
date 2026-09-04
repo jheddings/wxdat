@@ -58,7 +58,7 @@ class API_Observation(BaseModel):
     neighborhood: str | None = None
 
     uv: float | None = None
-    solarRadation: float | None = None
+    solarRadiation: float | None = None
     humidity: float | None = None
 
     winddir: float | None = None
@@ -117,7 +117,7 @@ class Station(BaseStation):
             humidity=weather.humidity,
             abs_pressure=pressure.inches_mercury,
             uv_index=weather.uv,
-            solar_rad=weather.solarRadation,
+            solar_rad=weather.solarRadiation,
             precip_day=precip_day.inches,
             precip_hour=precip_rate.inches_per_hour,
         )
