@@ -26,7 +26,7 @@ dev = [
     "coverage>=7.16.2,<8",
     "ruff>=0.16.10,<0.17",
     "pyright>=1.1.414",
-    "gitpython>=3.1.62,<4",
+    "gitpython>=3.2.0,<4",
 ]
 
 [project.scripts]
