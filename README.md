@@ -47,7 +47,7 @@ included default file for more details.
 
 All stations have the following configuration values:
 * name - must be unique
-* type - the support station type
+* type - the supported station type
 
 ## Supported Stations ##
 
