@@ -50,6 +50,9 @@ addopts = [
     "--strict-markers",
     "--tb=short",
 ]
+markers = [
+    "network: tests that require network access",
+]
 
 [tool.ruff]
 line-length = 100
