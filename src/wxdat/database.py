@@ -82,6 +82,7 @@ class WeatherDatabase:
         return MagicSession()
 
     def save(self, entry: WeatherData):
+        """Save an entry to the database, rolling back if the write fails."""
         self.metrics.writes.inc()
 
         with self.session() as session:
