@@ -124,6 +124,8 @@ CURRENT_SOLAR_RAD = Gauge(
 
 
 class DatabaseMetrics:
+    """Prometheus counters for the database sessions wxdat opens."""
+
     def __init__(self, engine):
         self._engine = engine
 
